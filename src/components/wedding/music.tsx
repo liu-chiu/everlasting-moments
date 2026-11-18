@@ -14,13 +14,13 @@ export function MusicProvider({ children }: { children: ReactNode }) {
       const a = new Audio();
       a.preload = "none";
       a.volume = 0.7;
-      a.src = PLAYLIST[0].src;
+      a.src = (PLAYLIST[0]?.src ?? "");
       a.addEventListener("play", () => setPlaying(true));
       a.addEventListener("pause", () => setPlaying(false));
       a.addEventListener("ended", () => {
         setTrack((t) => {
           const n = (t + 1) % PLAYLIST.length;
-          a.src = PLAYLIST[n].src;
+          a.src = (PLAYLIST[n]?.src ?? "");
           a.play().catch(() => {});
           return n;
         });
@@ -44,7 +44,7 @@ export function MusicProvider({ children }: { children: ReactNode }) {
     const a = ensure();
     setTrack((t) => {
       const n = (t + 1) % PLAYLIST.length;
-      a.src = PLAYLIST[n].src;
+      a.src = (PLAYLIST[n]?.src ?? "");
       a.play().catch(() => {});
       return n;
     });

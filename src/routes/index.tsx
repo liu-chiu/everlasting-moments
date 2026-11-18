@@ -1,12 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { WeddingPage } from "@/components/wedding/WeddingPage";
-import { normalizeGuestName, normalizeSide, OG_IMAGE } from "@/lib/wedding";
+import { normalizeGuestName, normalizeSide, OG_IMAGE, type Side } from "@/lib/wedding";
 
 export const Route = createFileRoute("/")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    to: normalizeGuestName(search.to) || undefined,
-    side: normalizeSide(search.side),
-  }),
+  validateSearch: (search: Record<string, unknown>): { to?: string; side?: Side } => {
+    const to = normalizeGuestName(search["to"]);
+    const side = normalizeSide(search["side"]);
+    return { ...(to ? { to } : {}), ...(side ? { side } : {}) };
+  },
   head: () => ({
     meta: [
       { title: "Lan & Chung · Thiệp cưới 12.12.2026" },

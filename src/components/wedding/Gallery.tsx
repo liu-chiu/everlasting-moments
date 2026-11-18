@@ -71,8 +71,8 @@ function Lightbox({ index, onClose, onIndex }: { index: number; onClose: () => v
     document.documentElement.classList.add("is-locked");
     // Warm up neighbours for instant swipes.
     [1, -1].forEach((d) => {
-      const img = new Image();
-      img.src = GALLERY[(index + d + total) % total].full;
+      const n = GALLERY[(index + d + total) % total];
+      if (n) new Image().src = n.full;
     });
     return () => {
       document.removeEventListener("keydown", onKey);
@@ -81,6 +81,7 @@ function Lightbox({ index, onClose, onIndex }: { index: number; onClose: () => v
   }, [go, index, onClose, total]);
 
   const g = GALLERY[index];
+  if (!g) return null;
   return (
     <div
       role="dialog"

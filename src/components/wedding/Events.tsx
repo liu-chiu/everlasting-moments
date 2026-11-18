@@ -5,7 +5,7 @@ import { eventsForSide, googleCalendarUrl, WEDDING_DATE_LABEL, WEDDING_WEEKDAY, 
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
 
-export function Events({ side }: { side?: Side }) {
+export function Events({ side }: { side?: Side | undefined }) {
   const events = eventsForSide(side);
   return (
     <section id="events" className="paper-grain relative px-6 py-24 sm:py-32">

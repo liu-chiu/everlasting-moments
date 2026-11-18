@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 const WEEK = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"];
 
-export function CalendarSection({ side }: { side?: Side }) {
+export function CalendarSection({ side }: { side?: Side | undefined }) {
   const cells = monthGrid(2026, 11);
   const events = eventsForSide(side);
   return (

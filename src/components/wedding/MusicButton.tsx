@@ -13,7 +13,7 @@ export function MusicButton() {
           playing ? "max-w-64 opacity-100" : "max-w-0 px-0 opacity-0",
         )}
       >
-        <span className="truncate whitespace-nowrap">♫ {PLAYLIST[track].title}</span>
+        <span className="truncate whitespace-nowrap">♫ {PLAYLIST[track]?.title}</span>
         <button
           type="button"
           onClick={next}

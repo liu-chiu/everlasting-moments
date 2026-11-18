@@ -8,7 +8,7 @@ function getObserver() {
     (entries) => {
       for (const entry of entries) {
         if (entry.isIntersecting) {
-          (entry.target as HTMLElement).dataset.visible = "true";
+          (entry.target as HTMLElement).dataset["visible"] = "true";
           observer?.unobserve(entry.target);
         }
       }
@@ -38,7 +38,7 @@ export function useInView<T extends HTMLElement>(onChange: (visible: boolean) =>
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const io = new IntersectionObserver(([e]) => cb.current(e.isIntersecting), { rootMargin: "100px" });
+    const io = new IntersectionObserver(([e]) => cb.current(!!e?.isIntersecting), { rootMargin: "100px" });
     io.observe(el);
     return () => io.disconnect();
   }, []);

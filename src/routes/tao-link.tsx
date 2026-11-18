@@ -63,7 +63,7 @@ function LinkGenerator() {
           <button type="button" onClick={copy} className="inline-flex flex-1 items-center justify-center gap-2 rounded-2xl bg-night py-3.5 text-sm text-night-foreground shadow-gold">
             <Copy className="size-4" /> Sao chép link
           </button>
-          <Link to="/" search={{ to: name || undefined, side: side || undefined }} className="rounded-2xl border border-border px-5 py-3.5 text-sm text-foreground hover:bg-muted">
+          <Link to="/" search={{ ...(name.trim() ? { to: name.trim() } : {}), ...(side ? { side } : {}) }} className="rounded-2xl border border-border px-5 py-3.5 text-sm text-foreground hover:bg-muted">
             Xem thử
           </Link>
         </div>

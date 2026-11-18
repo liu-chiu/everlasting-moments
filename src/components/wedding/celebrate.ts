@@ -23,7 +23,7 @@ export function celebrate(origin?: { x: number; y: number }) {
     return {
       x: ox, y: oy, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 5,
       r: 3 + Math.random() * 5, rot: Math.random() * 6, vr: (Math.random() - 0.5) * 0.3,
-      c: colors[Math.floor(Math.random() * colors.length)], heart: Math.random() < 0.25, life: 1,
+      c: colors[Math.floor(Math.random() * colors.length)] ?? "transparent", heart: Math.random() < 0.25, life: 1,
     };
   });
   const heart = (s: number) => {

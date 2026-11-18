@@ -18,7 +18,7 @@ type Status = "idle" | "sending" | "ok" | "error";
 const ATTEND = "Sẽ tham dự";
 const DECLINE = "Không thể tham dự";
 
-export function Rsvp({ guest, side, onWish }: { guest: string; side?: Side; onWish: (w: Wish) => void }) {
+export function Rsvp({ guest, side, onWish }: { guest: string; side?: Side | undefined; onWish: (w: Wish) => void }) {
   const [name, setName] = useState(guest);
   const [attendance, setAttendance] = useState(ATTEND);
   const defaultEvent = side ? EVENT_OPTIONS[side] : EVENT_OPTIONS.both;
@@ -35,26 +35,27 @@ export function Rsvp({ guest, side, onWish }: { guest: string; side?: Side; onWi
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
-    const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
-    if (data.website) return; // honeypot
+    const fd = new FormData(form);
+    const get = (k: string) => String(fd.get(k) ?? "");
+    if (get("website")) return; // honeypot
     setStatus("sending");
     setDialog({ attendance, transport: attending ? transport : "" });
     try {
       await submitAndVerify({
         type: "rsvp",
         website: "",
-        name: data.name.trim(),
-        guests: data.guests,
+        name: get("name").trim(),
+        guests: get("guests"),
         event: attending ? event : EVENT_OPTIONS.both,
         attendance,
         transportation: attending ? transport : "",
-        phone: data.phone || "",
-        message: data.message || "",
+        phone: get("phone"),
+        message: get("message"),
       });
-      const wish = (data.wish || "").trim();
+      const wish = get("wish").trim();
       if (wish) {
-        submitAndVerify({ type: "wish", website: "", name: data.name.trim(), wish }).catch(() => {});
-        onWish({ name: data.name.trim(), wish });
+        submitAndVerify({ type: "wish", website: "", name: get("name").trim(), wish }).catch(() => {});
+        onWish({ name: get("name").trim(), wish });
       }
       setStatus("ok");
       const r = submitBtn.current?.getBoundingClientRect();

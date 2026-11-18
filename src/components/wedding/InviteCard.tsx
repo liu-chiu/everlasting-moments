@@ -5,7 +5,7 @@ import { Monogram } from "./Monogram";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
 
-export function InviteCard({ guest, side }: { guest: string; side?: Side }) {
+export function InviteCard({ guest, side }: { guest: string; side?: Side | undefined }) {
   const [flipped, setFlipped] = useState(false);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const box = useRef<HTMLDivElement>(null);

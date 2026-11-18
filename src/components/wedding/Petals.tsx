@@ -43,7 +43,7 @@ export function Petals({ className, count = 26 }: { className?: string; count?: 
         ctx.rotate(p.rot);
         ctx.scale(1, 0.55 + 0.45 * Math.abs(Math.sin(p.sway)));
         ctx.globalAlpha = 0.75;
-        ctx.fillStyle = colors[p.hue];
+        ctx.fillStyle = colors[p.hue] ?? "transparent";
         ctx.beginPath();
         ctx.moveTo(0, -p.s / 2);
         ctx.bezierCurveTo(p.s / 2, -p.s / 2, p.s / 2, p.s / 3, 0, p.s / 2);

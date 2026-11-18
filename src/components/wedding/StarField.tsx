@@ -58,6 +58,7 @@ export function StarField({ className, density = 1 }: { className?: string; dens
       }
       for (let i = meteors.length - 1; i >= 0; i--) {
         const m = meteors[i];
+        if (!m) continue;
         m.x += m.vx;
         m.y += m.vy;
         m.life -= 0.014;

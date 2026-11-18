@@ -37,7 +37,7 @@ export function runLoop(canvas: HTMLCanvasElement, frame: (t: number, dt: number
     raf = 0;
   };
   const io = new IntersectionObserver(([e]) => {
-    onScreen = e.isIntersecting;
+    onScreen = !!e?.isIntersecting;
     if (onScreen) start();
     else stop();
   });

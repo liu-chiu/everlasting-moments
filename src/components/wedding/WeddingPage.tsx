@@ -19,7 +19,7 @@ import { Gifts } from "./Gifts";
 import { Finale } from "./Finale";
 import { TopBar } from "./TopBar";
 
-export function WeddingPage({ guest, side }: { guest: string; side?: Side }) {
+export function WeddingPage({ guest, side }: { guest: string; side?: Side | undefined }) {
   const [started, setStarted] = useState(false);
   const [wishes, setWishes] = useState<Wish[]>([]);
   const [loadingWishes, setLoadingWishes] = useState(true);
