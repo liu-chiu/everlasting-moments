@@ -41,6 +41,13 @@ describe("wedding rules", () => {
     );
   });
 
+  it("keeps the guest name in links sent from the invitation domain", () => {
+    const url = new URL(buildGuestLink("https://lan-chung-invitation.lovable.app/", "  chị   Phương ", "groom"));
+    expect(url.origin).toBe("https://lan-chung-invitation.lovable.app");
+    expect(normalizeGuestName(url.searchParams.get("to"))).toBe("chị Phương");
+    expect(normalizeSide(url.searchParams.get("side"))).toBe("groom");
+  });
+
   it("counts down to the wedding and stops at zero", () => {
     const c = getCountdown(WEDDING_DATE, new Date("2026-12-11T02:29:59Z"));
     expect(c).toMatchObject({ days: 1, hours: 1, minutes: 0, seconds: 1, done: false });

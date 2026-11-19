@@ -1,10 +1,14 @@
 import { COUPLE, WEDDING_DATE_LABEL } from "@/lib/wedding";
+import { Link } from "@tanstack/react-router";
+import { Mail } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Reveal } from "./Reveal";
 import { StarField } from "./StarField";
 
 export function Finale() {
   return (
-    <footer className="relative isolate grid min-h-[90svh] place-items-center overflow-hidden px-6 py-24 text-center text-night-foreground">
+    <footer className="text-night-foreground">
+    <div className="relative isolate grid min-h-[90svh] place-items-center overflow-hidden px-6 py-24 text-center">
       <img
         src="/images/gallery/19.webp"
         alt="Lan và Chung ngắm hoàng hôn trên vịnh"
@@ -24,6 +28,16 @@ export function Finale() {
         </p>
         <p className="mt-4 font-serif text-lg tracking-[0.5em] text-gold-soft">{WEDDING_DATE_LABEL}</p>
       </Reveal>
+    </div>
+    <div className="border-t border-night-foreground/15 bg-foreground px-6 py-5">
+      <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 text-xs font-medium uppercase sm:flex-row">
+        <p>Lan & Chung</p>
+        <p>Hạ Long · Hà Nội</p>
+        <Button asChild variant="ghost" className="h-auto rounded-full border border-night-foreground/30 bg-night-foreground/10 px-5 py-2.5 text-night-foreground hover:bg-night-foreground/20 hover:text-night-foreground">
+          <Link to="/tao-link"><Mail aria-hidden="true" className="text-rose-soft" /> Tạo link khách mời</Link>
+        </Button>
+      </div>
+    </div>
     </footer>
   );
 }

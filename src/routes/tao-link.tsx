@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Copy } from "lucide-react";
 import { toast } from "sonner";
-import { buildGuestLink, type Side } from "@/lib/wedding";
+import { buildGuestLink, normalizeGuestName, type Side } from "@/lib/wedding";
 import { Logo } from "@/components/wedding/Logo";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/tao-link")({
   head: () => ({
@@ -23,9 +24,8 @@ export const Route = createFileRoute("/tao-link")({
 function LinkGenerator() {
   const [name, setName] = useState("");
   const [side, setSide] = useState<"" | Side>("");
-  const [base, setBase] = useState("");
-  useEffect(() => setBase(window.location.origin + "/"), []);
-  const link = base ? buildGuestLink(base, name, side || undefined) : "";
+  const guest = normalizeGuestName(name);
+  const link = guest ? buildGuestLink("https://lan-chung-invitation.lovable.app/", guest, side || undefined) : "";
 
   const copy = async () => {
     if (!link) return;
@@ -48,7 +48,7 @@ function LinkGenerator() {
         </p>
         <label className="mt-6 block">
           <span className="field-label">Tên khách mời</span>
-          <input value={name} onChange={(e) => setName(e.target.value)} className="field" placeholder="Ví dụ: chị Phương, Anh Tuấn & Chị Linh…" />
+          <input value={name} maxLength={60} onChange={(e) => setName(e.target.value)} className="field" placeholder="Ví dụ: chị Phương, Anh Tuấn & Chị Linh…" />
         </label>
         <label className="mt-4 block">
           <span className="field-label">Buổi tiệc mời</span>
@@ -58,14 +58,16 @@ function LinkGenerator() {
             <option value="groom">Tiệc nhà trai (Sóc Sơn)</option>
           </select>
         </label>
-        <div className="mt-5 break-all rounded-2xl bg-muted p-4 font-mono text-xs text-foreground">{link || "Đang tạo đường link…"}</div>
+        <div aria-live="polite" className="mt-5 break-all rounded-2xl bg-muted p-4 font-mono text-xs text-foreground">{link || "https://lan-chung-invitation.lovable.app/"}</div>
         <div className="mt-5 flex gap-3">
-          <button type="button" onClick={copy} disabled={!link} className="inline-flex flex-1 items-center justify-center gap-2 rounded-2xl bg-night py-3.5 text-sm text-night-foreground shadow-gold disabled:opacity-60">
+          <Button variant="ghost" type="button" onClick={copy} disabled={!link} className="h-auto flex-1 rounded-2xl bg-night py-3.5 text-sm text-night-foreground shadow-gold hover:bg-night-soft hover:text-night-foreground disabled:opacity-60">
             <Copy className="size-4" /> Sao chép link
-          </button>
-          <Link to="/" search={{ ...(name.trim() ? { to: name.trim() } : {}), ...(side ? { side } : {}) }} className="rounded-2xl border border-border px-5 py-3.5 text-sm text-foreground hover:bg-muted">
+          </Button>
+          <Button asChild variant="outline" className="h-auto rounded-2xl px-5 py-3.5">
+          <Link to="/" search={{ ...(guest ? { to: guest } : {}), ...(side ? { side } : {}) }}>
             Xem thử
           </Link>
+          </Button>
         </div>
       </div>
     </main>

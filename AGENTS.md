@@ -30,5 +30,6 @@ use the editor.
 <!-- LOVABLE:END -->
 
 <!-- AGENT-MEMORY:BEGIN -->
+- Keep attendance-dependent RSVP field visibility in the pure `rsvpFieldsFor` helper so the decline rules have focused tests.
 - Gift QR downloads use the fixed `/api/public/gift-qr` server route to avoid third-party CORS; keep it restricted to the two configured gifts, never an arbitrary URL proxy.
 <!-- AGENT-MEMORY:END -->

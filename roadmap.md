@@ -1,5 +1,9 @@
 # Roadmap — Lan & Chung wedding invitation
 
+- [x] Move RSVP status first and hide event/special notes when declining
+- [x] Add footer details and a guest-link shortcut with the requested invitation domain
+- [x] Verify personalized links and RSVP behavior on phone, tablet and desktop; save changes
+
 - [x] Cover envelope/card effects and 3D drag/zoom
 - [x] logo-lc.jpg throughout the invitation and favicon
 - [x] RSVP confirmation wording and travel-information dialog
