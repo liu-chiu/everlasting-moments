@@ -1,4 +1,4 @@
-import logo from "@/assets/logo-lc.webp.asset.json";
+import logo from "@/assets/logo-lc-original.png.asset.json";
 import { cn } from "@/lib/utils";
 
 /** The couple's L&C logo in a round gold-ringed frame. */
@@ -14,8 +14,8 @@ export function Logo({ className, ring = true, eager }: { className?: string; ri
       <img
         src={logo.url}
         alt="Logo Lan & Chung"
-        width={480}
-        height={480}
+        width={185}
+        height={135}
         loading={eager ? "eager" : "lazy"}
         decoding="async"
         className="h-full w-full object-cover"
