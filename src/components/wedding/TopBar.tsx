@@ -42,7 +42,7 @@ export function TopBar() {
         )}
       >
         <a href="#hero" aria-label="Về đầu trang">
-          <Monogram className="text-2xl text-wax" />
+          <Logo className="size-9" />
         </a>
         <nav className="flex gap-5 whitespace-nowrap text-[0.7rem] uppercase tracking-[0.16em] text-muted-foreground">
           {LINKS.map(([href, label]) => (
