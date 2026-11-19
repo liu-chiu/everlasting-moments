@@ -1,4 +1,4 @@
-import logo from "@/assets/logo-lc.webp.asset.json";
+import logo from "@/assets/logo_con_dau_liu_chiu-removebg-preview.webp.asset.json";
 import { cn } from "@/lib/utils";
 
 /** The couple's L&C logo in a round gold-ringed frame. */
@@ -6,7 +6,7 @@ export function Logo({ className, ring = true, eager }: { className?: string; ri
   return (
     <span
       className={cn(
-        "relative inline-block shrink-0 overflow-hidden rounded-full bg-night",
+        "relative inline-block shrink-0 overflow-hidden rounded-full bg-paper",
         ring && "ring-1 ring-gold/60 shadow-[0_0_24px_-4px_var(--ocean)]",
         className,
       )}
@@ -14,11 +14,11 @@ export function Logo({ className, ring = true, eager }: { className?: string; ri
       <img
         src={logo.url}
         alt="Logo Lan & Chung"
-        width={480}
-        height={480}
+        width={199}
+        height={196}
         loading={eager ? "eager" : "lazy"}
         decoding="async"
-        className="h-full w-full object-cover"
+        className="h-full w-full object-contain"
       />
     </span>
   );
