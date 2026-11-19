@@ -70,6 +70,7 @@
   --color-ocean-deep: var(--ocean-deep);
   --color-paper: var(--paper);
   --color-paper-deep: var(--paper-deep);
+  --color-rsvp: var(--rsvp);
 
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
@@ -112,6 +113,7 @@
   /* Hạ Long bay */
   --ocean: oklch(0.52 0.07 190);
   --ocean-deep: oklch(0.38 0.06 195);
+  --rsvp: oklch(0.55 0.065 185);
   --primary: var(--ocean-deep);
   --primary-foreground: oklch(0.985 0.01 85);
 
@@ -174,12 +176,21 @@
     scroll-behavior: smooth;
     -webkit-tap-highlight-color: transparent;
   }
+  section[id], footer[id] { scroll-margin-top: 5.5rem; }
   body {
+    overflow-x: clip;
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+  }
+  button, a, input, select, textarea {
+    touch-action: manipulation;
+  }
+  :focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 4px;
   }
   ::selection {
     background: var(--gold-soft);
@@ -298,6 +309,70 @@
     color: var(--muted-foreground);
     margin-bottom: 0.45rem;
     font-weight: 500;
+  }
+
+  /* RSVP keeps the original two-column composition and transparent fields. */
+  .rsvp-scene {
+    background-color: var(--rsvp);
+    background-image:
+      radial-gradient(circle at 8% 8%, oklch(0.9 0.07 85 / 12%), transparent 32%),
+      radial-gradient(circle at 94% 82%, oklch(0.17 0.035 262 / 16%), transparent 38%);
+  }
+  .rsvp-label {
+    display: block;
+    margin-top: 1.45rem;
+  }
+  .rsvp-label > span,
+  .rsvp-legend {
+    display: block;
+    color: var(--gold-soft);
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .rsvp-field {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    border: 0;
+    border-bottom: 1px solid oklch(0.96 0.015 85 / 38%);
+    border-radius: 0;
+    background: transparent;
+    padding: 0.72rem 0;
+    color: var(--night-foreground);
+    font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .rsvp-field::placeholder { color: oklch(0.96 0.015 85 / 45%); }
+  .rsvp-field:focus {
+    outline: none;
+    border-color: var(--gold-soft);
+    box-shadow: 0 1px 0 var(--gold-soft);
+  }
+  .rsvp-field option { background: var(--card); color: var(--foreground); }
+  textarea.rsvp-field { min-height: 5.5rem; line-height: 1.6; }
+  .rsvp-choice {
+    display: flex;
+    min-height: 2.75rem;
+    align-items: center;
+    gap: 0.65rem;
+    border: 1px solid oklch(0.96 0.015 85 / 14%);
+    border-radius: 0.8rem;
+    background: oklch(0.17 0.035 262 / 8%);
+    padding: 0.65rem 0.8rem;
+    color: var(--night-foreground);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .rsvp-choice:hover,
+  .rsvp-choice-selected {
+    border-color: oklch(0.9 0.07 85 / 60%);
+    background: oklch(0.17 0.035 262 / 16%);
+  }
+  @media (min-width: 1024px) {
+    .rsvp-form { border-left: 1px solid oklch(0.9 0.07 85 / 25%); }
   }
 
   /* Scroll reveal (toggled by useReveal) */
@@ -558,6 +633,12 @@
   background-position: var(--holo-x, 50%) 50%;
   mix-blend-mode: soft-light;
   pointer-events: none;
+}
+
+@media (max-height: 650px) and (orientation: portrait) {
+  .intro-layout { gap: 1rem; padding-top: 1.25rem; padding-bottom: 1.25rem; }
+  .intro-date { margin-top: 0.75rem; }
+  .intro-open-button { margin-top: 1.25rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {

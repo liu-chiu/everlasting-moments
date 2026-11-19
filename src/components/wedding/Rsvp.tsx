@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Bus, Check, Loader2, Send, X } from "lucide-react";
+import { Bus, Check, Loader2, Send } from "lucide-react";
 import {
   confirmationFor,
   defaultTransportFor,
@@ -15,7 +15,6 @@ import { track } from "@/lib/analytics";
 import { celebrate } from "./celebrate";
 import { InfoCard } from "./InfoCard";
 import { Reveal } from "./Reveal";
-import { SectionHeading } from "./SectionHeading";
 import { WeddingDialog } from "./WeddingDialog";
 import { cn } from "@/lib/utils";
 
@@ -28,7 +27,7 @@ export function Rsvp({ guest, side, onWish }: { guest: string; side?: Side | und
   const defaultEvent: string = side ? EVENT_OPTIONS[side] : EVENT_OPTIONS.both;
 
   const [name, setName] = useState(guest);
-  const [attendance, setAttendance] = useState<string>("");
+  const [attendance, setAttendance] = useState("");
   const [attendanceError, setAttendanceError] = useState(false);
   const [event, setEvent] = useState<string>(defaultEvent);
   const [transport, setTransport] = useState<string>(defaultTransportFor(defaultEvent));
@@ -41,12 +40,11 @@ export function Rsvp({ guest, side, onWish }: { guest: string; side?: Side | und
 
   useEffect(() => setName(guest), [guest]);
 
-  // Check the Google Sheets form once the section is near the screen.
   useEffect(() => {
     const el = section.current;
     if (!el) return;
-    const io = new IntersectionObserver(([e]) => {
-      if (!e?.isIntersecting) return;
+    const io = new IntersectionObserver(([entry]) => {
+      if (!entry?.isIntersecting) return;
       io.disconnect();
       checkHealth()
         .then((ok) =>
@@ -64,11 +62,11 @@ export function Rsvp({ guest, side, onWish }: { guest: string; side?: Side | und
 
   const attending = attendance === ATTEND;
 
-  const chooseAttendance = (v: string) => {
-    setAttendance(v);
+  const chooseAttendance = (value: string) => {
+    setAttendance(value);
     setAttendanceError(false);
     if (status !== "sending") setStatus("idle");
-    if (v === DECLINE) setEvent(EVENT_OPTIONS.both);
+    if (value === DECLINE) setEvent(EVENT_OPTIONS.both);
     else setTransport(defaultTransportFor(event));
   };
 
@@ -77,12 +75,12 @@ export function Rsvp({ guest, side, onWish }: { guest: string; side?: Side | und
     const form = e.currentTarget;
     if (!attendance) {
       setAttendanceError(true);
-      form.querySelector<HTMLElement>("[data-attendance]")?.focus();
+      form.querySelector<HTMLInputElement>("[data-attendance]")?.focus();
       return;
     }
     const fd = new FormData(form);
-    const get = (k: string) => String(fd.get(k) ?? "");
-    if (get("website")) return; // honeypot
+    const get = (key: string) => String(fd.get(key) ?? "");
+    if (get("website")) return;
     const finalTransport = attending ? transport : "";
     setStatus("sending");
     setResult({ attendance, transport: finalTransport });
@@ -106,13 +104,14 @@ export function Rsvp({ guest, side, onWish }: { guest: string; side?: Side | und
       track("rsvp_success", { event_slot: event, attendance, guests: Number(get("guests")) || 0 });
       setStatus("ok");
       if (attending) {
-        const r = submitBtn.current?.getBoundingClientRect();
-        celebrate(r ? { x: r.left + r.width / 2, y: r.top } : undefined);
+        const rect = submitBtn.current?.getBoundingClientRect();
+        celebrate(rect ? { x: rect.left + rect.width / 2, y: rect.top } : undefined);
       }
       form.reset();
       setName(guest);
       setAttendance("");
       setEvent(defaultEvent);
+      setTransport(defaultTransportFor(defaultEvent));
     } catch {
       track("rsvp_error");
       setStatus("error");
@@ -122,82 +121,78 @@ export function Rsvp({ guest, side, onWish }: { guest: string; side?: Side | und
   const conf = result ? confirmationFor(result.attendance, result.transport) : null;
 
   return (
-    <section ref={section} id="rsvp" className="relative overflow-hidden bg-dusk px-4 py-20 sm:px-6 sm:py-28 lg:py-32">
-      <SectionHeading
-        tone="night"
-        eyebrow="Répondez s’il vous plaît"
-        sub="Hãy cho chúng mình biết bạn có thể đến chung vui và gửi một lời chúc nhé. Tụi mình rất mong được gặp bạn!"
-      >
-        Bạn sẽ <em>đến chung vui?</em>
-      </SectionHeading>
-      <Reveal className="mx-auto mt-5 max-w-xl text-center">
-        <p className="font-serif text-lg italic leading-snug text-gold-soft">
-          ✨ Vui lòng xác nhận tham dự trước ngày {RSVP_DEADLINE_LABEL} để chúng mình thuận tiện sắp xếp chỗ ngồi và chuẩn bị tiệc cưới chu đáo nhất.
-        </p>
-        <p role="status" className="mt-4 text-xs text-night-foreground/70">{backend}</p>
-        <button
-          type="button"
-          onClick={() => setSchedule(true)}
-          aria-haspopup="dialog"
-          className="glass-night mt-5 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-medium uppercase tracking-[0.2em] text-night-foreground transition hover:bg-gold/20"
-        >
-          <Bus className="size-4 text-gold" /> Thông tin lịch trình
-        </button>
-      </Reveal>
+    <section ref={section} id="rsvp" className="rsvp-scene relative overflow-hidden px-5 py-20 text-night-foreground sm:px-8 sm:py-28 lg:py-32">
+      <div className="pointer-events-none absolute -left-24 top-24 size-72 rounded-full border border-gold/15" />
+      <div className="pointer-events-none absolute -bottom-36 -right-24 size-96 rounded-full border border-gold/15" />
+      <div className="relative mx-auto grid w-full max-w-6xl gap-14 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-20 xl:gap-28">
+        <Reveal className="min-w-0 self-start text-center lg:sticky lg:top-32 lg:text-left">
+          <p className="eyebrow gold-rule justify-center text-gold-soft lg:justify-start">Répondez s’il vous plaît</p>
+          <h2 className="section-title mt-5 text-night-foreground [&_em]:text-gold-soft">
+            Bạn sẽ <em className="block lg:block">đến chung vui?</em>
+          </h2>
+          <p className="mx-auto mt-6 max-w-lg leading-relaxed text-night-foreground/80 lg:mx-0">
+            Hãy cho chúng mình biết bạn có thể đến chung vui và gửi một lời chúc nhé. Tụi mình rất mong được gặp bạn!
+          </p>
+          <p className="mx-auto mt-5 max-w-lg font-serif text-lg italic leading-relaxed text-gold-soft lg:mx-0">
+            ✨ Vui lòng xác nhận tham dự trước ngày {RSVP_DEADLINE_LABEL} để chúng mình thuận tiện sắp xếp chỗ ngồi và chuẩn bị tiệc cưới chu đáo nhất.
+          </p>
+          <p role="status" className="mt-5 text-xs leading-relaxed text-night-foreground/65">{backend}</p>
+          <button
+            type="button"
+            onClick={() => setSchedule(true)}
+            aria-haspopup="dialog"
+            className="mt-7 inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-gold/60 px-6 py-3 text-xs font-medium uppercase tracking-[0.18em] text-night-foreground transition hover:-translate-y-0.5 hover:bg-gold/15"
+          >
+            <Bus className="size-4 shrink-0 text-gold-soft" /> Thông tin lịch trình
+          </button>
+        </Reveal>
 
-      <Reveal zoom className="mx-auto mt-10 max-w-2xl">
-        <form onSubmit={onSubmit} noValidate={false} className="rounded-[2rem] bg-card/95 p-5 shadow-card ring-1 ring-gold/20 backdrop-blur sm:p-10">
-          <label className="hidden" aria-hidden>
-            Website
-            <input name="website" tabIndex={-1} autoComplete="off" />
-          </label>
-
-          <div className="grid gap-5 sm:grid-cols-[minmax(0,1fr)_8rem]">
-            <label className="min-w-0">
-              <span className="field-label">Họ và tên</span>
-              <input name="name" required maxLength={80} value={name} onChange={(e) => setName(e.target.value)} className="field" placeholder="Tên của bạn" />
+        <Reveal zoom className="min-w-0">
+          <form onSubmit={onSubmit} className="rsvp-form lg:pl-10 xl:pl-14">
+            <label className="hidden" aria-hidden>
+              Website
+              <input name="website" tabIndex={-1} autoComplete="off" />
             </label>
-            <label>
-              <span className="field-label">Số người</span>
-              <input name="guests" type="number" inputMode="numeric" min={1} max={20} defaultValue={1} required className="field" />
+
+            <label className="rsvp-label">
+              <span>Họ và tên</span>
+              <input name="name" required maxLength={80} value={name} onChange={(e) => setName(e.target.value)} className="rsvp-field" placeholder="Tên của bạn" />
             </label>
-          </div>
+            <label className="rsvp-label">
+              <span>Số người</span>
+              <input name="guests" type="number" inputMode="numeric" min={1} max={20} defaultValue={1} required className="rsvp-field" />
+            </label>
+            <label className="rsvp-label">
+              <span>Số điện thoại, không bắt buộc</span>
+              <input name="phone" type="tel" maxLength={30} autoComplete="tel" className="rsvp-field" placeholder="09xx xxx xxx" />
+            </label>
 
-          <label className="mt-5 block">
-            <span className="field-label">Số điện thoại, không bắt buộc</span>
-            <input name="phone" type="tel" maxLength={30} autoComplete="tel" className="field" placeholder="09xx xxx xxx" />
-          </label>
+            <fieldset className="mt-7">
+              <legend className="rsvp-legend">Trạng thái</legend>
+              <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                {[ATTEND, DECLINE].map((value, index) => (
+                  <label key={value} className={cn("rsvp-choice", attendance === value && "rsvp-choice-selected")}>
+                    <input
+                      type="radio"
+                      name="attendance"
+                      value={value}
+                      checked={attendance === value}
+                      data-attendance={index === 0 ? "" : undefined}
+                      onChange={() => chooseAttendance(value)}
+                      className="size-4 shrink-0 accent-gold"
+                    />
+                    <span>{value}</span>
+                    {attendance === value && <Check className="ml-auto size-4 shrink-0 text-gold-soft" />}
+                  </label>
+                ))}
+              </div>
+              {attendanceError && <p className="mt-2 text-sm text-gold-soft">Bạn vui lòng chọn trạng thái tham dự nhé.</p>}
+            </fieldset>
 
-          <fieldset className="mt-5">
-            <legend className="field-label">Trạng thái</legend>
-            <div className="grid grid-cols-2 gap-3">
-              {[ATTEND, DECLINE].map((v, i) => (
-                <button
-                  key={v}
-                  type="button"
-                  data-attendance={i === 0 ? "" : undefined}
-                  onClick={() => chooseAttendance(v)}
-                  aria-pressed={attendance === v}
-                  className={cn(
-                    "flex min-h-14 items-center justify-center gap-2 rounded-2xl border px-3 py-3 text-sm font-medium transition",
-                    attendance === v
-                      ? v === ATTEND
-                        ? "border-primary bg-primary text-primary-foreground shadow-soft"
-                        : "border-wax bg-wax text-primary-foreground shadow-soft"
-                      : cn("bg-card/60 text-foreground hover:border-gold", attendanceError ? "border-wax" : "border-input"),
-                  )}
-                >
-                  {attendance === v && (v === ATTEND ? <Check className="size-4 shrink-0" /> : <X className="size-4 shrink-0" />)} {v}
-                </button>
-              ))}
-            </div>
-            {attendanceError && <p className="mt-2 text-xs text-wax">Bạn vui lòng chọn trạng thái tham dự nhé.</p>}
-          </fieldset>
-
-          <div className={cn("mt-5 grid gap-5", attending && "sm:grid-cols-2")}>
-            <label className="min-w-0">
-              <span className="field-label">Sự kiện</span>
+            <label className="rsvp-label">
+              <span>Sự kiện</span>
               <select
+                name="event"
                 value={event}
                 required
                 disabled={attendance === DECLINE}
@@ -205,68 +200,65 @@ export function Rsvp({ guest, side, onWish }: { guest: string; side?: Side | und
                   setEvent(e.target.value);
                   if (attending) setTransport(defaultTransportFor(e.target.value));
                 }}
-                className="field disabled:opacity-60"
+                className="rsvp-field disabled:opacity-60"
               >
-                {eventChoices.map((o) => (
-                  <option key={o}>{o}</option>
-                ))}
+                {eventChoices.map((option) => <option key={option}>{option}</option>)}
               </select>
             </label>
             {attending && (
-              <label className="min-w-0">
-                <span className="field-label">Phương tiện di chuyển</span>
-                <select value={transport} required onChange={(e) => setTransport(e.target.value)} className="field">
+              <label className="rsvp-label rise-in">
+                <span>Phương tiện di chuyển</span>
+                <select name="transportation" value={transport} required onChange={(e) => setTransport(e.target.value)} className="rsvp-field">
                   <option value={TRANSPORT_OPTIONS.self}>Tự di chuyển</option>
                   <option value={TRANSPORT_OPTIONS.bride}>Đi cùng xe đoàn về nhà Gái</option>
                   <option value={TRANSPORT_OPTIONS.groom}>Đi cùng xe đoàn về nhà trai</option>
                 </select>
               </label>
             )}
-          </div>
 
-          <label className="mt-5 block">
-            <span className="field-label">Lời chúc dành cho Lan & Chung</span>
-            <textarea name="wish" maxLength={500} rows={3} className="field resize-none" placeholder="Gửi một lời chúc thật dễ thương nhé…" />
-          </label>
-          <label className="mt-5 block">
-            <span className="field-label">Điều chúng mình cần lưu ý</span>
-            <textarea name="message" maxLength={500} rows={2} className="field resize-none" placeholder="Ăn chay, dị ứng, đi cùng em bé…" />
-          </label>
+            <label className="rsvp-label">
+              <span>Lời chúc dành cho Lan & Chung</span>
+              <textarea name="wish" maxLength={500} rows={3} className="rsvp-field resize-none" placeholder="Gửi một lời chúc thật dễ thương nhé…" />
+            </label>
+            <label className="rsvp-label">
+              <span>Điều chúng mình cần lưu ý</span>
+              <textarea name="message" maxLength={500} rows={2} className="rsvp-field resize-none" placeholder="Ăn chay, dị ứng, đi cùng em bé…" />
+            </label>
 
-          <button
-            ref={submitBtn}
-            type="submit"
-            disabled={status === "sending"}
-            className="mt-8 flex w-full items-center justify-center gap-2 rounded-2xl bg-night px-4 py-4 text-xs font-medium uppercase tracking-[0.2em] text-night-foreground shadow-gold transition hover:scale-[1.01] disabled:opacity-70 sm:text-sm sm:tracking-[0.25em]"
-          >
-            {status === "sending" ? <Loader2 className="size-4 animate-spin" /> : <Send className="size-4" />}
-            Gửi lời chúc và xác nhận
-          </button>
-          <p role="status" className={cn("mt-4 min-h-5 text-center text-sm", status === "error" ? "text-wax" : "text-muted-foreground")}>
-            {status === "sending" ? RSVP_TEXT.formSending : status === "error" ? RSVP_TEXT.formError : ""}
-          </p>
-        </form>
-      </Reveal>
+            <button
+              ref={submitBtn}
+              type="submit"
+              disabled={status === "sending"}
+              className="mt-8 flex min-h-13 w-full items-center justify-center gap-2 rounded-full bg-night px-5 py-4 text-xs font-medium uppercase tracking-[0.16em] text-night-foreground shadow-gold transition hover:-translate-y-0.5 hover:bg-night-soft disabled:translate-y-0 disabled:opacity-70 sm:text-sm sm:tracking-[0.2em]"
+            >
+              {status === "sending" ? <Loader2 className="size-4 shrink-0 animate-spin" /> : <Send className="size-4 shrink-0" />}
+              Gửi lời chúc và xác nhận
+            </button>
+            <p role="status" className="mt-4 min-h-5 text-center text-sm leading-relaxed text-night-foreground/75">
+              {status === "sending" ? RSVP_TEXT.formSending : status === "error" ? RSVP_TEXT.formError : ""}
+            </p>
+          </form>
+        </Reveal>
+      </div>
 
-      {/* Confirmation after sending — same wording and cards as the original invitation */}
-      <WeddingDialog open={!!result} onOpenChange={(o) => !o && setResult(null)} title={conf?.title} closeLabel="Đóng thông tin xác nhận">
+      <WeddingDialog open={!!result} onOpenChange={(open) => !open && setResult(null)} title={conf?.title} closeLabel="Đóng thông tin xác nhận">
         <p
           role="status"
           aria-live="polite"
           className={cn(
-            "flex items-center gap-2 rounded-xl px-3 py-2 text-sm",
+            "flex items-start gap-2 rounded-xl px-3 py-2 text-sm",
             status === "ok" && "bg-primary/10 text-primary",
             status === "error" && "bg-wax/10 text-wax",
             status === "sending" && "bg-muted text-muted-foreground",
           )}
         >
-          {status === "sending" && <Loader2 className="size-4 animate-spin" />}
-          {status === "ok" && <Check className="size-4" />}
+          {status === "sending" && <Loader2 className="mt-0.5 size-4 shrink-0 animate-spin" />}
+          {status === "ok" && <Check className="mt-0.5 size-4 shrink-0" />}
           {status === "sending" ? RSVP_TEXT.sending : status === "error" ? RSVP_TEXT.error : RSVP_TEXT.success}
         </p>
         {conf?.body && <p className="mt-4 leading-relaxed text-muted-foreground">{conf.body}</p>}
         <div className="mt-4 space-y-3">
-          {conf?.cards.map((c) => <InfoCard key={c.title} card={c} />)}
+          {conf?.cards.map((card) => <InfoCard key={card.title} card={card} />)}
         </div>
       </WeddingDialog>
 

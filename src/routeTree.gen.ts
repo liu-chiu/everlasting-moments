@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TaoLinkRouteImport } from './routes/tao-link'
+import { Route as ApiPublicGiftQrRouteImport } from './routes/api/public/gift-qr'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,31 +23,40 @@ const TaoLinkRoute = TaoLinkRouteImport.update({
   path: '/tao-link',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicGiftQrRoute = ApiPublicGiftQrRouteImport.update({
+  id: '/api/public/gift-qr',
+  path: '/api/public/gift-qr',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/tao-link': typeof TaoLinkRoute
+  '/api/public/gift-qr': typeof ApiPublicGiftQrRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/tao-link': typeof TaoLinkRoute
+  '/api/public/gift-qr': typeof ApiPublicGiftQrRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/tao-link': typeof TaoLinkRoute
+  '/api/public/gift-qr': typeof ApiPublicGiftQrRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/tao-link'
+  fullPaths: '/' | '/tao-link' | '/api/public/gift-qr'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/tao-link'
-  id: '__root__' | '/' | '/tao-link'
+  to: '/' | '/tao-link' | '/api/public/gift-qr'
+  id: '__root__' | '/' | '/tao-link' | '/api/public/gift-qr'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   TaoLinkRoute: typeof TaoLinkRoute
+  ApiPublicGiftQrRoute: typeof ApiPublicGiftQrRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +75,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TaoLinkRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/gift-qr': {
+      id: '/api/public/gift-qr'
+      path: '/api/public/gift-qr'
+      fullPath: '/api/public/gift-qr'
+      preLoaderRoute: typeof ApiPublicGiftQrRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   TaoLinkRoute: TaoLinkRoute,
+  ApiPublicGiftQrRoute: ApiPublicGiftQrRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

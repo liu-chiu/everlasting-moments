@@ -7,14 +7,14 @@ import { SectionHeading } from "./SectionHeading";
 
 export function Gifts({ guest }: { guest: string }) {
   return (
-    <section id="gift" className="paper-grain relative px-6 py-24 sm:py-32">
+    <section id="gift" className="paper-grain relative px-5 py-20 sm:px-6 sm:py-28 lg:py-32">
       <SectionHeading eyebrow="A little blessing" sub="Sự hiện diện của bạn đã là món quà quý giá nhất. Nếu muốn gửi lời chúc mừng từ xa, hãy chạm mở hộp quà nhé.">
         Gửi lời <em>chúc mừng</em>
       </SectionHeading>
-      <div className="mx-auto mt-16 grid max-w-4xl gap-10 sm:grid-cols-2">
-        {GIFTS.map((g, i) => (
-          <Reveal key={g.side} delay={i * 150}>
-            <GiftBox gift={g} guest={guest} />
+      <div className="mx-auto mt-16 grid max-w-4xl gap-16 sm:grid-cols-2 sm:gap-10">
+        {GIFTS.map((gift, index) => (
+          <Reveal key={gift.side} delay={index * 150}>
+            <GiftBox gift={gift} guest={guest} />
           </Reveal>
         ))}
       </div>
@@ -25,6 +25,8 @@ export function Gifts({ guest }: { guest: string }) {
 function GiftBox({ gift, guest }: { gift: (typeof GIFTS)[number]; guest: string }) {
   const [open, setOpen] = useState(false);
   const qr = vietQrUrl(gift.bankCode, gift.account, gift.holder, guest);
+  const downloadUrl = `/api/public/gift-qr?${new URLSearchParams({ side: gift.side, ...(guest ? { to: guest } : {}) })}`;
+
   const copy = async () => {
     try {
       await navigator.clipboard.writeText(gift.account);
@@ -50,18 +52,18 @@ function GiftBox({ gift, guest }: { gift: (typeof GIFTS)[number]; guest: string 
           </span>
         </button>
       ) : (
-        <div className="rise-in mx-auto mt-6 max-w-xs rounded-[2rem] bg-card p-6 shadow-card ring-1 ring-gold/30">
+        <div className="rise-in mx-auto mt-6 w-full max-w-xs rounded-[2rem] bg-card p-5 shadow-card ring-1 ring-gold/30 sm:p-6">
           <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">{gift.bank}</p>
           <p className="mt-1 font-serif text-2xl font-medium">{gift.holder}</p>
-          <button type="button" onClick={copy} className="mt-1 inline-flex items-center gap-2 font-mono text-lg tracking-wider text-wax hover:underline">
-            {gift.account} <Copy className="size-4" />
+          <button type="button" onClick={copy} className="mt-1 inline-flex max-w-full items-center gap-2 break-all font-mono text-lg tracking-wider text-wax hover:underline">
+            {gift.account} <Copy className="size-4 shrink-0" />
           </button>
           <img src={qr} alt={`Mã QR chuyển khoản cho ${gift.holder}`} loading="lazy" width={300} height={300} className="mx-auto mt-4 aspect-square w-full max-w-[15rem] rounded-2xl bg-muted object-contain" />
-          <div className="mt-4 flex justify-center gap-2 text-xs">
-            <a href={qr} target="_blank" rel="noreferrer" download className="inline-flex items-center gap-1.5 rounded-full bg-night px-4 py-2 text-night-foreground">
-              <Download className="size-3.5" /> Mở mã QR
+          <div className="mt-4 grid grid-cols-2 gap-2 text-xs">
+            <a href={downloadUrl} download className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-full bg-night px-3 py-2 text-night-foreground">
+              <Download className="size-3.5" /> Lưu mã QR
             </a>
-            <button type="button" onClick={() => setOpen(false)} className="rounded-full border border-border px-4 py-2 text-muted-foreground hover:bg-muted">
+            <button type="button" onClick={() => setOpen(false)} className="min-h-10 rounded-full border border-border px-3 py-2 text-muted-foreground hover:bg-muted">
               Thu gọn
             </button>
           </div>

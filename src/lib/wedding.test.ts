@@ -10,6 +10,7 @@ import {
   monthGrid,
   normalizeGuestName,
   normalizeSide,
+  outlookCalendarUrl,
   WEDDING_DATE,
 } from "./wedding";
 
@@ -83,5 +84,14 @@ describe("wedding rules", () => {
 
   it("calendar file starts at 10:30 Vietnam time for the bride's party", () => {
     expect(buildIcs(EVENTS[0]!)).toContain("DTSTART:20261212T033000Z");
+    expect(buildIcs(EVENTS[1]!)).toContain("DTSTART:20261212T093000Z");
+  });
+
+  it("Outlook opens the native event composer with the groom's 16:30 Vietnam start", () => {
+    const url = new URL(outlookCalendarUrl(EVENTS[1]!));
+    expect(url.origin + url.pathname).toBe("https://outlook.live.com/calendar/0/deeplink/compose");
+    expect(url.searchParams.get("rru")).toBe("addevent");
+    expect(url.searchParams.get("startdt")).toBe("2026-12-12T16:30:00+07:00");
+    expect(url.searchParams.get("enddt")).toBe("2026-12-12T20:00:00+07:00");
   });
 });

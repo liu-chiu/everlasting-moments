@@ -57,12 +57,12 @@ export function Hero({ guest, started }: { guest: string; started: boolean }) {
               {COUPLE.groom.short}
             </span>
           </h1>
-          <div className={cn("mt-12 flex items-center lg:mt-16 justify-center gap-5 font-serif lg:justify-start", anim)} style={d(1050)}>
-            <span className="text-sm uppercase tracking-[0.3em] text-night-foreground/80">{WEDDING_WEEKDAY}</span>
-            <span className="h-10 w-px bg-gold/60" />
-            <span className="text-gold-shimmer text-5xl font-medium sm:text-6xl">12.12</span>
-            <span className="h-10 w-px bg-gold/60" />
-            <span className="text-sm uppercase tracking-[0.3em] text-night-foreground/80">2026</span>
+          <div className={cn("mt-12 flex items-center lg:mt-16 justify-center gap-3 font-serif sm:gap-5 lg:justify-start", anim)} style={d(1050)}>
+            <span className="text-xs uppercase tracking-[0.18em] text-night-foreground/80 sm:text-sm sm:tracking-[0.3em]">{WEDDING_WEEKDAY}</span>
+            <span className="h-10 w-px shrink-0 bg-gold/60" />
+            <span className="text-gold-shimmer text-4xl font-medium sm:text-6xl">12.12</span>
+            <span className="h-10 w-px shrink-0 bg-gold/60" />
+            <span className="text-xs uppercase tracking-[0.18em] text-night-foreground/80 sm:text-sm sm:tracking-[0.3em]">2026</span>
           </div>
           <p className={cn("mx-auto mt-8 max-w-md text-[0.95rem] leading-relaxed text-night-foreground/80 lg:mx-0", anim)} style={d(1250)}>
             <strong className="font-medium text-night-foreground">{COUPLE.bride.full}</strong> và{" "}

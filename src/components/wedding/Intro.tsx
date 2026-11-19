@@ -98,7 +98,7 @@ export function Intro({ guest, onDone }: { guest: string; onDone: () => void }) 
       <StarField className="fixed" />
       <div className="pointer-events-none fixed inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-gold/15 to-transparent" />
 
-      <div className="relative z-10 mx-auto flex min-h-full w-full max-w-5xl flex-col items-center justify-center gap-8 px-5 py-10 text-center short:flex-row short:gap-10 short:py-6 sm:gap-10">
+      <div className="intro-layout relative z-10 mx-auto flex min-h-full w-full max-w-5xl flex-col items-center justify-center gap-8 px-5 py-10 text-center short:flex-row short:gap-10 short:py-6 sm:gap-10">
         <div className="flex flex-col items-center">
           <p className="eyebrow gold-rule rise-in whitespace-nowrap text-[0.6rem] tracking-[0.3em] text-gold sm:text-[0.7rem] sm:tracking-[0.38em]" style={v({ "--delay": "100ms" })}>
             The Wedding Invitation
@@ -108,7 +108,7 @@ export function Intro({ guest, onDone }: { guest: string; onDone: () => void }) 
             <span className="rise-in block font-script text-[0.6em] text-rose" style={v({ "--delay": "550ms" })}>&</span>
             <span className="rise-in block" style={v({ "--delay": "800ms" })}>{COUPLE.groom.display}</span>
           </h1>
-          <p className="rise-in mt-6 font-serif text-lg tracking-[0.45em] text-gold-soft sm:text-xl short:mt-3" style={v({ "--delay": "1000ms" })}>
+          <p className="intro-date rise-in mt-6 font-serif text-lg tracking-[0.45em] text-gold-soft sm:text-xl short:mt-3" style={v({ "--delay": "1000ms" })}>
             {WEDDING_DATE_LABEL.replaceAll(".", " · ")}
           </p>
         </div>
@@ -129,7 +129,7 @@ export function Intro({ guest, onDone }: { guest: string; onDone: () => void }) 
                 <span className="orbit-spark opacity-70" style={v({ "--r": "min(52vw, 230px)", "--t": "14s", "--d": "-7s" })} />
 
                 <div
-                  className="envelope relative aspect-[1.55] w-[min(84vw,360px,calc(40svh*1.55))] short:w-[min(44vw,calc(62svh*1.55))]"
+                  className="envelope relative aspect-[1.55] w-[min(84vw,360px,calc(40svh*1.55))] short:w-[min(44vw,calc(62svh*1.55))] lg:w-[min(30vw,440px,calc(40svh*1.55))]"
                   data-open={phase !== "closed"}
                 >
                   <div className="absolute inset-0 rounded-xl bg-paper-deep shadow-card ring-1 ring-gold/50" />
@@ -167,7 +167,7 @@ export function Intro({ guest, onDone }: { guest: string; onDone: () => void }) 
             type="button"
             onClick={() => open()}
             className={cn(
-              "rise-in glass-night mt-10 rounded-full px-9 py-3.5 text-xs font-medium uppercase tracking-[0.35em] text-night-foreground shadow-glow transition hover:bg-gold/20 short:mt-6",
+              "intro-open-button rise-in glass-night mt-10 rounded-full px-9 py-3.5 text-xs font-medium uppercase tracking-[0.35em] text-night-foreground shadow-glow transition hover:bg-gold/20 short:mt-6",
               phase !== "closed" && "opacity-0",
             )}
             style={v({ "--delay": "1500ms" })}

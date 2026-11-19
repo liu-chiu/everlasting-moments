@@ -35,17 +35,17 @@ function EventCard({ e }: { e: WeddingEvent }) {
   };
   return (
     <article className="group relative overflow-hidden rounded-[2rem] bg-card shadow-card ring-1 ring-border transition duration-500 hover:-translate-y-1">
-      <div className="relative overflow-hidden bg-night px-7 pb-8 pt-7 text-night-foreground">
+      <div className="relative overflow-hidden bg-night px-5 pb-7 pt-6 text-night-foreground sm:px-7 sm:pb-8 sm:pt-7">
         <div className="absolute -right-10 -top-10 size-40 rounded-full bg-sunset opacity-30 blur-2xl transition group-hover:opacity-50" />
-        <div className="relative flex items-start justify-between">
-          <span className="font-serif text-5xl text-gold/50">{e.index}</span>
-          <span className="rounded-full border border-gold/40 px-3 py-1 text-[0.65rem] uppercase tracking-[0.3em] text-gold">{e.label}</span>
+        <div className="relative grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
+          <span className="min-w-0 font-serif text-5xl text-gold/50">{e.index}</span>
+          <span className="shrink-0 rounded-full border border-gold/40 px-3 py-1 text-[0.6rem] uppercase tracking-[0.2em] text-gold sm:text-[0.65rem] sm:tracking-[0.3em]">{e.label}</span>
         </div>
-        <h3 className="relative mt-4 font-serif text-4xl font-medium leading-tight">
+        <h3 className="relative mt-4 font-serif text-3xl font-medium leading-tight sm:text-4xl">
           {e.venue} <span className="font-script text-gold-soft">{e.venueLine2}</span>
         </h3>
-        <div className="relative mt-6 flex items-end gap-5">
-          <span className="text-gold-shimmer font-serif text-6xl font-medium leading-none">{e.time}</span>
+        <div className="relative mt-6 flex items-end gap-3 sm:gap-5">
+          <span className="text-gold-shimmer font-serif text-5xl font-medium leading-none sm:text-6xl">{e.time}</span>
           <span className="pb-1 text-xs uppercase leading-relaxed tracking-[0.2em] text-night-foreground/75">
             {WEDDING_WEEKDAY}
             <br />

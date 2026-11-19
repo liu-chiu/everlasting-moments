@@ -126,22 +126,22 @@ export function InviteCard({ guest, side }: { guest: string; side?: Side | undef
               <div className="card-holo absolute inset-0" style={holo} />
             </div>
             {/* Back */}
-            <div className="card-face card-back absolute inset-0 flex flex-col items-center justify-between overflow-hidden rounded-2xl bg-night px-6 py-7 text-center text-night-foreground shadow-card ring-1 ring-gold/40 sm:px-7 sm:py-8">
+            <div className="card-face card-back absolute inset-0 flex flex-col items-center justify-between overflow-hidden rounded-2xl bg-night px-4 py-4 text-center text-night-foreground shadow-card ring-1 ring-gold/40 sm:px-7 sm:py-8">
               <div className="pointer-events-none absolute inset-3 rounded-xl border border-gold/30" />
-              <Logo className="relative size-14 sm:size-16" />
-              <div className="relative space-y-4 sm:space-y-5">
+              <Logo className="relative size-10 sm:size-16" />
+              <div className="relative space-y-2 sm:space-y-5">
                 {events.map((e) => (
                   <div key={e.side}>
-                    <p className="font-serif text-2xl text-gold-soft sm:text-3xl">{e.time}</p>
-                    <p className="text-[0.6rem] uppercase tracking-[0.3em] text-gold">{e.label}</p>
-                    <p className="mt-1 font-serif text-lg sm:text-xl">
+                    <p className="font-serif text-xl text-gold-soft sm:text-3xl">{e.time}</p>
+                    <p className="text-[0.52rem] uppercase tracking-[0.22em] text-gold sm:text-[0.6rem] sm:tracking-[0.3em]">{e.label}</p>
+                    <p className="mt-0.5 font-serif text-base sm:mt-1 sm:text-xl">
                       {e.venue} {e.venueLine2}
                     </p>
-                    <p className="mx-auto mt-1 max-w-[16rem] text-[0.68rem] leading-relaxed text-night-foreground/70">{e.address}</p>
+                    <p className="mx-auto mt-0.5 max-w-[16rem] text-[0.58rem] leading-snug text-night-foreground/70 sm:mt-1 sm:text-[0.68rem] sm:leading-relaxed">{e.address}</p>
                   </div>
                 ))}
               </div>
-              <p className="relative font-serif text-sm italic text-night-foreground/80">
+              <p className="relative font-serif text-xs italic text-night-foreground/80 sm:text-sm">
                 Rất mong được đón {name} trong ngày vui của chúng mình.
               </p>
               <div className="card-holo absolute inset-0 opacity-60" style={holo} />

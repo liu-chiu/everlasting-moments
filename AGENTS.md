@@ -28,3 +28,7 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+<!-- AGENT-MEMORY:BEGIN -->
+- Gift QR downloads use the fixed `/api/public/gift-qr` server route to avoid third-party CORS; keep it restricted to the two configured gifts, never an arbitrary URL proxy.
+<!-- AGENT-MEMORY:END -->

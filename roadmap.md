@@ -1,7 +1,9 @@
 # Roadmap — Lan & Chung wedding invitation
 
-- [ ] Complete missing parts vs original site (analytics, form status, travel-info button, all-wishes dialog, QR download, .ics, mobile menu, card drag/zoom)
-- [ ] Spectacular effect on the cover envelope/card (arrival flight, sparkles, light sweep, tilt)
-- [ ] Replace monogram logo with logo-lc.jpg everywhere + favicon
-- [ ] RSVP confirmation popup identical in content to original site
-- [ ] Full responsive review: mobile / tablet / desktop
+- [x] Cover envelope/card effects and 3D drag/zoom
+- [x] logo-lc.jpg throughout the invitation and favicon
+- [x] RSVP confirmation wording and travel-information dialog
+- [x] Restore the original two-column RSVP layout with polished styling
+- [x] Add all-wishes dialog, QR-code saving, Apple/Outlook calendar downloads, and phone menu
+- [x] Verify loading and fix phone, tablet, and large-screen layouts, including cover and popups
+- [x] Run tests, save the completed work, and report any untested external submission behavior

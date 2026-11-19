@@ -277,6 +277,20 @@ export function googleCalendarUrl(e: WeddingEvent) {
   return `https://calendar.google.com/calendar/render?${params.toString()}`;
 }
 
+/** Outlook's native add-event composer; Apple uses the ICS file below. */
+export function outlookCalendarUrl(e: WeddingEvent) {
+  const params = new URLSearchParams({
+    path: "/calendar/action/compose",
+    rru: "addevent",
+    subject: `Đám cưới Lan & Chung · ${e.label}`,
+    startdt: e.start,
+    enddt: e.end,
+    body: "Lan & Chung trân trọng kính mời bạn đến chung vui.",
+    location: `${e.placeTitle}, ${e.address}`,
+  });
+  return `https://outlook.live.com/calendar/0/deeplink/compose?${params.toString()}`;
+}
+
 export function vietQrUrl(bankCode: string, account: string, holder: string, guest: string) {
   const info = `${guest ? guest + " - " : ""}Mung cuoi Lan Chung`;
   const params = new URLSearchParams({ addInfo: info, accountName: holder });

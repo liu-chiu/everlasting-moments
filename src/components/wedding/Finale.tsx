@@ -12,7 +12,7 @@ export function Finale() {
         decoding="async"
         className="absolute inset-0 -z-20 h-full w-full object-cover object-[50%_55%]"
       />
-      <div className="hero-veil absolute inset-0 -z-10" />
+      <div className="hero-veil absolute inset-0 -z-10 bg-night/40" />
       <StarField className="-z-10 h-1/2" density={0.5} />
       <Reveal className="max-w-2xl">
         <p className="eyebrow text-gold-soft">Thank you</p>
