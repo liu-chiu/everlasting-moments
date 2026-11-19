@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Copy } from "lucide-react";
 import { toast } from "sonner";
@@ -23,12 +23,12 @@ export const Route = createFileRoute("/tao-link")({
 function LinkGenerator() {
   const [name, setName] = useState("");
   const [side, setSide] = useState<"" | Side>("");
-  const link = useMemo(() => {
-    const base = typeof window !== "undefined" ? window.location.origin + "/" : "https://example.com/";
-    return buildGuestLink(base, name, side || undefined);
-  }, [name, side]);
+  const [base, setBase] = useState("");
+  useEffect(() => setBase(window.location.origin + "/"), []);
+  const link = base ? buildGuestLink(base, name, side || undefined) : "";
 
   const copy = async () => {
+    if (!link) return;
     try {
       await navigator.clipboard.writeText(link);
       toast.success("Đã sao chép link gửi khách");
@@ -40,7 +40,7 @@ function LinkGenerator() {
   return (
     <main className="paper-grain grid min-h-svh place-items-center px-5 py-16">
       <div className="w-full max-w-lg rounded-[2rem] bg-card p-8 shadow-card ring-1 ring-border">
-        <Logo className="size-16" />
+        <Logo className="size-16" eager />
         <p className="eyebrow mt-4">Dành cho Lan & Chung</p>
         <h1 className="mt-2 font-serif text-4xl font-medium">Tạo link gửi khách mời</h1>
         <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
@@ -58,9 +58,9 @@ function LinkGenerator() {
             <option value="groom">Tiệc nhà trai (Sóc Sơn)</option>
           </select>
         </label>
-        <div className="mt-5 break-all rounded-2xl bg-muted p-4 font-mono text-xs text-foreground">{link}</div>
+        <div className="mt-5 break-all rounded-2xl bg-muted p-4 font-mono text-xs text-foreground">{link || "Đang tạo đường link…"}</div>
         <div className="mt-5 flex gap-3">
-          <button type="button" onClick={copy} className="inline-flex flex-1 items-center justify-center gap-2 rounded-2xl bg-night py-3.5 text-sm text-night-foreground shadow-gold">
+          <button type="button" onClick={copy} disabled={!link} className="inline-flex flex-1 items-center justify-center gap-2 rounded-2xl bg-night py-3.5 text-sm text-night-foreground shadow-gold disabled:opacity-60">
             <Copy className="size-4" /> Sao chép link
           </button>
           <Link to="/" search={{ ...(name.trim() ? { to: name.trim() } : {}), ...(side ? { side } : {}) }} className="rounded-2xl border border-border px-5 py-3.5 text-sm text-foreground hover:bg-muted">
