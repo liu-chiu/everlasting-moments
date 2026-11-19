@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Music2, Pause, SkipForward } from "lucide-react";
 import { PLAYLIST } from "@/lib/wedding";
 import { useMusic } from "./music";
@@ -5,8 +6,24 @@ import { cn } from "@/lib/utils";
 
 export function MusicButton() {
   const { playing, track, toggle, next } = useMusic();
+  const [overForm, setOverForm] = useState(false);
+
+  // The RSVP card is full width on phones, so the control steps aside while it is on screen.
+  useEffect(() => {
+    const el = document.getElementById("rsvp");
+    if (!el) return;
+    const io = new IntersectionObserver(([entry]) => setOverForm(!!entry?.isIntersecting), { rootMargin: "80px" });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   return (
-    <div className="fixed bottom-5 right-4 z-50 flex items-center gap-2 sm:bottom-6 sm:right-6">
+    <div
+      className={cn(
+        "fixed bottom-5 right-4 z-50 flex items-center gap-2 transition-opacity duration-300 sm:bottom-6 sm:right-6",
+        overForm && "invisible opacity-0",
+      )}
+    >
       <div
         className={cn(
           "hidden overflow-hidden bg-night/90 backdrop-blur-md ring-1 ring-gold/20 rounded-full py-2 pl-4 pr-2 text-xs text-night-foreground transition-all duration-500 sm:flex sm:items-center sm:gap-2",
