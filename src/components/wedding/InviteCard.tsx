@@ -3,6 +3,7 @@ import { Minus, Plus, RotateCcw, RotateCw } from "lucide-react";
 import { COUPLE, eventsForSide, WEDDING_DATE_LABEL, WEDDING_WEEKDAY, type Side } from "@/lib/wedding";
 import { track } from "@/lib/analytics";
 import { Logo } from "./Logo";
+import { FloralCorner, OrnamentalFrame } from "./Ornaments";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
 
@@ -110,8 +111,10 @@ export function InviteCard({ guest, side }: { guest: string; side?: Side | undef
             <div className="card-face absolute inset-0 overflow-hidden rounded-2xl bg-card shadow-card ring-1 ring-gold/40">
               <img src="/images/gallery/13-sm.webp" alt="" draggable={false} loading="lazy" decoding="async" className="h-[60%] w-full object-cover object-top" />
               <div className="absolute inset-x-0 top-[46%] h-[14%] bg-gradient-to-b from-transparent to-card" />
-              <Logo className="absolute right-4 top-4 size-11 sm:size-12" />
-              <div className="relative px-5 pt-2 text-center">
+              <OrnamentalFrame corners="bottom" className="inset-3" cornerClassName="size-14 opacity-40 sm:size-20" />
+              <FloralCorner className="absolute left-2 top-2 z-[3] size-20 text-gold-soft/75 sm:size-24" />
+              <Logo className="absolute right-4 top-4 z-10 size-11 sm:size-12" />
+              <div className="relative z-10 px-5 pt-2 text-center">
                 <p className="eyebrow text-[0.58rem]">Wedding invitation</p>
                 <p className="mt-1 font-signature text-[clamp(2.4rem,11vw,3.1rem)] leading-none text-foreground">
                   {COUPLE.bride.short} <span className="font-script text-[0.62em] text-wax">&</span> {COUPLE.groom.short}
@@ -127,9 +130,9 @@ export function InviteCard({ guest, side }: { guest: string; side?: Side | undef
             </div>
             {/* Back */}
             <div className="card-face card-back absolute inset-0 flex flex-col items-center justify-between overflow-hidden rounded-2xl bg-night px-4 py-4 text-center text-night-foreground shadow-card ring-1 ring-gold/40 sm:px-7 sm:py-8">
-              <div className="pointer-events-none absolute inset-3 rounded-xl border border-gold/30" />
-              <Logo className="relative size-10 sm:size-16" />
-              <div className="relative space-y-2 sm:space-y-5">
+              <OrnamentalFrame tone="dark" className="inset-3" cornerClassName="size-14 opacity-55 sm:size-24" />
+              <Logo className="relative z-10 size-10 sm:size-16" />
+              <div className="relative z-10 space-y-2 sm:space-y-5">
                 {events.map((e) => (
                   <div key={e.side}>
                     <p className="font-serif text-xl text-gold-soft sm:text-3xl">{e.time}</p>
@@ -141,7 +144,7 @@ export function InviteCard({ guest, side }: { guest: string; side?: Side | undef
                   </div>
                 ))}
               </div>
-              <p className="relative font-serif text-xs italic text-night-foreground/80 sm:text-sm">
+              <p className="relative z-10 font-serif text-xs italic text-night-foreground/80 sm:text-sm">
                 Rất mong được đón {name} trong ngày vui của chúng mình.
               </p>
               <div className="card-holo absolute inset-0 opacity-60" style={holo} />

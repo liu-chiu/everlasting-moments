@@ -3,6 +3,7 @@ import { COUPLE, WEDDING_DATE_LABEL } from "@/lib/wedding";
 import { track } from "@/lib/analytics";
 import { StarField } from "./StarField";
 import { Logo } from "./Logo";
+import { FloralFlourish, OrnamentalFrame } from "./Ornaments";
 import { useMusic } from "./music";
 import { celebrate } from "./celebrate";
 import { prefersReducedMotion } from "./canvas-utils";
@@ -133,19 +134,23 @@ export function Intro({ guest, onDone }: { guest: string; onDone: () => void }) 
                   data-open={phase !== "closed"}
                 >
                   <div className="absolute inset-0 rounded-xl bg-paper-deep shadow-card ring-1 ring-gold/50" />
-                  <div className="envelope-letter absolute inset-x-4 bottom-3 top-3 z-10 flex flex-col items-center justify-center rounded-lg bg-card px-4 text-foreground">
-                    <Logo className="size-12 sm:size-14" eager />
-                    <p className="mt-2 text-[0.58rem] uppercase tracking-[0.3em] text-muted-foreground">Trân trọng kính mời</p>
-                    <p className="mt-0.5 max-w-full truncate font-script text-2xl text-wax">{name}</p>
+                  <div className="envelope-letter absolute inset-x-4 bottom-3 top-3 z-10 flex flex-col items-center justify-center overflow-hidden rounded-lg bg-card px-4 text-foreground">
+                    <OrnamentalFrame className="inset-1.5" cornerClassName="size-10 opacity-40 sm:size-12" />
+                    <Logo className="relative z-10 size-12 sm:size-14" eager />
+                    <p className="relative z-10 mt-2 text-[0.58rem] uppercase tracking-[0.3em] text-muted-foreground">Trân trọng kính mời</p>
+                    <p className="relative z-10 mt-0.5 max-w-full truncate font-script text-2xl text-wax">{name}</p>
+                    <FloralFlourish className="relative z-10 mt-1.5 w-24 text-gold-deep/45" />
                   </div>
                   <div className="envelope-pocket absolute inset-0 z-20 rounded-xl bg-paper shadow-[inset_0_-12px_30px_-20px_var(--gold-deep)]">
-                    <div className="absolute inset-[6px] rounded-lg border border-gold/30" />
-                    <div className="absolute inset-x-0 bottom-2.5 px-6 text-center">
+                    <OrnamentalFrame corners="bottom" className="inset-[6px]" cornerClassName="size-16 opacity-40 sm:size-20" />
+                    <div className="absolute inset-x-0 bottom-2.5 z-10 px-6 text-center">
                       <p className="text-[0.55rem] uppercase tracking-[0.35em] text-muted-foreground">Kính gửi</p>
                       <p className="truncate font-script text-xl leading-tight text-wax sm:text-2xl">{guest || "Quý khách"}</p>
                     </div>
                   </div>
-                  <div className="envelope-flap absolute inset-x-0 top-0 h-full rounded-t-xl bg-gradient-to-b from-paper-deep to-paper" />
+                  <div className="envelope-flap absolute inset-x-0 top-0 h-full rounded-t-xl bg-gradient-to-b from-paper-deep to-paper">
+                    <FloralFlourish className="absolute left-1/2 top-4 w-32 -translate-x-1/2 text-gold-deep/45 sm:w-40" />
+                  </div>
                   <div className="envelope-sheen pointer-events-none absolute inset-0 z-[35] overflow-hidden rounded-xl" />
                   <button
                     ref={sealRef}

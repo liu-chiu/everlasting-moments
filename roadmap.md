@@ -11,3 +11,4 @@
 - [x] Add all-wishes dialog, QR-code saving, Apple/Outlook calendar downloads, and phone menu
 - [x] Verify loading and fix phone, tablet, and large-screen layouts, including cover and popups
 - [x] Run tests, save the completed work, and report any untested external submission behavior
+- [x] Add coordinated floral ornaments inside and outside the envelope and both invitation faces; verify on phone, tablet and desktop
