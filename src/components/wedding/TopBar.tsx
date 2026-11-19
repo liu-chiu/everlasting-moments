@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Monogram } from "./Monogram";
+import { Logo } from "./Logo";
 import { cn } from "@/lib/utils";
 
 const LINKS = [

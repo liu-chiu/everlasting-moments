@@ -133,26 +133,93 @@ export const GIFTS = [
   { side: "groom" as Side, label: "Mừng cưới chú rể", bank: "Techcombank", bankCode: "TCB", holder: "NGUYEN VAN CHUNG", account: "19031119300014" },
 ];
 
-export const TRAVEL: Record<Side, { title: string; items: [string, string, "phone"?][] }> = {
+export const GA_MEASUREMENT_ID = "G-WWTQ09Y9DT";
+
+/* ---- RSVP confirmation content (kept word-for-word with the original site) ---- */
+export type InfoRow = [label: string, value: string, type?: "phone"];
+export type InfoCard = { title: string; items: InfoRow[] };
+
+export const TRAVEL: Record<Side, InfoCard> = {
   bride: {
-    title: "Xe đoàn về nhà gái",
+    title: "Thông tin di chuyển về nhà gái",
     items: [
-      ["Khởi hành", "7:00 sáng 12/12/2026"],
-      ["Điểm đón", "Ngõ 36 Giang Văn Minh, phường Kim Mã, Hà Nội"],
-      ["Trưởng đoàn", "Đang cập nhật"],
-      ["Cô dâu Ngọc Lan", "0325022345", "phone"],
+      ["Thời gian đoàn di chuyển", "7:00 sáng ngày 12/12/2026"],
+      ["Địa điểm đón khách", "Ngõ 36 Giang Văn Minh, Phường Kim Mã, Hà Nội"],
+      ["Trưởng đoàn", "Updating"],
+      ["Số điện thoại trưởng đoàn", "Updating", "phone"],
+      ["Cô dâu", "Ngọc Lan"],
+      ["Số điện thoại cô dâu", "0325022345", "phone"],
     ],
   },
   groom: {
-    title: "Xe đoàn về nhà trai",
+    title: "Thông tin di chuyển về nhà trai",
     items: [
-      ["Khởi hành", "15:00 chiều 12/12/2026"],
-      ["Điểm đón", "11A Cát Linh, Ô Chợ Dừa, Hà Nội"],
-      ["Trưởng đoàn", "Đang cập nhật"],
-      ["Chú rể Văn Chung", "0376147556", "phone"],
+      ["Thời gian đoàn di chuyển", "15:00 chiều ngày 12/12/2026"],
+      ["Địa điểm đón khách", "11 A Cát Linh, Ô Chợ Dừa, Hà Nội"],
+      ["Trưởng đoàn", "Updating"],
+      ["Số điện thoại trưởng đoàn", "Updating", "phone"],
+      ["Chú rể", "Văn Chung"],
+      ["Số điện thoại chú rể", "0376147556", "phone"],
     ],
   },
 };
+
+export const SELF_TRAVEL_CARDS: InfoCard[] = [
+  {
+    title: "Liên hệ cô dâu & chú rể",
+    items: [
+      ["Cô dâu", "Ngọc Lan"],
+      ["Số điện thoại cô dâu", "0325022345", "phone"],
+      ["Chú rể", "Văn Chung"],
+      ["Số điện thoại chú rể", "0376147556", "phone"],
+    ],
+  },
+  {
+    title: "Tiệc nhà gái",
+    items: [
+      ["Thời gian", "10:30, Thứ Bảy 12/12/2026"],
+      ["Địa điểm", "Tư gia nhà gái"],
+      ["Địa chỉ", "Ô Số H32, Khu đô thị dịch vụ Hùng Thắng, Phường Bãi Cháy, Hạ Long"],
+    ],
+  },
+  {
+    title: "Tiệc nhà trai",
+    items: [
+      ["Thời gian", "17:00, Thứ Bảy 12/12/2026"],
+      ["Địa điểm", "Tư gia nhà trai"],
+      ["Địa chỉ", "Số 8, ngõ 3, đường Văn Hoá, Khối 8 (Xóm Đồng), Sóc Sơn, Hà Nội"],
+    ],
+  },
+];
+
+export const RSVP_TEXT = {
+  sending: "Đang gửi xác nhận…",
+  success: "Đã gửi xác nhận thành công. Cảm ơn bạn!",
+  error: "Chưa gửi được xác nhận. Vui lòng đóng cửa sổ này và thử gửi lại.",
+  formSending: "Cảm ơn bạn, tụi mình đang gửi phản hồi đến Lan & Chung nhé…",
+  formError: "Tụi mình chưa nhận được xác nhận gửi thành công. Bạn thử lại sau hoặc nhắn trực tiếp cho Lan & Chung nhé.",
+  declineTitle: "Cảm ơn bạn đã phản hồi",
+  declineBody:
+    "Lan & Chung rất tiếc vì chưa thể đón bạn trong ngày vui. Cảm ơn bạn đã gửi lời chúc và luôn yêu thương, đồng hành cùng chúng mình. Hẹn gặp bạn trong dịp gần nhất nhé!",
+  busTitle: "Cảm ơn bạn sẽ đến chung vui",
+  selfTitle: "Hẹn gặp bạn trong ngày vui",
+  selfBody: "Cảm ơn bạn đã xác nhận tham dự. Chúc bạn di chuyển an toàn và hẹn gặp bạn tại buổi tiệc nhé!",
+  scheduleTitle: "Lịch trình di chuyển",
+};
+
+/** Which confirmation the guest sees after sending the RSVP (mirrors the original site). */
+export function confirmationFor(attendance: string, transportation: string) {
+  if (attendance === "Không thể tham dự")
+    return { title: RSVP_TEXT.declineTitle, body: RSVP_TEXT.declineBody, cards: [] as InfoCard[] };
+  if (transportation === TRANSPORT_OPTIONS.bride) return { title: RSVP_TEXT.busTitle, body: "", cards: [TRAVEL.bride] };
+  if (transportation === TRANSPORT_OPTIONS.groom) return { title: RSVP_TEXT.busTitle, body: "", cards: [TRAVEL.groom] };
+  return { title: RSVP_TEXT.selfTitle, body: RSVP_TEXT.selfBody, cards: SELF_TRAVEL_CARDS };
+}
+
+/** Default bus when a guest says they will attend: groom's bus only for the groom's party. */
+export function defaultTransportFor(event: string) {
+  return event === "Tiệc nhà trai" ? TRANSPORT_OPTIONS.groom : TRANSPORT_OPTIONS.bride;
+}
 
 export const TRANSPORT_OPTIONS = {
   self: "Tự di chuyển",
@@ -233,4 +300,33 @@ export function monthGrid(year: number, monthIndex: number): (number | null)[] {
   for (let d = 1; d <= days; d++) cells.push(d);
   while (cells.length % 7) cells.push(null);
   return cells;
+}
+
+function icsStamp(iso: string) {
+  return new Date(iso).toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+}
+
+/** iCalendar file for Apple Calendar / Outlook users. */
+export function buildIcs(e: WeddingEvent) {
+  const esc = (t: string) => t.replace(/([,;\\])/g, "\\$1");
+  return [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//Lan Chung Wedding//VI",
+    "BEGIN:VEVENT",
+    `UID:lanchung-${e.side}-20261212@wedding`,
+    `DTSTAMP:${icsStamp("2026-01-01T00:00:00Z")}`,
+    `DTSTART:${icsStamp(e.start)}`,
+    `DTEND:${icsStamp(e.end)}`,
+    `SUMMARY:${esc(`Đám cưới Lan & Chung · ${e.label}`)}`,
+    `LOCATION:${esc(`${e.placeTitle}, ${e.address}`)}`,
+    "DESCRIPTION:Lan & Chung trân trọng kính mời bạn đến chung vui.",
+    "BEGIN:VALARM",
+    "TRIGGER:-PT3H",
+    "ACTION:DISPLAY",
+    "DESCRIPTION:Đám cưới Lan & Chung",
+    "END:VALARM",
+    "END:VEVENT",
+    "END:VCALENDAR",
+  ].join("\r\n");
 }

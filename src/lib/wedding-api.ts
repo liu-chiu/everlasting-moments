@@ -23,6 +23,11 @@ function jsonp<T>(params: Record<string, string>, timeout = 10000): Promise<T> {
   });
 }
 
+export async function checkHealth(): Promise<boolean> {
+  const res = await jsonp<{ ok?: boolean }>({ action: "health" });
+  return !!res?.ok;
+}
+
 export async function fetchWishes(): Promise<Wish[]> {
   const res = await jsonp<{ ok: boolean; wishes?: Wish[] }>({ action: "wishes" });
   return res?.ok && Array.isArray(res.wishes) ? res.wishes : [];

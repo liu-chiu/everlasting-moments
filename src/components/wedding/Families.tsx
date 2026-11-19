@@ -1,5 +1,5 @@
 import { COUPLE, FAMILIES } from "@/lib/wedding";
-import { Monogram } from "./Monogram";
+import { Logo } from "./Logo";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
 
@@ -33,9 +33,9 @@ export function Families() {
           </Reveal>
         ))}
         <Reveal zoom className="order-first mx-auto md:order-2">
-          <div className="relative grid size-28 place-items-center rounded-full bg-night shadow-gold">
-            <span className="absolute inset-2 rounded-full border border-gold/40" />
-            <Monogram className="text-5xl text-gold" />
+          <div className="relative">
+            <span className="absolute -inset-3 animate-spin-slow rounded-full border border-dashed border-gold/50" />
+            <Logo className="size-28 shadow-gold sm:size-32" />
           </div>
         </Reveal>
       </div>

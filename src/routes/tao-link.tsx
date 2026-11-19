@@ -3,7 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Copy } from "lucide-react";
 import { toast } from "sonner";
 import { buildGuestLink, type Side } from "@/lib/wedding";
-import { Monogram } from "@/components/wedding/Monogram";
+import { Logo } from "@/components/wedding/Logo";
 
 export const Route = createFileRoute("/tao-link")({
   head: () => ({
@@ -40,7 +40,7 @@ function LinkGenerator() {
   return (
     <main className="paper-grain grid min-h-svh place-items-center px-5 py-16">
       <div className="w-full max-w-lg rounded-[2rem] bg-card p-8 shadow-card ring-1 ring-border">
-        <Monogram className="text-5xl text-wax" />
+        <Logo className="size-16" />
         <p className="eyebrow mt-4">Dành cho Lan & Chung</p>
         <h1 className="mt-2 font-serif text-4xl font-medium">Tạo link gửi khách mời</h1>
         <p className="mt-3 text-sm leading-relaxed text-muted-foreground">

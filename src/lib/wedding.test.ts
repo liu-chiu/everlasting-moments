@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 import {
   buildGuestLink,
+  buildIcs,
+  confirmationFor,
+  defaultTransportFor,
   EVENTS,
   eventsForSide,
   getCountdown,
@@ -47,5 +50,38 @@ describe("wedding rules", () => {
     const grid = monthGrid(2026, 11);
     expect(grid.indexOf(1)).toBe(1);
     expect(grid.indexOf(12) % 7).toBe(5); // Saturday column
+  });
+
+  it("guests who decline get the thank-you message and no travel cards", () => {
+    const c = confirmationFor("Không thể tham dự", "");
+    expect(c.title).toBe("Cảm ơn bạn đã phản hồi");
+    expect(c.cards).toHaveLength(0);
+  });
+
+  it("guests on the bride's bus see the 7:00 pickup at Giang Văn Minh", () => {
+    const c = confirmationFor("Sẽ tham dự", "Đi cùng xe đoàn về nhà gái");
+    expect(c.title).toBe("Cảm ơn bạn sẽ đến chung vui");
+    expect(c.cards[0]?.title).toBe("Thông tin di chuyển về nhà gái");
+    expect(c.cards[0]?.items[0]?.[1]).toBe("7:00 sáng ngày 12/12/2026");
+  });
+
+  it("guests on the groom's bus see the 15:00 pickup at Cát Linh", () => {
+    const c = confirmationFor("Sẽ tham dự", "Đi cùng xe đoàn về nhà trai");
+    expect(c.cards[0]?.items[1]?.[1]).toBe("11 A Cát Linh, Ô Chợ Dừa, Hà Nội");
+  });
+
+  it("guests travelling on their own see contacts and both parties", () => {
+    const c = confirmationFor("Sẽ tham dự", "Tự di chuyển");
+    expect(c.title).toBe("Hẹn gặp bạn trong ngày vui");
+    expect(c.cards.map((x) => x.title)).toEqual(["Liên hệ cô dâu & chú rể", "Tiệc nhà gái", "Tiệc nhà trai"]);
+  });
+
+  it("attending guests default to the groom's bus only for the groom's party", () => {
+    expect(defaultTransportFor("Tiệc nhà trai")).toBe("Đi cùng xe đoàn về nhà trai");
+    expect(defaultTransportFor("Cả hai buổi tiệc")).toBe("Đi cùng xe đoàn về nhà gái");
+  });
+
+  it("calendar file starts at 10:30 Vietnam time for the bride's party", () => {
+    expect(buildIcs(EVENTS[0]!)).toContain("DTSTART:20261212T033000Z");
   });
 });
