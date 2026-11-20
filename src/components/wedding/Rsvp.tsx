@@ -168,15 +168,17 @@ export function Rsvp({
         {/* <p role="status" className="mt-4 text-xs text-night-foreground/70">
           {backend}
         </p> */}
-        <Button
-          variant="ghost"
-          type="button"
-          onClick={() => setSchedule(true)}
-          aria-haspopup="dialog"
-          className="glass-night mt-5 inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-5 py-2.5 text-xs font-medium uppercase tracking-[0.2em] text-night-foreground transition hover:bg-gold/20"
-        >
-          <Bus className="size-4 shrink-0 text-gold" /> Thông tin lịch trình
-        </Button>
+        {attendance !== DECLINE && (
+          <Button
+            variant="ghost"
+            type="button"
+            onClick={() => setSchedule(true)}
+            aria-haspopup="dialog"
+            className="glass-night mt-5 inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-5 py-2.5 text-xs font-medium uppercase tracking-[0.2em] text-night-foreground transition hover:bg-gold/20"
+          >
+            <Bus className="size-4 shrink-0 text-gold" /> Thông tin lịch trình
+          </Button>
+        )}
       </Reveal>
 
       <Reveal zoom className="mx-auto mt-10 max-w-2xl">
