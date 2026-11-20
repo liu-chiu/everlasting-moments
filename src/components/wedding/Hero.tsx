@@ -2,6 +2,7 @@ import { ChevronDown } from "lucide-react";
 import { COUPLE, WEDDING_WEEKDAY } from "@/lib/wedding";
 import { Petals } from "./Petals";
 import { StarField } from "./StarField";
+import { Logo } from "./Logo";
 import { cn } from "@/lib/utils";
 
 export function Hero({ guest, started }: { guest: string; started: boolean }) {
@@ -36,7 +37,7 @@ export function Hero({ guest, started }: { guest: string; started: boolean }) {
                 <textPath href="#ring">Save the date · 12.12.2026 · Lan & Chung ·</textPath>
               </text>
             </svg>
-            <span className="absolute inset-0 grid place-items-center font-script text-4xl text-gold-soft">♥</span>
+            <Logo className="absolute inset-[18%] rounded-full shadow-gold" ring={false} eager />
           </div>
         </div>
 

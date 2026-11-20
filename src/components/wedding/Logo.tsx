@@ -1,7 +1,8 @@
-import logo from "@/assets/logo-lc-original.png.asset.json";
 import { cn } from "@/lib/utils";
 
-/** The couple's L&C logo in a round gold-ringed frame. */
+const LOGO_URL = "/images/logo-con-dau.png";
+
+/** The couple's con dấu (L&C) logo in a round gold-ringed frame. */
 export function Logo({ className, ring = true, eager }: { className?: string; ring?: boolean; eager?: boolean }) {
   return (
     <span
@@ -12,10 +13,10 @@ export function Logo({ className, ring = true, eager }: { className?: string; ri
       )}
     >
       <img
-        src={logo.url}
+        src={LOGO_URL}
         alt="Logo Lan & Chung"
-        width={185}
-        height={135}
+        width={512}
+        height={512}
         loading={eager ? "eager" : "lazy"}
         decoding="async"
         className="h-full w-full object-cover"
