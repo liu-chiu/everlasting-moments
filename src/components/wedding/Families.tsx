@@ -13,22 +13,26 @@ export function Families() {
       <SectionHeading eyebrow="Together with our families">
         Gia đình <em>hai bên</em>
       </SectionHeading>
-      <div className="relative mx-auto mt-16 grid max-w-4xl items-center gap-10 md:grid-cols-[1fr_auto_1fr]">
+      <div className="relative mx-auto mt-14 grid max-w-5xl items-center gap-10 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:gap-6 lg:gap-12">
         {sides.map((s, i) => (
           <Reveal key={s.label} delay={i * 150} className={i === 1 ? "md:order-3" : ""}>
-            <div className="text-center">
+            <div className="mx-auto w-full max-w-sm text-center">
               <p className="eyebrow">{s.fam.title}</p>
-              <p className="mt-4 font-serif text-lg text-muted-foreground">
-                Ông <span className="text-foreground">{s.fam.father}</span>
-              </p>
-              <p className="font-serif text-lg text-muted-foreground">
-                Bà <span className="text-foreground">{s.fam.mother}</span>
-              </p>
+              <div className="mt-5 grid gap-2 font-serif text-2xl font-medium italic leading-relaxed text-ocean-deep sm:text-[1.75rem] md:min-h-24 md:text-2xl lg:text-[1.75rem]">
+                <p>
+                  <span className="mr-1 text-lg font-normal not-italic text-muted-foreground">Ông</span>{" "}
+                  {s.fam.father}
+                </p>
+                <p>
+                  <span className="mr-1 text-lg font-normal not-italic text-muted-foreground">Bà</span>{" "}
+                  {s.fam.mother}
+                </p>
+              </div>
               <div className="mx-auto my-6 h-px w-16 bg-gold/60" />
               <p className="text-[0.65rem] uppercase tracking-[0.35em] text-muted-foreground">
                 {s.label} · {s.person.role}
               </p>
-              <p className="mt-6 block min-w-0 break-words font-signature text-[clamp(2.6rem,9vw,3rem)] leading-[1.55] text-wax sm:text-5xl">
+              <p className="mt-3 block min-w-0 break-words px-2 pb-3 pt-8 font-signature text-[2.5rem] leading-[1.8] text-wax lg:text-5xl">
                 {s.person.display}
               </p>
             </div>

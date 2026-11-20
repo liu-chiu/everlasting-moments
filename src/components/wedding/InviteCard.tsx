@@ -131,9 +131,9 @@ export function InviteCard({ guest, side }: { guest: string; side?: Side | undef
                 draggable={false}
                 loading="lazy"
                 decoding="async"
-                className="h-[60%] w-full object-cover object-top"
+                className="h-[55%] w-full object-cover object-[50%_30%]"
               />
-              <div className="absolute inset-x-0 top-[46%] h-[14%] bg-gradient-to-b from-transparent to-card" />
+              <div className="absolute inset-x-0 top-[41%] h-[14%] bg-gradient-to-b from-transparent to-card" />
               <OrnamentalFrame
                 corners="bottom"
                 className="inset-3"
@@ -143,11 +143,11 @@ export function InviteCard({ guest, side }: { guest: string; side?: Side | undef
               <Logo className="absolute right-4 top-4 z-10 size-11 sm:size-12" />
               <div className="relative z-10 px-5 pt-2 text-center">
                 <p className="eyebrow text-[0.58rem]">Wedding invitation</p>
-                <p className="mt-1 font-signature text-[clamp(2.4rem,11vw,3.1rem)] leading-[1.15] text-foreground">
+                <p className="mt-2 pb-1 pt-5 font-signature text-[2rem] leading-[1.6] text-foreground sm:text-[2.5rem]">
                   {COUPLE.bride.short} <span className="font-script text-[0.62em] text-wax">&</span>{" "}
                   {COUPLE.groom.short}
                 </p>
-                <p className="mt-5 font-serif text-sm tracking-[0.22em] text-gold-deep sm:text-base">
+                <p className="mt-2 font-serif text-sm tracking-[0.22em] text-gold-deep sm:text-base">
                   {WEDDING_WEEKDAY} · {WEDDING_DATE_LABEL}
                 </p>
                 <p className="mt-1.5 truncate text-xs text-muted-foreground">
