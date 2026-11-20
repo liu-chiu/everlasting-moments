@@ -88,5 +88,11 @@ export function StarField({ className, density = 1 }: { className?: string; dens
     };
   }, [density]);
 
-  return <canvas ref={ref} aria-hidden className={cn("pointer-events-none absolute inset-0 h-full w-full", className)} />;
+  return (
+    <canvas
+      ref={ref}
+      aria-hidden
+      className={cn("pointer-events-none absolute inset-0 h-full w-full", className)}
+    />
+  );
 }

@@ -42,7 +42,9 @@ describe("wedding rules", () => {
   });
 
   it("keeps the guest name in links sent from the invitation domain", () => {
-    const url = new URL(buildGuestLink("https://lan-chung-invitation.lovable.app/", "  chị   Phương ", "groom"));
+    const url = new URL(
+      buildGuestLink("https://lan-chung-invitation.lovable.app/", "  chị   Phương ", "groom"),
+    );
     expect(url.origin).toBe("https://lan-chung-invitation.lovable.app");
     expect(normalizeGuestName(url.searchParams.get("to"))).toBe("chị Phương");
     expect(normalizeSide(url.searchParams.get("side"))).toBe("groom");
@@ -81,7 +83,11 @@ describe("wedding rules", () => {
   it("guests travelling on their own see contacts and both parties", () => {
     const c = confirmationFor("Sẽ tham dự", "Tự di chuyển");
     expect(c.title).toBe("Hẹn gặp bạn trong ngày vui");
-    expect(c.cards.map((x) => x.title)).toEqual(["Liên hệ cô dâu & chú rể", "Tiệc nhà gái", "Tiệc nhà trai"]);
+    expect(c.cards.map((x) => x.title)).toEqual([
+      "Liên hệ cô dâu & chú rể",
+      "Tiệc nhà gái",
+      "Tiệc nhà trai",
+    ]);
   });
 
   it("attending guests default to the groom's bus only for the groom's party", () => {

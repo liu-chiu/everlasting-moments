@@ -1,6 +1,12 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Minus, Plus, RotateCcw, RotateCw } from "lucide-react";
-import { COUPLE, eventsForSide, WEDDING_DATE_LABEL, WEDDING_WEEKDAY, type Side } from "@/lib/wedding";
+import {
+  COUPLE,
+  eventsForSide,
+  WEDDING_DATE_LABEL,
+  WEDDING_WEEKDAY,
+  type Side,
+} from "@/lib/wedding";
 import { track } from "@/lib/analytics";
 import { Logo } from "./Logo";
 import { FloralCorner, OrnamentalFrame } from "./Ornaments";
@@ -52,7 +58,8 @@ export function InviteCard({ guest, side }: { guest: string; side?: Side | undef
     if (pointers.current.size === 2) {
       const [a, b] = [...pointers.current.values()];
       const d = Math.hypot(a!.x - b!.x, a!.y - b!.y);
-      if (gesture.current.pinch) setZoom(clamp((gesture.current.zoom * d) / gesture.current.pinch, MIN_ZOOM, MAX_ZOOM));
+      if (gesture.current.pinch)
+        setZoom(clamp((gesture.current.zoom * d) / gesture.current.pinch, MIN_ZOOM, MAX_ZOOM));
       gesture.current.moved += 10;
       return;
     }
@@ -82,11 +89,20 @@ export function InviteCard({ guest, side }: { guest: string; side?: Side | undef
     return () => el.removeEventListener("wheel", onWheel);
   }, []);
 
-  const holo = { "--holo-x": `${50 + ((rot.y % 360) / 360) * 100}%`, "--holo-angle": `${rot.x}deg` } as CSSProperties;
+  const holo = {
+    "--holo-x": `${50 + ((rot.y % 360) / 360) * 100}%`,
+    "--holo-angle": `${rot.x}deg`,
+  } as CSSProperties;
 
   return (
-    <section id="invite" className="paper-grain relative overflow-hidden px-5 py-20 sm:px-6 sm:py-28 lg:py-32">
-      <SectionHeading eyebrow="Thiệp mời" sub="Kéo thiệp để xoay · chạm để lật · chụm hai ngón (hoặc Ctrl + cuộn) để thu phóng.">
+    <section
+      id="invite"
+      className="paper-grain relative overflow-hidden px-5 py-20 sm:px-6 sm:py-28 lg:py-32"
+    >
+      <SectionHeading
+        eyebrow="Thiệp mời"
+        sub="Kéo thiệp để xoay · chạm để lật · chụm hai ngón (hoặc Ctrl + cuộn) để thu phóng."
+      >
         Thiệp mời <em>gửi riêng bạn</em>
       </SectionHeading>
 
@@ -109,15 +125,27 @@ export function InviteCard({ guest, side }: { guest: string; side?: Side | undef
           >
             {/* Front */}
             <div className="card-face absolute inset-0 overflow-hidden rounded-2xl bg-card shadow-card ring-1 ring-gold/40">
-              <img src="/images/gallery/13-sm.webp" alt="" draggable={false} loading="lazy" decoding="async" className="h-[60%] w-full object-cover object-top" />
+              <img
+                src="/images/gallery/13-sm.webp"
+                alt=""
+                draggable={false}
+                loading="lazy"
+                decoding="async"
+                className="h-[60%] w-full object-cover object-top"
+              />
               <div className="absolute inset-x-0 top-[46%] h-[14%] bg-gradient-to-b from-transparent to-card" />
-              <OrnamentalFrame corners="bottom" className="inset-3" cornerClassName="size-14 opacity-40 sm:size-20" />
+              <OrnamentalFrame
+                corners="bottom"
+                className="inset-3"
+                cornerClassName="size-14 opacity-40 sm:size-20"
+              />
               <FloralCorner className="absolute left-2 top-2 z-[3] size-20 text-gold-soft/75 sm:size-24" />
               <Logo className="absolute right-4 top-4 z-10 size-11 sm:size-12" />
               <div className="relative z-10 px-5 pt-2 text-center">
                 <p className="eyebrow text-[0.58rem]">Wedding invitation</p>
                 <p className="mt-1 font-signature text-[clamp(2.4rem,11vw,3.1rem)] leading-none text-foreground">
-                  {COUPLE.bride.short} <span className="font-script text-[0.62em] text-wax">&</span> {COUPLE.groom.short}
+                  {COUPLE.bride.short} <span className="font-script text-[0.62em] text-wax">&</span>{" "}
+                  {COUPLE.groom.short}
                 </p>
                 <p className="mt-5 font-serif text-sm tracking-[0.22em] text-gold-deep sm:text-base">
                   {WEDDING_WEEKDAY} · {WEDDING_DATE_LABEL}
@@ -130,17 +158,25 @@ export function InviteCard({ guest, side }: { guest: string; side?: Side | undef
             </div>
             {/* Back */}
             <div className="card-face card-back absolute inset-0 flex flex-col items-center justify-between overflow-hidden rounded-2xl bg-night px-4 py-4 text-center text-night-foreground shadow-card ring-1 ring-gold/40 sm:px-7 sm:py-8">
-              <OrnamentalFrame tone="dark" className="inset-3" cornerClassName="size-14 opacity-55 sm:size-24" />
+              <OrnamentalFrame
+                tone="dark"
+                className="inset-3"
+                cornerClassName="size-14 opacity-55 sm:size-24"
+              />
               <Logo className="relative z-10 size-10 sm:size-16" />
               <div className="relative z-10 space-y-2 sm:space-y-5">
                 {events.map((e) => (
                   <div key={e.side}>
                     <p className="font-serif text-xl text-gold-soft sm:text-3xl">{e.time}</p>
-                    <p className="text-[0.52rem] uppercase tracking-[0.22em] text-gold sm:text-[0.6rem] sm:tracking-[0.3em]">{e.label}</p>
+                    <p className="text-[0.52rem] uppercase tracking-[0.22em] text-gold sm:text-[0.6rem] sm:tracking-[0.3em]">
+                      {e.label}
+                    </p>
                     <p className="mt-0.5 font-serif text-base sm:mt-1 sm:text-xl">
                       {e.venue} {e.venueLine2}
                     </p>
-                    <p className="mx-auto mt-0.5 max-w-[16rem] text-[0.58rem] leading-snug text-night-foreground/70 sm:mt-1 sm:text-[0.68rem] sm:leading-relaxed">{e.address}</p>
+                    <p className="mx-auto mt-0.5 max-w-[16rem] text-[0.58rem] leading-snug text-night-foreground/70 sm:mt-1 sm:text-[0.68rem] sm:leading-relaxed">
+                      {e.address}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -154,20 +190,43 @@ export function InviteCard({ guest, side }: { guest: string; side?: Side | undef
 
         <div className="mt-6 flex flex-wrap items-center justify-center gap-2 text-xs">
           <div className="flex items-center overflow-hidden rounded-full border border-gold/50 bg-card shadow-soft">
-            <button type="button" onClick={() => setZoom((z) => clamp(z - 0.1, MIN_ZOOM, MAX_ZOOM))} disabled={zoom <= MIN_ZOOM} aria-label="Thu nhỏ thiệp" className="grid size-10 place-items-center text-gold-deep transition hover:bg-gold/10 disabled:opacity-40">
+            <button
+              type="button"
+              onClick={() => setZoom((z) => clamp(z - 0.1, MIN_ZOOM, MAX_ZOOM))}
+              disabled={zoom <= MIN_ZOOM}
+              aria-label="Thu nhỏ thiệp"
+              className="grid size-10 place-items-center text-gold-deep transition hover:bg-gold/10 disabled:opacity-40"
+            >
               <Minus className="size-4" />
             </button>
-            <output className="w-14 text-center font-medium tabular-nums text-foreground" aria-live="polite">
+            <output
+              className="w-14 text-center font-medium tabular-nums text-foreground"
+              aria-live="polite"
+            >
               {Math.round(zoom * 100)}%
             </output>
-            <button type="button" onClick={() => setZoom((z) => clamp(z + 0.1, MIN_ZOOM, MAX_ZOOM))} disabled={zoom >= MAX_ZOOM} aria-label="Phóng to thiệp" className="grid size-10 place-items-center text-gold-deep transition hover:bg-gold/10 disabled:opacity-40">
+            <button
+              type="button"
+              onClick={() => setZoom((z) => clamp(z + 0.1, MIN_ZOOM, MAX_ZOOM))}
+              disabled={zoom >= MAX_ZOOM}
+              aria-label="Phóng to thiệp"
+              className="grid size-10 place-items-center text-gold-deep transition hover:bg-gold/10 disabled:opacity-40"
+            >
               <Plus className="size-4" />
             </button>
           </div>
-          <button type="button" onClick={flip} className="inline-flex h-10 items-center gap-2 rounded-full bg-night px-5 uppercase tracking-[0.2em] text-night-foreground shadow-gold transition hover:scale-[1.03]">
+          <button
+            type="button"
+            onClick={flip}
+            className="inline-flex h-10 items-center gap-2 rounded-full bg-night px-5 uppercase tracking-[0.2em] text-night-foreground shadow-gold transition hover:scale-[1.03]"
+          >
             <RotateCw className="size-3.5" /> Lật thiệp
           </button>
-          <button type="button" onClick={reset} className="inline-flex h-10 items-center gap-2 rounded-full border border-border bg-card px-4 uppercase tracking-[0.2em] text-muted-foreground transition hover:bg-muted">
+          <button
+            type="button"
+            onClick={reset}
+            className="inline-flex h-10 items-center gap-2 rounded-full border border-border bg-card px-4 uppercase tracking-[0.2em] text-muted-foreground transition hover:bg-muted"
+          >
             <RotateCcw className="size-3.5" /> Đặt lại
           </button>
         </div>

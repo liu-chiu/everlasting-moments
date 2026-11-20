@@ -56,9 +56,20 @@ export function Gallery() {
   );
 }
 
-function Lightbox({ index, onClose, onIndex }: { index: number; onClose: () => void; onIndex: (i: number) => void }) {
+function Lightbox({
+  index,
+  onClose,
+  onIndex,
+}: {
+  index: number;
+  onClose: () => void;
+  onIndex: (i: number) => void;
+}) {
   const total = GALLERY.length;
-  const go = useCallback((d: number) => onIndex((index + d + total) % total), [index, onIndex, total]);
+  const go = useCallback(
+    (d: number) => onIndex((index + d + total) % total),
+    [index, onIndex, total],
+  );
   const startX = useRef<number | null>(null);
 
   useEffect(() => {
@@ -106,12 +117,20 @@ function Lightbox({ index, onClose, onIndex }: { index: number; onClose: () => v
         className="rise-in max-h-[86svh] max-w-[92vw] select-none rounded-xl object-contain shadow-card"
         draggable={false}
       />
-      <button type="button" onClick={onClose} aria-label="Đóng" className="absolute right-4 top-4 grid size-11 place-items-center rounded-full glass-night text-night-foreground">
+      <button
+        type="button"
+        onClick={onClose}
+        aria-label="Đóng"
+        className="absolute right-4 top-4 grid size-11 place-items-center rounded-full glass-night text-night-foreground"
+      >
         <X className="size-5" />
       </button>
       <button
         type="button"
-        onClick={(e) => { e.stopPropagation(); go(-1); }}
+        onClick={(e) => {
+          e.stopPropagation();
+          go(-1);
+        }}
         aria-label="Ảnh trước"
         className="absolute left-3 top-1/2 hidden size-12 -translate-y-1/2 place-items-center rounded-full glass-night text-night-foreground sm:grid"
       >
@@ -119,7 +138,10 @@ function Lightbox({ index, onClose, onIndex }: { index: number; onClose: () => v
       </button>
       <button
         type="button"
-        onClick={(e) => { e.stopPropagation(); go(1); }}
+        onClick={(e) => {
+          e.stopPropagation();
+          go(1);
+        }}
         aria-label="Ảnh sau"
         className="absolute right-3 top-1/2 hidden size-12 -translate-y-1/2 place-items-center rounded-full glass-night text-night-foreground sm:grid"
       >

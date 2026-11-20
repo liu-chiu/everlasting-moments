@@ -1,6 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { WeddingPage } from "@/components/wedding/WeddingPage";
-import { COUPLE_DISPLAY_NAMES, COUPLE_SHORT_LABEL, normalizeGuestName, normalizeSide, OG_IMAGE, type Side } from "@/lib/wedding";
+import {
+  COUPLE_DISPLAY_NAMES,
+  COUPLE_SHORT_LABEL,
+  normalizeGuestName,
+  normalizeSide,
+  OG_IMAGE,
+  type Side,
+} from "@/lib/wedding";
 
 export const Route = createFileRoute("/")({
   validateSearch: (search: Record<string, unknown>): { to?: string; side?: Side } => {

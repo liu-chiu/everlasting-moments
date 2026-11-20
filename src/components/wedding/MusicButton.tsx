@@ -12,7 +12,9 @@ export function MusicButton() {
   useEffect(() => {
     const el = document.getElementById("rsvp");
     if (!el) return;
-    const io = new IntersectionObserver(([entry]) => setOverForm(!!entry?.isIntersecting), { rootMargin: "80px" });
+    const io = new IntersectionObserver(([entry]) => setOverForm(!!entry?.isIntersecting), {
+      rootMargin: "80px",
+    });
     io.observe(el);
     return () => io.disconnect();
   }, []);
@@ -47,14 +49,18 @@ export function MusicButton() {
         aria-label={playing ? "Tắt nhạc nền" : "Phát nhạc nền"}
         className="relative grid size-14 place-items-center rounded-full bg-night text-gold shadow-gold transition-transform hover:scale-105 active:scale-95"
       >
-        {playing && <span className="absolute inset-0 animate-pulse-ring rounded-full border border-gold" />}
+        {playing && (
+          <span className="absolute inset-0 animate-pulse-ring rounded-full border border-gold" />
+        )}
         <span
           className={cn(
             "absolute inset-1.5 rounded-full border border-gold/30 bg-[repeating-radial-gradient(circle,transparent_0,transparent_3px,var(--night-soft)_4px)]",
             playing && "animate-vinyl",
           )}
         />
-        <span className="relative">{playing ? <Pause className="size-5" /> : <Music2 className="size-5" />}</span>
+        <span className="relative">
+          {playing ? <Pause className="size-5" /> : <Music2 className="size-5" />}
+        </span>
       </button>
     </div>
   );

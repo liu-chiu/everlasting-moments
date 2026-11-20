@@ -1,7 +1,21 @@
-import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 import { PLAYLIST } from "@/lib/wedding";
 
-type MusicCtx = { playing: boolean; track: number; play: () => void; toggle: () => void; next: () => void };
+type MusicCtx = {
+  playing: boolean;
+  track: number;
+  play: () => void;
+  toggle: () => void;
+  next: () => void;
+};
 const Ctx = createContext<MusicCtx | null>(null);
 
 export function MusicProvider({ children }: { children: ReactNode }) {
@@ -14,13 +28,13 @@ export function MusicProvider({ children }: { children: ReactNode }) {
       const a = new Audio();
       a.preload = "none";
       a.volume = 0.7;
-      a.src = (PLAYLIST[0]?.src ?? "");
+      a.src = PLAYLIST[0]?.src ?? "";
       a.addEventListener("play", () => setPlaying(true));
       a.addEventListener("pause", () => setPlaying(false));
       a.addEventListener("ended", () => {
         setTrack((t) => {
           const n = (t + 1) % PLAYLIST.length;
-          a.src = (PLAYLIST[n]?.src ?? "");
+          a.src = PLAYLIST[n]?.src ?? "";
           a.play().catch(() => {});
           return n;
         });
@@ -31,7 +45,9 @@ export function MusicProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const play = useCallback(() => {
-    ensure().play().catch(() => {});
+    ensure()
+      .play()
+      .catch(() => {});
   }, [ensure]);
 
   const toggle = useCallback(() => {
@@ -44,7 +60,7 @@ export function MusicProvider({ children }: { children: ReactNode }) {
     const a = ensure();
     setTrack((t) => {
       const n = (t + 1) % PLAYLIST.length;
-      a.src = (PLAYLIST[n]?.src ?? "");
+      a.src = PLAYLIST[n]?.src ?? "";
       a.play().catch(() => {});
       return n;
     });

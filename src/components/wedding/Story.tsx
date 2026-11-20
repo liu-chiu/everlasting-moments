@@ -31,14 +31,25 @@ export function Story() {
   }, []);
 
   return (
-    <section id="story" ref={section} className="relative overflow-hidden bg-background px-6 py-24 sm:py-32">
-      <SectionHeading eyebrow="Chapter one" sub="“Giữa hàng triệu cuộc gặp gỡ, chúng mình đã chọn ở lại bên nhau.”">
+    <section
+      id="story"
+      ref={section}
+      className="relative overflow-hidden bg-background px-6 py-24 sm:py-32"
+    >
+      <SectionHeading
+        eyebrow="Chapter one"
+        sub="“Giữa hàng triệu cuộc gặp gỡ, chúng mình đã chọn ở lại bên nhau.”"
+      >
         Câu chuyện <em>của chúng mình</em>
       </SectionHeading>
 
       <div className="relative mx-auto mt-20 max-w-5xl">
         <div className="absolute bottom-0 left-5 top-0 w-px bg-border md:left-1/2" />
-        <div ref={line} className="absolute bottom-0 left-5 top-0 w-px origin-top bg-gradient-to-b from-gold via-rose to-wax md:left-1/2" style={{ transform: "scaleY(0)" }} />
+        <div
+          ref={line}
+          className="absolute bottom-0 left-5 top-0 w-px origin-top bg-gradient-to-b from-gold via-rose to-wax md:left-1/2"
+          style={{ transform: "scaleY(0)" }}
+        />
 
         <div className="space-y-20 md:space-y-28">
           {STORY.map((s, i) => (
@@ -47,7 +58,12 @@ export function Story() {
                 <span className="size-1.5 rounded-full bg-card" />
               </span>
               <Reveal zoom className={cn("md:pr-6", i % 2 && "md:order-2 md:pl-6 md:pr-0")}>
-                <div className={cn("relative mx-auto max-w-sm", i % 2 ? "md:mr-auto md:ml-0" : "md:ml-auto md:mr-0")}>
+                <div
+                  className={cn(
+                    "relative mx-auto max-w-sm",
+                    i % 2 ? "md:mr-auto md:ml-0" : "md:ml-auto md:mr-0",
+                  )}
+                >
                   <div className="absolute -inset-3 rotate-[-3deg] rounded-[2rem] bg-sunset opacity-30" />
                   <img
                     src={s.image}
@@ -60,7 +76,10 @@ export function Story() {
                   />
                 </div>
               </Reveal>
-              <Reveal delay={150} className={cn("self-center", i % 2 ? "md:order-1 md:text-right" : "")}>
+              <Reveal
+                delay={150}
+                className={cn("self-center", i % 2 ? "md:order-1 md:text-right" : "")}
+              >
                 <p className="font-serif text-7xl font-medium leading-none text-gold/40">{s.no}</p>
                 <p className="eyebrow mt-2">{s.year}</p>
                 <h3 className="mt-3 font-serif text-4xl font-medium text-foreground">{s.title}</h3>

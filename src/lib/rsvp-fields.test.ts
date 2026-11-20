@@ -12,4 +12,16 @@ describe("RSVP attendance fields", () => {
     expect(rsvpFieldsFor("Sẽ tham dự").notes).toBe(true);
     expect(rsvpFieldsFor("").notes).toBe(true);
   });
+  it("hides guest count and phone when the guest cannot attend", () => {
+    const fields = rsvpFieldsFor("Không thể tham dự");
+    expect(fields.guests).toBe(false);
+    expect(fields.phone).toBe(false);
+    expect(fields.declinedMessage).toBe(true);
+    expect(rsvpFieldsFor("Sẽ tham dự")).toMatchObject({
+      guests: true,
+      phone: true,
+      declinedMessage: false,
+    });
+    expect(rsvpFieldsFor("")).toMatchObject({ guests: true, phone: true, declinedMessage: false });
+  });
 });

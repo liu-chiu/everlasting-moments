@@ -1,11 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { z } from "zod";
+import * as z from "zod/v3";
 import { GIFTS, normalizeGuestName, vietQrUrl } from "@/lib/wedding";
 
-const querySchema = z.object({
-  side: z.enum(["bride", "groom"]),
-  to: z.string().max(120).optional(),
-}).strict();
+const querySchema = z
+  .object({
+    side: z.enum(["bride", "groom"]),
+    to: z.string().max(120).optional(),
+  })
+  .strict();
 
 /** Downloads one of the two fixed wedding QR codes; it is not a general-purpose proxy. */
 export const Route = createFileRoute("/api/public/gift-qr")({
@@ -22,7 +24,8 @@ export const Route = createFileRoute("/api/public/gift-qr")({
           const upstream = await fetch(vietQrUrl(gift.bankCode, gift.account, gift.holder, guest), {
             signal: AbortSignal.timeout(12000),
           });
-          if (!upstream.ok || !upstream.body) return new Response("Chưa tải được mã QR", { status: 502 });
+          if (!upstream.ok || !upstream.body)
+            return new Response("Chưa tải được mã QR", { status: 502 });
           const contentType = upstream.headers.get("content-type") ?? "image/png";
           const extension = contentType.includes("svg") ? "svg" : "png";
           return new Response(upstream.body, {

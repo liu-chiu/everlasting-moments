@@ -9,7 +9,10 @@ export function Hero({ guest, started }: { guest: string; started: boolean }) {
   const d = (ms: number) => ({ ["--delay" as string]: `${ms}ms` });
   const anim = started ? "rise-in" : "opacity-0";
   return (
-    <section id="hero" className="relative isolate flex min-h-svh items-end overflow-hidden bg-night-sky text-night-foreground lg:items-center">
+    <section
+      id="hero"
+      className="relative isolate flex min-h-svh items-end overflow-hidden bg-night-sky text-night-foreground lg:items-center"
+    >
       <StarField className="hidden lg:block" density={0.7} />
       <div className="mx-auto grid w-full max-w-7xl gap-10 lg:relative lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:px-10">
         {/* Photo: full-bleed on phones, a glowing arch on desktop */}
@@ -33,8 +36,15 @@ export function Hero({ guest, started }: { guest: string; started: boolean }) {
               <defs>
                 <path id="ring" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0" />
               </defs>
-              <text fill="currentColor" fontSize="13" letterSpacing="3.2" className="font-sans uppercase">
-                <textPath href="#ring">Save the date · 12.12.2026 · {COUPLE_SHORT_LABEL} ·</textPath>
+              <text
+                fill="currentColor"
+                fontSize="13"
+                letterSpacing="3.2"
+                className="font-sans uppercase"
+              >
+                <textPath href="#ring">
+                  Save the date · 12.12.2026 · {COUPLE_SHORT_LABEL} ·
+                </textPath>
               </text>
             </svg>
             <Logo className="absolute inset-[18%] rounded-full shadow-gold" ring={false} eager />
@@ -48,27 +58,53 @@ export function Hero({ guest, started }: { guest: string; started: boolean }) {
             Save our date
           </p>
           <h1 className="mt-6 font-signature lg:mt-10 leading-[0.95] text-glow">
-            <span className={cn("block text-[4.6rem] sm:text-[7rem] xl:text-[9rem]", anim)} style={d(300)}>
+            <span
+              className={cn("block text-[4.6rem] sm:text-[7rem] xl:text-[9rem]", anim)}
+              style={d(300)}
+            >
               {COUPLE.bride.short}
             </span>
-            <span className={cn("block font-script text-5xl text-gold sm:text-6xl lg:pl-24", anim)} style={d(550)}>
+            <span
+              className={cn("block font-script text-5xl text-gold sm:text-6xl lg:pl-24", anim)}
+              style={d(550)}
+            >
               &
             </span>
-            <span className={cn("block text-[4.6rem] sm:text-[7rem] lg:pl-10 xl:text-[9rem]", anim)} style={d(800)}>
+            <span
+              className={cn("block text-[4.6rem] sm:text-[7rem] lg:pl-10 xl:text-[9rem]", anim)}
+              style={d(800)}
+            >
               {COUPLE.groom.short}
             </span>
           </h1>
-          <div className={cn("mt-12 flex items-center lg:mt-16 justify-center gap-3 font-serif sm:gap-5 lg:justify-start", anim)} style={d(1050)}>
-            <span className="text-xs uppercase tracking-[0.18em] text-night-foreground/80 sm:text-sm sm:tracking-[0.3em]">{WEDDING_WEEKDAY}</span>
+          <div
+            className={cn(
+              "mt-12 flex items-center lg:mt-16 justify-center gap-3 font-serif sm:gap-5 lg:justify-start",
+              anim,
+            )}
+            style={d(1050)}
+          >
+            <span className="text-xs uppercase tracking-[0.18em] text-night-foreground/80 sm:text-sm sm:tracking-[0.3em]">
+              {WEDDING_WEEKDAY}
+            </span>
             <span className="h-10 w-px shrink-0 bg-gold/60" />
             <span className="text-gold-shimmer text-4xl font-medium sm:text-6xl">12.12</span>
             <span className="h-10 w-px shrink-0 bg-gold/60" />
-            <span className="text-xs uppercase tracking-[0.18em] text-night-foreground/80 sm:text-sm sm:tracking-[0.3em]">2026</span>
+            <span className="text-xs uppercase tracking-[0.18em] text-night-foreground/80 sm:text-sm sm:tracking-[0.3em]">
+              2026
+            </span>
           </div>
-          <p className={cn("mx-auto mt-8 max-w-md text-[0.95rem] leading-relaxed text-night-foreground/80 lg:mx-0", anim)} style={d(1250)}>
+          <p
+            className={cn(
+              "mx-auto mt-8 max-w-md text-[0.95rem] leading-relaxed text-night-foreground/80 lg:mx-0",
+              anim,
+            )}
+            style={d(1250)}
+          >
             <strong className="font-medium text-night-foreground">{COUPLE.bride.full}</strong> và{" "}
-            <strong className="font-medium text-night-foreground">{COUPLE.groom.full}</strong> trân trọng kính mời{" "}
-            {guest || "bạn"} đến chung vui và lưu giữ những khoảnh khắc đáng nhớ cùng chúng mình.
+            <strong className="font-medium text-night-foreground">{COUPLE.groom.full}</strong> trân
+            trọng kính mời {guest || "bạn"} đến chung vui và lưu giữ những khoảnh khắc đáng nhớ cùng
+            chúng mình.
           </p>
         </div>
       </div>

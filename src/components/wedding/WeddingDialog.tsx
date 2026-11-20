@@ -33,7 +33,9 @@ export function WeddingDialog({
         >
           <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-border sm:hidden" />
           <div className="flex items-center justify-between gap-4">
-            <span className="eyebrow">{COUPLE_SHORT_LABEL} · {WEDDING_DATE_LABEL}</span>
+            <span className="eyebrow">
+              {COUPLE_SHORT_LABEL} · {WEDDING_DATE_LABEL}
+            </span>
             <D.Close
               aria-label={closeLabel}
               className="grid size-9 shrink-0 place-items-center rounded-full border border-gold/40 text-gold-deep transition hover:bg-gold/10"
@@ -41,7 +43,9 @@ export function WeddingDialog({
               <X className="size-4" />
             </D.Close>
           </div>
-          <D.Title className="mt-3 font-serif text-3xl font-medium leading-tight text-foreground sm:text-4xl">{title}</D.Title>
+          <D.Title className="mt-3 font-serif text-3xl font-medium leading-tight text-foreground sm:text-4xl">
+            {title}
+          </D.Title>
           <div className="mt-4">{children}</div>
         </D.Content>
       </D.Portal>

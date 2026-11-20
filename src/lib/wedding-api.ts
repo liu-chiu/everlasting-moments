@@ -50,7 +50,10 @@ export async function submitAndVerify(payload: Record<string, string>) {
   for (const delay of [300, 700, 1200, 2000]) {
     await new Promise((r) => setTimeout(r, delay));
     try {
-      const res = await jsonp<{ saved?: boolean }>({ action: "status", id, type: payload["type"] ?? "" }, 3000);
+      const res = await jsonp<{ saved?: boolean }>(
+        { action: "status", id, type: payload["type"] ?? "" },
+        3000,
+      );
       if (res?.saved) return id;
     } catch {
       /* retry */

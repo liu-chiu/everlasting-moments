@@ -84,10 +84,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
       { title: `${COUPLE_SHORT_LABEL} · Thiệp cưới` },
-      { name: "description", content: `Thiệp cưới online của ${COUPLE_DISPLAY_NAMES} — 12.12.2026.` },
+      {
+        name: "description",
+        content: `Thiệp cưới online của ${COUPLE_DISPLAY_NAMES} — 12.12.2026.`,
+      },
       { name: "author", content: COUPLE_SHORT_LABEL },
       { property: "og:title", content: `${COUPLE_SHORT_LABEL} · Thiệp cưới` },
-      { property: "og:description", content: `Thiệp cưới online của ${COUPLE_DISPLAY_NAMES} — 12.12.2026.` },
+      {
+        property: "og:description",
+        content: `Thiệp cưới online của ${COUPLE_DISPLAY_NAMES} — 12.12.2026.`,
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

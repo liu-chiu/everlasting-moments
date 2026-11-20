@@ -38,7 +38,9 @@ export function useInView<T extends HTMLElement>(onChange: (visible: boolean) =>
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const io = new IntersectionObserver(([e]) => cb.current(!!e?.isIntersecting), { rootMargin: "100px" });
+    const io = new IntersectionObserver(([e]) => cb.current(!!e?.isIntersecting), {
+      rootMargin: "100px",
+    });
     io.observe(el);
     return () => io.disconnect();
   }, []);

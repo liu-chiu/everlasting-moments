@@ -4,7 +4,15 @@ import { COUPLE_SHORT_LABEL } from "@/lib/wedding";
 const LOGO_URL = "/images/logo-con-dau.png";
 
 /** The couple's con dấu (L&C) logo in a round gold-ringed frame. */
-export function Logo({ className, ring = true, eager }: { className?: string; ring?: boolean; eager?: boolean }) {
+export function Logo({
+  className,
+  ring = true,
+  eager,
+}: {
+  className?: string;
+  ring?: boolean;
+  eager?: boolean;
+}) {
   return (
     <span
       className={cn(

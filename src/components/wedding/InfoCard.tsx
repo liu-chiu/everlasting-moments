@@ -28,7 +28,10 @@ export function InfoCard({ card }: { card: InfoCardData }) {
             <dt className="text-muted-foreground">{label}</dt>
             <dd className="min-w-0 break-words text-right font-medium text-foreground">
               {type === "phone" && /\d/.test(value) ? (
-                <a href={`tel:${value.replace(/[^\d+]/g, "")}`} className="inline-flex items-center gap-1 text-primary underline-offset-4 hover:underline">
+                <a
+                  href={`tel:${value.replace(/[^\d+]/g, "")}`}
+                  className="inline-flex items-center gap-1 text-primary underline-offset-4 hover:underline"
+                >
                   <Phone className="size-3.5 shrink-0" /> {value}
                 </a>
               ) : (
@@ -44,7 +47,11 @@ export function InfoCard({ card }: { card: InfoCardData }) {
         className="mt-3 inline-flex items-center gap-2 rounded-full border border-gold/50 bg-card px-4 py-2 text-xs font-medium text-gold-deep transition hover:bg-gold/10"
       >
         {state === "ok" ? <Check className="size-3.5" /> : <Copy className="size-3.5" />}
-        {state === "ok" ? "Đã sao chép" : state === "fail" ? "Không thể sao chép" : "Sao chép thông tin"}
+        {state === "ok"
+          ? "Đã sao chép"
+          : state === "fail"
+            ? "Không thể sao chép"
+            : "Sao chép thông tin"}
       </button>
     </section>
   );

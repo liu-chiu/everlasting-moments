@@ -126,14 +126,31 @@ export const GALLERY = Array.from({ length: 20 }, (_, i) => {
 const AUDIO_BASE = "https://liu-chiu.github.io/LanChung-wedding/assets/audio/";
 export const PLAYLIST = [
   { title: "Beautiful In White", src: AUDIO_BASE + encodeURIComponent("Beautiful In White.mp3") },
-  { title: "Hoa và Váy (RnB ver)", src: AUDIO_BASE + encodeURIComponent("Hoa và Váy (RnB ver).mp3") },
+  {
+    title: "Hoa và Váy (RnB ver)",
+    src: AUDIO_BASE + encodeURIComponent("Hoa và Váy (RnB ver).mp3"),
+  },
   { title: "Hơn Cả Yêu", src: AUDIO_BASE + encodeURIComponent("Hon-Ca-Yeu-Duc-Phuc.mp3") },
   { title: "Thế Giới Của Anh", src: AUDIO_BASE + encodeURIComponent("THẾ GIỚI CỦA ANH.mp3") },
 ];
 
 export const GIFTS = [
-  { side: "bride" as Side, label: "Mừng cưới cô dâu", bank: "Techcombank", bankCode: "TCB", holder: "BUI NGOC LAN", account: "19037213961014" },
-  { side: "groom" as Side, label: "Mừng cưới chú rể", bank: "Techcombank", bankCode: "TCB", holder: "NGUYEN VAN CHUNG", account: "19031119300014" },
+  {
+    side: "bride" as Side,
+    label: "Mừng cưới cô dâu",
+    bank: "Techcombank",
+    bankCode: "TCB",
+    holder: "BUI NGOC LAN",
+    account: "19037213961014",
+  },
+  {
+    side: "groom" as Side,
+    label: "Mừng cưới chú rể",
+    bank: "Techcombank",
+    bankCode: "TCB",
+    holder: "NGUYEN VAN CHUNG",
+    account: "19031119300014",
+  },
 ];
 
 export const GA_MEASUREMENT_ID = "G-WWTQ09Y9DT";
@@ -202,11 +219,11 @@ export const RSVP_TEXT = {
   formSending: `Cảm ơn bạn, tụi mình đang gửi phản hồi đến ${COUPLE_SHORT_LABEL} nhé…`,
   formError: `Tụi mình chưa nhận được xác nhận gửi thành công. Bạn thử lại sau hoặc nhắn trực tiếp cho ${COUPLE_SHORT_LABEL} nhé.`,
   declineTitle: "Cảm ơn bạn đã phản hồi",
-  declineBody:
-    `${COUPLE_SHORT_LABEL} rất tiếc vì chưa thể đón bạn trong ngày vui. Cảm ơn bạn đã gửi lời chúc và luôn yêu thương, đồng hành cùng chúng mình. Hẹn gặp bạn trong dịp gần nhất nhé!`,
+  declineBody: `${COUPLE_SHORT_LABEL} rất tiếc vì chưa thể đón bạn trong ngày vui. Cảm ơn bạn đã gửi lời chúc và luôn yêu thương, đồng hành cùng chúng mình. Hẹn gặp bạn trong dịp gần nhất nhé!`,
   busTitle: "Cảm ơn bạn sẽ đến chung vui",
   selfTitle: "Hẹn gặp bạn trong ngày vui",
-  selfBody: "Cảm ơn bạn đã xác nhận tham dự. Chúc bạn di chuyển an toàn và hẹn gặp bạn tại buổi tiệc nhé!",
+  selfBody:
+    "Cảm ơn bạn đã xác nhận tham dự. Chúc bạn di chuyển an toàn và hẹn gặp bạn tại buổi tiệc nhé!",
   scheduleTitle: "Lịch trình di chuyển",
 };
 
@@ -214,8 +231,10 @@ export const RSVP_TEXT = {
 export function confirmationFor(attendance: string, transportation: string) {
   if (attendance === "Không thể tham dự")
     return { title: RSVP_TEXT.declineTitle, body: RSVP_TEXT.declineBody, cards: [] as InfoCard[] };
-  if (transportation === TRANSPORT_OPTIONS.bride) return { title: RSVP_TEXT.busTitle, body: "", cards: [TRAVEL.bride] };
-  if (transportation === TRANSPORT_OPTIONS.groom) return { title: RSVP_TEXT.busTitle, body: "", cards: [TRAVEL.groom] };
+  if (transportation === TRANSPORT_OPTIONS.bride)
+    return { title: RSVP_TEXT.busTitle, body: "", cards: [TRAVEL.bride] };
+  if (transportation === TRANSPORT_OPTIONS.groom)
+    return { title: RSVP_TEXT.busTitle, body: "", cards: [TRAVEL.groom] };
   return { title: RSVP_TEXT.selfTitle, body: RSVP_TEXT.selfBody, cards: SELF_TRAVEL_CARDS };
 }
 
@@ -266,7 +285,10 @@ export function getCountdown(target: Date, now: Date) {
 }
 
 function toGCalStamp(iso: string) {
-  return new Date(iso).toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+  return new Date(iso)
+    .toISOString()
+    .replace(/[-:]/g, "")
+    .replace(/\.\d{3}/, "");
 }
 
 export function googleCalendarUrl(e: WeddingEvent) {
@@ -328,7 +350,10 @@ export function monthGrid(year: number, monthIndex: number): (number | null)[] {
 }
 
 function icsStamp(iso: string) {
-  return new Date(iso).toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+  return new Date(iso)
+    .toISOString()
+    .replace(/[-:]/g, "")
+    .replace(/\.\d{3}/, "");
 }
 
 /** iCalendar file for Apple Calendar / Outlook users. */

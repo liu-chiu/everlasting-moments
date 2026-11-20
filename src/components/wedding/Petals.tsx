@@ -2,7 +2,17 @@ import { useEffect, useRef } from "react";
 import { cssColor, fitCanvas, prefersReducedMotion, runLoop } from "./canvas-utils";
 import { cn } from "@/lib/utils";
 
-type Petal = { x: number; y: number; s: number; vy: number; vx: number; rot: number; vr: number; sway: number; hue: number };
+type Petal = {
+  x: number;
+  y: number;
+  s: number;
+  vy: number;
+  vx: number;
+  rot: number;
+  vr: number;
+  sway: number;
+  hue: number;
+};
 
 /** Soft falling rose petals + gold flecks. */
 export function Petals({ className, count = 26 }: { className?: string; count?: number }) {
@@ -12,7 +22,11 @@ export function Petals({ className, count = 26 }: { className?: string; count?: 
     const canvas = ref.current;
     if (!canvas || prefersReducedMotion()) return;
     let { ctx, width, height } = fitCanvas(canvas);
-    const colors = [cssColor("--rose", "#d88a80"), cssColor("--rose-soft", "#f1d7d2"), cssColor("--gold-soft", "#f5e1b0")];
+    const colors = [
+      cssColor("--rose", "#d88a80"),
+      cssColor("--rose-soft", "#f1d7d2"),
+      cssColor("--gold-soft", "#f5e1b0"),
+    ];
     const n = width < 640 ? Math.round(count * 0.6) : count;
     const make = (initial: boolean): Petal => ({
       x: Math.random() * width,
@@ -58,5 +72,11 @@ export function Petals({ className, count = 26 }: { className?: string; count?: 
     };
   }, [count]);
 
-  return <canvas ref={ref} aria-hidden className={cn("pointer-events-none absolute inset-0 h-full w-full", className)} />;
+  return (
+    <canvas
+      ref={ref}
+      aria-hidden
+      className={cn("pointer-events-none absolute inset-0 h-full w-full", className)}
+    />
+  );
 }
