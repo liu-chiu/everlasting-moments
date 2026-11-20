@@ -131,7 +131,7 @@ export function InviteCard({ guest, side }: { guest: string; side?: Side | undef
                 draggable={false}
                 loading="lazy"
                 decoding="async"
-                className="h-[55%] w-full object-cover object-top"
+                className="h-[55%] w-full object-cover object-[50%_30%]"
               />
               <div className="absolute inset-x-0 top-[41%] h-[14%] bg-gradient-to-b from-transparent to-card" />
               <OrnamentalFrame

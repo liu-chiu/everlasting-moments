@@ -1,5 +1,8 @@
 # Roadmap — Lan & Chung wedding invitation
 
+- [x] Raise the 3D card photo framing to reveal more of the couple
+- [x] Balance both family columns and emphasize the parents' names; verify phone, tablet and desktop
+
 - [x] Move RSVP status first and hide event/special notes when declining
 - [x] Add footer details and a guest-link shortcut with the requested invitation domain
 - [x] Verify personalized links and RSVP behavior on phone, tablet and desktop; save changes
