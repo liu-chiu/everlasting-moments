@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import { Copy, Download } from "lucide-react";
 import { toast } from "sonner";
 import { GIFTS, vietQrUrl } from "@/lib/wedding";
@@ -49,18 +49,49 @@ function GiftBox({ gift, guest }: { gift: (typeof GIFTS)[number]; guest: string 
           className="group relative mx-auto mt-6 block h-56 w-52"
           aria-label={`Mở hộp quà ${gift.label}`}
         >
-          <span className="absolute inset-x-4 bottom-0 h-36 rounded-b-2xl bg-wax shadow-card" />
-          <span className="absolute bottom-0 left-1/2 h-36 w-6 -translate-x-1/2 bg-gold" />
-          <span className="gift-lid absolute inset-x-0 bottom-36 h-10 rounded-xl bg-wax-deep shadow-soft transition group-hover:-translate-y-2">
-            <span className="absolute left-1/2 top-0 h-full w-6 -translate-x-1/2 bg-gold" />
-            <span className="absolute -top-9 left-1/2 -translate-x-1/2 text-5xl text-gold">❀</span>
+          <span className="gift-halo" />
+          {[
+            { left: "8%", top: "12%", size: "text-sm", delay: "0s", char: "✦" },
+            { left: "86%", top: "22%", size: "text-base", delay: "0.7s", char: "✧" },
+            { left: "16%", top: "56%", size: "text-xs", delay: "1.3s", char: "✦" },
+            { left: "80%", top: "62%", size: "text-sm", delay: "1.9s", char: "✧" },
+          ].map((s, i) => (
+            <span
+              key={i}
+              className={`gift-sparkle ${s.size}`}
+              style={{ left: s.left, top: s.top, animationDelay: s.delay }}
+              aria-hidden
+            >
+              {s.char}
+            </span>
+          ))}
+          <span className="absolute inset-x-4 bottom-0 h-36 rounded-b-2xl gift-box-body shadow-card" />
+          <span className="gift-ribbon absolute bottom-0 left-1/2 h-36 w-6 -translate-x-1/2" />
+          <span className="gift-lid absolute inset-x-0 bottom-36 h-10 rounded-xl shadow-soft transition group-hover:-translate-y-2">
+            <span className="gift-ribbon absolute left-1/2 top-0 h-full w-6 -translate-x-1/2" />
+            <span className="absolute -top-9 left-1/2 -translate-x-1/2 text-5xl text-gold drop-shadow-[0_0_10px_oklch(0.85_0.13_88_/_70%)]">
+              ❀
+            </span>
           </span>
+          {[-40, -14, 12, 44].map((angle, i) => (
+            <span
+              key={i}
+              className="gift-burst"
+              style={
+                {
+                  "--burst-x": `${Math.cos((angle * Math.PI) / 180) * 70}px`,
+                  "--burst-y": `${-70 - (i % 2) * 25}px`,
+                  animationDelay: `${i * 60}ms`,
+                } as CSSProperties
+              }
+            />
+          ))}
           <span className="absolute -bottom-10 left-1/2 -translate-x-1/2 whitespace-nowrap text-xs uppercase tracking-[0.3em] text-muted-foreground transition group-hover:text-gold-deep">
             Chạm để mở hộp
           </span>
         </button>
       ) : (
-        <div className="rise-in mx-auto mt-6 w-full max-w-xs rounded-[2rem] bg-card p-5 shadow-card ring-1 ring-gold/30 sm:p-6">
+        <div className="gift-card rise-in mx-auto mt-6 w-full max-w-xs rounded-[2rem] bg-card p-5 shadow-card ring-1 ring-gold/30 sm:p-6">
           <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">{gift.bank}</p>
           <p className="mt-1 font-serif text-2xl font-medium">{gift.holder}</p>
           <button

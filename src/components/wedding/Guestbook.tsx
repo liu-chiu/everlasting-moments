@@ -1,13 +1,26 @@
 import { useState } from "react";
-import { MessagesSquare, Quote } from "lucide-react";
+import { Heart, MessagesSquare, Quote, Sparkles } from "lucide-react";
 import { COUPLE_SHORT_LABEL } from "@/lib/wedding";
 import type { Wish } from "@/lib/wedding-api";
 import { SectionHeading } from "./SectionHeading";
 import { WeddingDialog } from "./WeddingDialog";
 
+const COUPLE_WISH: Wish = {
+  id: "couple-thank-you",
+  name: "Vợ chồng Lan & Chung",
+  wish: "Cảm ơn gia đình, người thân và bạn bè đã hiện diện để chung vui cùng chúng tôi trong ngày trọng đại này. Kính chúc mọi người nhiều sức khỏe, hạnh phúc và bình an!",
+};
+
 const SAMPLE: Wish[] = [
+  COUPLE_WISH,
   {
-    name: "Người bạn thân",
+    id: "sample-1",
+    name: "Chị Phương",
+    wish: "Thật vui được đồng hành, chúc 2 em luôn gắn kết, hòa thuận, mỉm cười cùng nhip đập và luôn ngập tràn yêu thương. Trăm năm hạnh phúc!",
+  },
+  {
+    id: "sample-2",
+    name: "Bạn Phương",
     wish: "Chúc hai bạn luôn giữ được sự dịu dàng, sẻ chia và cùng nhau đi qua thật nhiều mùa hạnh phúc.",
   },
 ];
@@ -15,10 +28,15 @@ const SAMPLE: Wish[] = [
 export function Guestbook({ wishes, loading }: { wishes: Wish[]; loading: boolean }) {
   const [showAll, setShowAll] = useState(false);
   const list = wishes.length ? wishes : SAMPLE;
+  
+  // Ensure COUPLE_WISH is included if backend doesn't return it
+  const hasCoupleWish = list.some((w) => w.name.includes("Lan & Chung") || w.name.includes("Vợ chồng"));
+  const allWishes = hasCoupleWish ? list : [COUPLE_WISH, ...list];
+
   const rows =
-    list.length > 6
-      ? [list.filter((_, i) => i % 2 === 0), list.filter((_, i) => i % 2 === 1)]
-      : [list];
+    allWishes.length > 6
+      ? [allWishes.filter((_, i) => i % 2 === 0), allWishes.filter((_, i) => i % 2 === 1)]
+      : [allWishes];
 
   return (
     <section
@@ -27,19 +45,48 @@ export function Guestbook({ wishes, loading }: { wishes: Wish[]; loading: boolea
     >
       <SectionHeading
         eyebrow="Guestbook"
-        sub={`${wishes.length ? wishes.length + " lời yêu thương" : "Những lời yêu thương"} gửi đến ${COUPLE_SHORT_LABEL}.`}
+        sub={`${allWishes.length ? allWishes.length + " lời yêu thương" : "Những lời yêu thương"} gửi đến ${COUPLE_SHORT_LABEL}.`}
       >
         Lời chúc <em>từ khách mời</em>
       </SectionHeading>
 
+      {/* Featured Highlight Card for Vợ chồng Lan & Chung */}
+      <div className="mx-auto mt-10 max-w-2xl sm:mt-12">
+        <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-night via-dusk to-night p-6 text-night-foreground shadow-card ring-2 ring-gold/40 backdrop-blur-md sm:p-8">
+          <div className="absolute -right-8 -top-8 size-32 rounded-full bg-gold/10 blur-2xl pointer-events-none" />
+          <div className="absolute -left-8 -bottom-8 size-32 rounded-full bg-wax/10 blur-2xl pointer-events-none" />
+          
+          <div className="relative z-10">
+            <div className="flex items-center justify-between gap-3">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-gold/30 bg-gold/15 px-3.5 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-gold">
+                <Sparkles className="size-3 text-gold fill-gold/20" /> Tri ân từ Dâu & Rể
+              </span>
+              <Heart className="size-5 text-gold/60 fill-gold/20" />
+            </div>
+
+            <blockquote className="mt-5 font-serif text-lg leading-relaxed italic text-gold-soft sm:text-xl">
+              “{COUPLE_WISH.wish}”
+            </blockquote>
+
+            <div className="mt-6 flex items-center justify-end gap-3 border-t border-gold/20 pt-4">
+              <div className="text-right">
+                <p className="font-signature text-2xl text-gold sm:text-3xl">
+                  {COUPLE_WISH.name}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {loading ? (
-        <div className="mx-auto mt-14 flex max-w-5xl gap-4 overflow-hidden">
+        <div className="mx-auto mt-12 flex max-w-5xl gap-4 overflow-hidden">
           {[0, 1, 2].map((i) => (
             <div key={i} className="h-44 w-80 shrink-0 animate-pulse rounded-3xl bg-muted" />
           ))}
         </div>
       ) : (
-        <div className="mask-fade-x mt-14 space-y-5">
+        <div className="mask-fade-x mt-12 space-y-5">
           {rows.map((row, rowIndex) => {
             const loop = row.length >= 3;
             const items = loop ? [...row, ...row] : row;
@@ -94,12 +141,12 @@ export function Guestbook({ wishes, loading }: { wishes: Wish[]; loading: boolea
       <WeddingDialog
         open={showAll}
         onOpenChange={setShowAll}
-        title={`Tất cả lời chúc (${list.length})`}
+        title={`Tất cả lời chúc (${allWishes.length})`}
         closeLabel="Đóng danh sách lời chúc"
         className="sm:w-[min(92vw,52rem)]"
       >
         <div className="grid gap-4 sm:grid-cols-2">
-          {list.map((wish, index) => (
+          {allWishes.map((wish, index) => (
             <WishCard key={`${wish.id ?? wish.name}-all-${index}`} wish={wish} full />
           ))}
         </div>
@@ -117,6 +164,39 @@ function WishCard({
   hidden?: boolean;
   full?: boolean;
 }) {
+  const isCouple = wish.name.includes("Lan & Chung") || wish.name.includes("Vợ chồng");
+
+  if (isCouple) {
+    return (
+      <figure
+        aria-hidden={hidden}
+        className={
+          full
+            ? "relative rounded-3xl bg-gradient-to-br from-night via-dusk to-night p-5 text-night-foreground ring-2 ring-gold/40 shadow-soft"
+            : "relative w-[18rem] shrink-0 rounded-3xl bg-gradient-to-br from-night via-dusk to-night p-6 text-night-foreground shadow-card ring-2 ring-gold/40 sm:w-[22rem]"
+        }
+      >
+        <Sparkles className="absolute right-5 top-5 size-6 text-gold/60" />
+        <span className="mb-2 inline-block rounded-full bg-gold/15 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-gold border border-gold/30">
+          Dâu & Rể
+        </span>
+        <blockquote
+          className={
+            full
+              ? "pr-5 font-serif text-lg leading-relaxed text-gold-soft italic"
+              : "line-clamp-5 font-serif text-lg leading-snug text-gold-soft italic"
+          }
+        >
+          “{wish.wish}”
+        </blockquote>
+        <figcaption className="mt-4 flex items-center justify-between border-t border-gold/20 pt-4">
+          <span className="font-signature text-xl text-gold">{wish.name}</span>
+          <Heart className="size-4 text-gold/60 fill-gold/20" />
+        </figcaption>
+      </figure>
+    );
+  }
+
   return (
     <figure
       aria-hidden={hidden}

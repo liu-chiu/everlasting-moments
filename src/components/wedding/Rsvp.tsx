@@ -146,7 +146,7 @@ export function Rsvp({
     <section
       ref={section}
       id="rsvp"
-      className="relative overflow-hidden bg-dusk px-4 py-20 sm:px-6 sm:py-28 lg:py-32"
+      className="relative overflow-hidden bg-night px-4 py-20 sm:px-6 sm:py-28 lg:py-32"
     >
       <SectionHeading
         tone="night"
@@ -159,10 +159,9 @@ export function Rsvp({
         Bạn sẽ <em>đến chung vui?</em>
       </SectionHeading>
       <Reveal className="mx-auto mt-5 max-w-xl text-center">
-        <p className="font-serif text-lg italic leading-snug text-gold-soft">
-          Vui lòng xác nhận trước ngày{" "}
-          <strong className="not-italic font-bold text-gold">{RSVP_DEADLINE_LABEL}</strong> để chúng
-          mình chuẩn bị chỗ ngồi và tiệc cưới chu đáo nhất.
+        <p className="font-serif text-2xl leading-snug text-gold-shimmer drop-shadow-[0_4px_16px_oklch(0.79_0.13_78/0.35)]">
+          Vui lòng xác nhận trước ngày <span className="relative z-10">{RSVP_DEADLINE_LABEL}</span>{" "}
+          để chúng mình chuẩn bị chỗ ngồi và tiệc cưới chu đáo nhất.
         </p>
         {/* Temporarily hidden: RSVP form status message. */}
         {/* <p role="status" className="mt-4 text-xs text-night-foreground/70">
@@ -184,7 +183,7 @@ export function Rsvp({
       <Reveal zoom className="mx-auto mt-10 max-w-2xl">
         <form
           onSubmit={onSubmit}
-          className="rounded-[2rem] bg-card/95 p-5 shadow-card ring-1 ring-gold/20 backdrop-blur sm:p-10"
+          className="rounded-[2rem] bg-paper-deep/95 p-5 shadow-glow ring-1 ring-gold/30 backdrop-blur sm:p-10"
         >
           <label className="hidden" aria-hidden>
             Website
@@ -203,14 +202,14 @@ export function Rsvp({
                   onClick={() => chooseAttendance(value)}
                   aria-pressed={attendance === value}
                   className={cn(
-                    "flex h-auto min-h-14 whitespace-normal items-center justify-center gap-2 rounded-2xl border px-3 py-3 text-sm font-medium transition",
+                    "flex h-auto min-h-14 whitespace-normal items-center justify-center gap-2 rounded-2xl border-2 px-4 py-3 text-sm font-medium transition-all duration-300",
                     attendance === value
                       ? value === ATTEND
-                        ? "border-primary bg-primary text-primary-foreground shadow-soft"
-                        : "border-wax bg-wax text-primary-foreground shadow-soft"
+                        ? "border-gold bg-gradient-to-br from-gold to-gold-deep text-night shadow-gold"
+                        : "border-wax bg-gradient-to-br from-wax to-wax-deep text-primary-foreground shadow-glow"
                       : cn(
-                          "bg-card/60 text-foreground hover:border-gold",
-                          attendanceError ? "border-wax" : "border-input",
+                          "bg-paper/80 text-foreground hover:border-gold/50 hover:bg-gold-soft/10",
+                          attendanceError ? "border-wax/50" : "border-input/50",
                         ),
                   )}
                 >
@@ -276,7 +275,7 @@ export function Rsvp({
           {fields.declinedMessage && (
             <p
               role="status"
-              className="mt-5 flex items-start gap-2 rounded-xl bg-muted/60 px-4 py-3 text-sm italic leading-relaxed text-muted-foreground"
+              className="mt-5 flex items-start gap-2 rounded-xl bg-rose-soft/90 px-4 py-3 text-sm italic leading-relaxed text-wax-deep border border-rose/20"
             >
               <span aria-hidden className="inline-block animate-bounce text-lg leading-none">
                 &#58515;
