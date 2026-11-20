@@ -8,7 +8,7 @@ import { StarField } from "./StarField";
 export function Finale() {
   return (
     <footer className="text-night-foreground">
-      <div className="relative isolate grid min-h-[90svh] place-items-center overflow-hidden px-6 py-24 text-center">
+      <div className="relative isolate flex min-h-[90svh] flex-col items-center justify-between overflow-hidden px-6 pb-16 pt-12 text-center sm:pb-20 sm:pt-16">
         <img
           src="/images/gallery/19.webp"
           alt={`${COUPLE_SHORT_LABEL} ngắm hoàng hôn trên vịnh`}
@@ -18,17 +18,25 @@ export function Finale() {
         />
         <div className="hero-veil absolute inset-0 -z-10 bg-night/40" />
         <StarField className="-z-10 h-1/2" density={0.5} />
+        
+        <Reveal className="pt-2">
+          <p className="eyebrow gold-rule justify-center text-gold-soft">Thank you</p>
+        </Reveal>
+
         <Reveal className="max-w-2xl">
-          <p className="eyebrow text-gold-soft">Thank you</p>
-          <h2 className="mt-6 font-serif text-4xl leading-tight sm:text-6xl">
-            Cảm ơn bạn <span className="font-script text-gold-soft">đã là một phần</span> trong ngày
-            đặc biệt.
+          <h2 className="font-serif text-3xl leading-snug sm:text-5xl lg:text-6xl">
+            Cảm ơn bạn
+            <br />
+            <span className="font-script text-gold-soft">đã là một phần</span>
+            <br />
+            trong ngày đặc biệt.
           </h2>
-          <p className="mt-10 font-signature text-6xl leading-[1.2] text-glow sm:text-7xl">
-            {COUPLE.bride.short} <span className="font-script text-4xl text-gold">&</span>{" "}
+          <p className="mt-8 font-signature text-5xl leading-[1.2] text-glow sm:text-6xl lg:text-7xl">
+            {COUPLE.bride.short}{" "}
+            <span className="font-script text-3xl text-gold sm:text-4xl">&</span>{" "}
             {COUPLE.groom.short}
           </p>
-          <p className="mt-4 font-serif text-lg tracking-[0.5em] text-gold-soft">
+          <p className="mt-3 font-serif text-base tracking-[0.5em] text-gold-soft sm:text-lg">
             {WEDDING_DATE_LABEL}
           </p>
         </Reveal>
