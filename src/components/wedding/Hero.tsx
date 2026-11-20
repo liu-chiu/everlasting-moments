@@ -57,7 +57,7 @@ export function Hero({ guest, started }: { guest: string; started: boolean }) {
           <p className={cn("eyebrow text-gold-soft lg:text-gold", anim)} style={d(150)}>
             Save our date
           </p>
-          <h1 className="mt-6 font-signature leading-[1.2] text-glow lg:mt-10">
+          <h1 className="mt-6 pb-4 pt-8 font-signature leading-[1.5] text-glow lg:mt-10">
             <span
               className={cn("block text-[4.6rem] sm:text-[7rem] xl:text-[9rem]", anim)}
               style={d(300)}

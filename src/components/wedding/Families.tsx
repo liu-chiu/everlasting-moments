@@ -28,7 +28,7 @@ export function Families() {
               <p className="text-[0.65rem] uppercase tracking-[0.35em] text-muted-foreground">
                 {s.label} · {s.person.role}
               </p>
-              <p className="mt-6 block min-w-0 break-words font-signature text-[clamp(2.6rem,9vw,3rem)] leading-[1.55] text-wax sm:text-5xl">
+              <p className="mt-4 block min-w-0 break-words px-4 pb-4 pt-10 font-signature text-[2.5rem] leading-[1.8] text-wax sm:text-5xl">
                 {s.person.display}
               </p>
             </div>
