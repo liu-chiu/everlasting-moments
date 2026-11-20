@@ -7,7 +7,7 @@ export function Logo({ className, ring = true, eager }: { className?: string; ri
   return (
     <span
       className={cn(
-        "relative inline-block shrink-0 overflow-hidden rounded-full bg-night",
+        "relative inline-block shrink-0 overflow-hidden rounded-full",
         ring && "ring-1 ring-gold/60 shadow-[0_0_24px_-4px_var(--ocean)]",
         className,
       )}
@@ -19,7 +19,7 @@ export function Logo({ className, ring = true, eager }: { className?: string; ri
         height={512}
         loading={eager ? "eager" : "lazy"}
         decoding="async"
-        className="h-full w-full object-cover"
+        className="h-full w-full object-contain"
       />
     </span>
   );
