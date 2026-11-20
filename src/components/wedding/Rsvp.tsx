@@ -151,7 +151,10 @@ export function Rsvp({
       <SectionHeading
         tone="night"
         eyebrow="Répondez s’il vous plaît"
-        sub="Hãy cho chúng mình biết bạn có thể đến chung vui và gửi một lời chúc nhé. Tụi mình rất mong được gặp bạn!"
+        sub={
+          /* Temporarily hidden: Hãy cho chúng mình biết bạn có thể đến chung vui và gửi một lời chúc nhé. Tụi mình rất mong được gặp bạn! */
+          undefined
+        }
       >
         Bạn sẽ <em>đến chung vui?</em>
       </SectionHeading>
@@ -161,9 +164,10 @@ export function Rsvp({
           <strong className="not-italic font-bold text-gold">{RSVP_DEADLINE_LABEL}</strong> để chúng
           mình chuẩn bị chỗ ngồi và tiệc cưới chu đáo nhất.
         </p>
-        <p role="status" className="mt-4 text-xs text-night-foreground/70">
+        {/* Temporarily hidden: RSVP form status message. */}
+        {/* <p role="status" className="mt-4 text-xs text-night-foreground/70">
           {backend}
-        </p>
+        </p> */}
         <Button
           variant="ghost"
           type="button"
