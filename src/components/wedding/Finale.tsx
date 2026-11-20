@@ -24,7 +24,7 @@ export function Finale() {
             Cảm ơn bạn <span className="font-script text-gold-soft">đã là một phần</span> trong ngày
             đặc biệt.
           </h2>
-          <p className="text-glow mt-10 font-signature text-6xl sm:text-7xl">
+          <p className="mt-10 font-signature text-6xl leading-[1.2] text-glow sm:text-7xl">
             {COUPLE.bride.short} <span className="font-script text-4xl text-gold">&</span>{" "}
             {COUPLE.groom.short}
           </p>

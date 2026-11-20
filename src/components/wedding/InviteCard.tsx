@@ -143,7 +143,7 @@ export function InviteCard({ guest, side }: { guest: string; side?: Side | undef
               <Logo className="absolute right-4 top-4 z-10 size-11 sm:size-12" />
               <div className="relative z-10 px-5 pt-2 text-center">
                 <p className="eyebrow text-[0.58rem]">Wedding invitation</p>
-                <p className="mt-1 font-signature text-[clamp(2.4rem,11vw,3.1rem)] leading-none text-foreground">
+                <p className="mt-1 font-signature text-[clamp(2.4rem,11vw,3.1rem)] leading-[1.15] text-foreground">
                   {COUPLE.bride.short} <span className="font-script text-[0.62em] text-wax">&</span>{" "}
                   {COUPLE.groom.short}
                 </p>

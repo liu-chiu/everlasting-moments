@@ -116,7 +116,7 @@ export function Intro({ guest, onDone }: { guest: string; onDone: () => void }) 
           >
             The Wedding Invitation
           </p>
-          <h1 className="mt-4 font-signature text-[clamp(2.9rem,12vw,4.6rem)] leading-[1.05] short:text-[2.6rem]">
+          <h1 className="mt-4 font-signature text-[clamp(2.9rem,12vw,4.6rem)] leading-[1.25] short:text-[2.6rem]">
             <span className="rise-in block" style={v({ "--delay": "300ms" })}>
               {COUPLE.bride.display}
             </span>

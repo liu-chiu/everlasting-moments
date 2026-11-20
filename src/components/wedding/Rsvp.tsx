@@ -157,8 +157,9 @@ export function Rsvp({
       </SectionHeading>
       <Reveal className="mx-auto mt-5 max-w-xl text-center">
         <p className="font-serif text-lg italic leading-snug text-gold-soft">
-          ✨ Vui lòng xác nhận tham dự trước ngày {RSVP_DEADLINE_LABEL} để chúng mình thuận tiện sắp
-          xếp chỗ ngồi và chuẩn bị tiệc cưới chu đáo nhất.
+          Vui lòng xác nhận trước ngày{" "}
+          <strong className="not-italic font-bold text-gold">{RSVP_DEADLINE_LABEL}</strong> để chúng
+          mình chuẩn bị chỗ ngồi và tiệc cưới chu đáo nhất.
         </p>
         <p role="status" className="mt-4 text-xs text-night-foreground/70">
           {backend}
@@ -275,8 +276,8 @@ export function Rsvp({
                 &#58515;
               </span>
               <span>
-                Lan &amp; Chung rất tiếc vì chưa thể đón bạn trong ngày vui. Cảm ơn bạn đã luôn yêu
-                thương và đồng hành cùng chúng mình – hẹn gặp bạn trong dịp gần nhất nhé!
+                {COUPLE_SHORT_LABEL} rất tiếc vì chưa thể đón bạn trong ngày vui. Cảm ơn bạn đã luôn
+                yêu thương và đồng hành cùng chúng mình – hẹn gặp bạn trong dịp gần nhất nhé!
               </span>
             </p>
           )}

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import * as D from "@radix-ui/react-dialog";
 import { Menu, X } from "lucide-react";
+import { COUPLE } from "@/lib/wedding";
 import { Logo } from "./Logo";
 import { cn } from "@/lib/utils";
 
@@ -101,8 +102,9 @@ export function TopBar() {
                   <X className="size-5" />
                 </D.Close>
               </div>
-              <D.Title className="mt-10 font-serif text-4xl font-medium">
-                Lan <span className="font-script text-gold">&</span> Chung
+              <D.Title className="mt-10 font-serif text-4xl font-medium leading-tight">
+                {COUPLE.bride.short} <span className="font-script text-gold">&</span>{" "}
+                {COUPLE.groom.short}
               </D.Title>
               <D.Description className="mt-2 text-xs uppercase tracking-[0.28em] text-gold-soft">
                 12 · 12 · 2026
