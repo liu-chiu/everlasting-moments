@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { Copy } from "lucide-react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { Copy, X } from "lucide-react";
 import { toast } from "sonner";
 import { buildGuestLink, COUPLE_SHORT_LABEL, normalizeGuestName, type Side } from "@/lib/wedding";
 import { Logo } from "@/components/wedding/Logo";
@@ -35,14 +35,24 @@ function LinkGenerator() {
     ? buildGuestLink("https://lan-chung-invitation.lovable.app/", guest, side || undefined)
     : "";
 
+  const navigate = useNavigate();
+  const [copied, setCopied] = useState(false);
+
   const copy = async () => {
     if (!link) return;
     try {
       await navigator.clipboard.writeText(link);
       toast.success("Đã sao chép link gửi khách");
+      setCopied(true);
     } catch {
       toast.error("Không thể sao chép");
     }
+  };
+
+  const close = () => {
+    window.close();
+    // Fallback when the page was not opened by a script (no popup to close).
+    setTimeout(() => navigate({ to: "/" }), 50);
   };
 
   return (
@@ -79,9 +89,20 @@ function LinkGenerator() {
         </label>
         <div
           aria-live="polite"
-          className="mt-5 break-all rounded-2xl bg-muted p-4 font-mono text-xs text-foreground"
+          className="mt-5 flex items-center gap-2 rounded-2xl bg-muted p-3 pl-4"
         >
-          {link || "https://lan-chung-invitation.lovable.app/"}
+          <p className="min-w-0 flex-1 break-all font-mono text-xs text-foreground">
+            {link || "https://lan-chung-invitation.lovable.app/"}
+          </p>
+          <button
+            type="button"
+            onClick={copy}
+            disabled={!link}
+            aria-label="Sao chép link"
+            className="grid size-9 shrink-0 place-items-center rounded-full bg-night text-night-foreground shadow-gold transition hover:bg-night-soft disabled:opacity-60"
+          >
+            <Copy className="size-4" />
+          </button>
         </div>
         <div className="mt-5 flex gap-3">
           <Button
@@ -99,6 +120,15 @@ function LinkGenerator() {
             </Link>
           </Button>
         </div>
+        {copied && (
+          <button
+            type="button"
+            onClick={close}
+            className="mt-3 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-2xl border border-border px-5 py-3 text-sm text-muted-foreground transition hover:bg-muted"
+          >
+            <X className="size-4" /> Đóng trang này
+          </button>
+        )}
       </div>
     </main>
   );
