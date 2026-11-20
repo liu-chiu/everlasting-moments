@@ -52,25 +52,26 @@ export function Guestbook({ wishes, loading }: { wishes: Wish[]; loading: boolea
 
       {/* Featured Highlight Card for Vợ chồng Lan & Chung */}
       <div className="mx-auto mt-10 max-w-2xl sm:mt-12">
-        <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-night via-dusk to-night p-6 text-night-foreground shadow-card ring-2 ring-gold/40 backdrop-blur-md sm:p-8">
-          <div className="absolute -right-8 -top-8 size-32 rounded-full bg-gold/10 blur-2xl pointer-events-none" />
-          <div className="absolute -left-8 -bottom-8 size-32 rounded-full bg-wax/10 blur-2xl pointer-events-none" />
+        <div className="gift-card relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-night via-dusk to-night p-6 text-night-foreground shadow-card ring-2 ring-gold/40 backdrop-blur-md sm:p-8">
+          <div className="pointer-events-none absolute -right-10 -top-10 size-40 rounded-full bg-gold/15 blur-3xl" />
+          <div className="pointer-events-none absolute -left-10 -bottom-10 size-40 rounded-full bg-wax/15 blur-3xl" />
+          <div className="pointer-events-none absolute inset-0 rounded-[2rem] bg-[radial-gradient(ellipse_at_top,oklch(0.79_0.13_78/10%),transparent_60%)]" />
           
           <div className="relative z-10">
             <div className="flex items-center justify-between gap-3">
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-gold/30 bg-gold/15 px-3.5 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-gold">
-                <Sparkles className="size-3 text-gold fill-gold/20" /> Tri ân từ Dâu & Rể
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-gradient-to-r from-gold/25 via-gold/10 to-gold/25 px-3.5 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-gold shadow-[0_0_18px_oklch(0.79_0.13_78/25%)]">
+                <Sparkles className="size-3 text-gold fill-gold/30" /> Tri ân từ Dâu & Rể
               </span>
-              <Heart className="size-5 text-gold/60 fill-gold/20" />
+              <Heart className="size-5 text-gold/70 fill-gold/25 drop-shadow-[0_0_8px_oklch(0.79_0.13_78/50%)]" />
             </div>
 
-            <blockquote className="mt-5 font-serif text-lg leading-relaxed italic text-gold-soft sm:text-xl">
+            <blockquote className="mt-5 font-serif text-lg leading-relaxed italic text-gold-soft drop-shadow-[0_2px_12px_oklch(0.79_0.13_78/25%)] sm:text-xl">
               “{COUPLE_WISH.wish}”
             </blockquote>
 
-            <div className="mt-6 flex items-center justify-end gap-3 border-t border-gold/20 pt-4">
+            <div className="mt-6 flex items-center justify-end gap-3 border-t border-gold/25 bg-gradient-to-r from-transparent via-gold/5 to-transparent pt-4">
               <div className="text-right">
-                <p className="font-signature text-2xl text-gold sm:text-3xl">
+                <p className="font-signature text-2xl text-gold drop-shadow-[0_0_12px_oklch(0.79_0.13_78/40%)] sm:text-3xl">
                   {COUPLE_WISH.name}
                 </p>
               </div>
