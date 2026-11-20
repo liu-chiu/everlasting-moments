@@ -1,13 +1,15 @@
 import { COUPLE, COUPLE_SHORT_LABEL, WEDDING_DATE_LABEL } from "@/lib/wedding";
-import { Link } from "@tanstack/react-router";
+import { useState } from "react";
 import { Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "./Reveal";
 import { StarField } from "./StarField";
+import { LinkGeneratorDialog } from "./LinkGeneratorDialog";
 
 export function Finale() {
+  const [linkOpen, setLinkOpen] = useState(false);
   return (
-    <footer className="text-night-foreground">
+    <footer id="finale" className="text-night-foreground scroll-mt-0">
       <div className="relative isolate flex min-h-[90svh] flex-col items-center justify-between overflow-hidden px-6 pb-16 pt-12 text-center sm:pb-20 sm:pt-16">
         <img
           src="/images/gallery/19.webp"
@@ -46,16 +48,16 @@ export function Finale() {
           <p>{COUPLE_SHORT_LABEL}</p>
           <p>Hạ Long · Hà Nội</p>
           <Button
-            asChild
             variant="ghost"
+            onClick={() => setLinkOpen(true)}
+            aria-haspopup="dialog"
             className="h-auto rounded-full border border-night-foreground/30 bg-night-foreground/10 px-5 py-2.5 text-night-foreground hover:bg-night-foreground/20 hover:text-night-foreground"
           >
-            <Link to="/tao-link">
-              <Mail aria-hidden="true" className="text-rose-soft" /> Tạo link khách mời
-            </Link>
+            <Mail aria-hidden="true" className="text-rose-soft" /> Tạo link khách mời
           </Button>
         </div>
       </div>
+      <LinkGeneratorDialog open={linkOpen} onOpenChange={setLinkOpen} />
     </footer>
   );
 }

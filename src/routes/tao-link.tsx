@@ -49,10 +49,13 @@ function LinkGenerator() {
     }
   };
 
+  // "Đóng" = rời khỏi trang tạo link và quay về phần Thank you cuối thiệp.
   const close = () => {
-    window.close();
-    // Fallback when the page was not opened by a script (no popup to close).
-    setTimeout(() => navigate({ to: "/" }), 50);
+    if (window.history.length > 1 && document.referrer.startsWith(window.location.origin)) {
+      window.history.back();
+    } else {
+      navigate({ to: "/", hash: "finale" });
+    }
   };
 
   return (
@@ -121,13 +124,21 @@ function LinkGenerator() {
           </Button>
         </div>
         {copied && (
-          <button
-            type="button"
-            onClick={close}
-            className="mt-3 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-2xl border border-border px-5 py-3 text-sm text-muted-foreground transition hover:bg-muted"
+          <div
+            role="status"
+            className="rise-in mt-3 rounded-2xl border border-gold/40 bg-gold/10 px-4 py-3 text-sm text-foreground"
           >
-            <X className="size-4" /> Đóng trang này
-          </button>
+            <p className="break-words">
+              Đã sao chép link — dán vào Zalo/Messenger để gửi khách nhé!
+            </p>
+            <button
+              type="button"
+              onClick={close}
+              className="mt-2 inline-flex min-h-9 items-center justify-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-xs font-medium text-muted-foreground transition hover:bg-muted"
+            >
+              <X className="size-3.5" /> Đóng
+            </button>
+          </div>
         )}
       </div>
     </main>
