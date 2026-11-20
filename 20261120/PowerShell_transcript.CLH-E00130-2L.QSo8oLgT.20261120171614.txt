@@ -1,0 +1,37 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20261120171615
+Username: SCEX\chung.nv
+RunAs User: SCEX\chung.nv
+Configuration Name: 
+Machine: CLH-E00130-2L (Microsoft Windows NT 10.0.26300.0)
+Host Application: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -Command $env:TEMP = $env:_TEMP; $env:TMP = $env:_TMP; $env:LOCALAPPDATA = $env:_LOCALAPPDATA; try { $OutputEncoding = [System.Text.UTF8Encoding]::new($false); [Console]::OutputEncoding = $OutputEncoding } catch {}; Get-ChildItem -Recurse -Include "*.css","*.ts","*.tsx" "c:\Users\chung.nv\OneDrive - Sacom Crypto Asset Exchange Joint Stock Company\chungnv\thiep cuoi\everlasting-moments\src" | Select-String "gold-shimmer"
+Process ID: 103220
+PSVersion: 5.1.26100.9818
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9818
+BuildVersion: 10.0.26100.9818
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+PS>$env:TEMP = $env:_TEMP; $env:TMP = $env:_TMP; $env:LOCALAPPDATA = $env:_LOCALAPPDATA; try { $OutputEncoding = [System.Text.UTF8Encoding]::new($false); [Console]::OutputEncoding = $OutputEncoding } catch {}; Get-ChildItem -Recurse -Include "*.css","*.ts","*.tsx" "c:\Users\chung.nv\OneDrive - Sacom Crypto Asset Exchange Joint Stock Company\chungnv\thiep cuoi\everlasting-moments\src" | Select-String "gold-shimmer"
+
+src\components\wedding\Countdown.tsx:38:              <span key={u.value ?? "x"} className="digit-flip
+text-gold-shimmer">
+src\components\wedding\Events.tsx:59:          <span className="text-gold-shimmer font-serif text-5xl font-medium
+leading-none sm:text-6xl">
+src\components\wedding\Hero.tsx:91:            <span className="text-gold-shimmer text-4xl font-medium
+sm:text-6xl">12.12</span>
+src\components\wedding\Rsvp.tsx:162:        <p className="font-serif text-base leading-snug text-gold-shimmer
+drop-shadow-[0_4px_16px_oklch(0.79_0.13_78/0.35)] sm:text-lg">
+src\styles.css:276:  .text-gold-shimmer {
+
+
+PS>$global:?
+True
+**********************
+Windows PowerShell transcript end
+End time: 20261120171615
+**********************

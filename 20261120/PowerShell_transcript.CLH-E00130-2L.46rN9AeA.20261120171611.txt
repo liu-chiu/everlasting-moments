@@ -1,0 +1,29 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20261120171611
+Username: SCEX\chung.nv
+RunAs User: SCEX\chung.nv
+Configuration Name: 
+Machine: CLH-E00130-2L (Microsoft Windows NT 10.0.26300.0)
+Host Application: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -Command $env:TEMP = $env:_TEMP; $env:TMP = $env:_TMP; $env:LOCALAPPDATA = $env:_LOCALAPPDATA; try { $OutputEncoding = [System.Text.UTF8Encoding]::new($false); [Console]::OutputEncoding = $OutputEncoding } catch {}; Get-ChildItem -Recurse -Filter "*.css" "c:\Users\chung.nv\OneDrive - Sacom Crypto Asset Exchange Joint Stock Company\chungnv\thiep cuoi\everlasting-moments\src" | Select-String "gold-shimmer"
+Process ID: 92968
+PSVersion: 5.1.26100.9818
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9818
+BuildVersion: 10.0.26100.9818
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+PS>$env:TEMP = $env:_TEMP; $env:TMP = $env:_TMP; $env:LOCALAPPDATA = $env:_LOCALAPPDATA; try { $OutputEncoding = [System.Text.UTF8Encoding]::new($false); [Console]::OutputEncoding = $OutputEncoding } catch {}; Get-ChildItem -Recurse -Filter "*.css" "c:\Users\chung.nv\OneDrive - Sacom Crypto Asset Exchange Joint Stock Company\chungnv\thiep cuoi\everlasting-moments\src" | Select-String "gold-shimmer"
+
+src\styles.css:276:  .text-gold-shimmer {
+
+
+PS>$global:?
+True
+**********************
+Windows PowerShell transcript end
+End time: 20261120171612
+**********************

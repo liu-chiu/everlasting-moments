@@ -160,7 +160,7 @@ export function Rsvp({
       </SectionHeading>
       <Reveal className="mx-auto mt-5 max-w-xl text-center">
         <p className="font-serif text-base leading-snug text-gold-shimmer drop-shadow-[0_4px_16px_oklch(0.79_0.13_78/0.35)] sm:text-lg">
-          Vui lòng xác nhận trước ngày <span className="relative z-10">{RSVP_DEADLINE_LABEL}</span>{" "}
+          Vui lòng xác nhận trước ngày{" "}<span className="font-semibold">{RSVP_DEADLINE_LABEL}</span>{" "}
           để chúng mình chuẩn bị chỗ ngồi và tiệc cưới chu đáo nhất.
         </p>
         {/* Temporarily hidden: RSVP form status message. */}

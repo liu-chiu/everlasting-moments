@@ -1,0 +1,67 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20261120171643
+Username: SCEX\chung.nv
+RunAs User: SCEX\chung.nv
+Configuration Name: 
+Machine: CLH-E00130-2L (Microsoft Windows NT 10.0.26300.0)
+Host Application: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -Command $env:TEMP = $env:_TEMP; $env:TMP = $env:_TMP; $env:LOCALAPPDATA = $env:_LOCALAPPDATA; try { $OutputEncoding = [System.Text.UTF8Encoding]::new($false); [Console]::OutputEncoding = $OutputEncoding } catch {}; Set-Location "c:\Users\chung.nv\OneDrive - Sacom Crypto Asset Exchange Joint Stock Company\chungnv\thiep cuoi\everlasting-moments"; npx tsc --noEmit --pretty 2>&1 | Select-Object -First 30
+Process ID: 89884
+PSVersion: 5.1.26100.9818
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9818
+BuildVersion: 10.0.26100.9818
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+PS>$env:TEMP = $env:_TEMP; $env:TMP = $env:_TMP; $env:LOCALAPPDATA = $env:_LOCALAPPDATA; try { $OutputEncoding = [System.Text.UTF8Encoding]::new($false); [Console]::OutputEncoding = $OutputEncoding } catch {}; Set-Location "c:\Users\chung.nv\OneDrive - Sacom Crypto Asset Exchange Joint Stock Company\chungnv\thiep cuoi\everlasting-moments"; npx tsc --noEmit --pretty 2>&1 | Select-Object -First 30
+**********************
+Windows PowerShell transcript start
+Start time: 20261120171647
+Username: SCEX\chung.nv
+RunAs User: SCEX\chung.nv
+Configuration Name: 
+Machine: CLH-E00130-2L (Microsoft Windows NT 10.0.26300.0)
+Host Application: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -Command $env:TEMP = $env:_TEMP; $env:TMP = $env:_TMP; $env:LOCALAPPDATA = $env:_LOCALAPPDATA; try { $OutputEncoding = [System.Text.UTF8Encoding]::new($false); [Console]::OutputEncoding = $OutputEncoding } catch {}; Set-Location "c:\Users\chung.nv\OneDrive - Sacom Crypto Asset Exchange Joint Stock Company\chungnv\thiep cuoi\everlasting-moments"; npx tsc --noEmit --pretty 2>&1 | Select-Object -First 30
+Process ID: 89884
+PSVersion: 5.1.26100.9818
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9818
+BuildVersion: 10.0.26100.9818
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+PS>CommandInvocation(Out-String): "Out-String"
+>> ParameterBinding(Out-String): name="InputObject"; value="The term 'npx' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again."
+npx : The term 'npx' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the 
+spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:340
++ ... nt Stock Company\chungnv\thiep cuoi\everlasting-moments"; npx tsc --n ...
++                                                               ~~~
+    + CategoryInfo          : ObjectNotFound: (npx:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+npx : The term 'npx' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the 
+spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:340
++ ... nt Stock Company\chungnv\thiep cuoi\everlasting-moments"; npx tsc --n ...
++                                                               ~~~
+    + CategoryInfo          : ObjectNotFound: (npx:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+npx : The term 'npx' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the
+spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:340
++ ... nt Stock Company\chungnv\thiep cuoi\everlasting-moments"; npx tsc --n ...
++                                                               ~~~
+    + CategoryInfo          : ObjectNotFound: (npx:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+PS>$global:?
+False
+**********************
+Windows PowerShell transcript end
+End time: 20261120171647
+**********************

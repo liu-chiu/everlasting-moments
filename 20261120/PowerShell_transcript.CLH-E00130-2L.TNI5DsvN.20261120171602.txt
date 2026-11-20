@@ -1,0 +1,65 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20261120171602
+Username: SCEX\chung.nv
+RunAs User: SCEX\chung.nv
+Configuration Name: 
+Machine: CLH-E00130-2L (Microsoft Windows NT 10.0.26300.0)
+Host Application: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -Command $env:TEMP = $env:_TEMP; $env:TMP = $env:_TMP; $env:LOCALAPPDATA = $env:_LOCALAPPDATA; try { $OutputEncoding = [System.Text.UTF8Encoding]::new($false); [Console]::OutputEncoding = $OutputEncoding } catch {}; Select-String -Path "c:\Users\chung.nv\OneDrive - Sacom Crypto Asset Exchange Joint Stock Company\chungnv\thiep cuoi\everlasting-moments\src\**\*.css" -Pattern "gold-shimmer" -Recurse
+Process ID: 75712
+PSVersion: 5.1.26100.9818
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9818
+BuildVersion: 10.0.26100.9818
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+PS>$env:TEMP = $env:_TEMP; $env:TMP = $env:_TMP; $env:LOCALAPPDATA = $env:_LOCALAPPDATA; try { $OutputEncoding = [System.Text.UTF8Encoding]::new($false); [Console]::OutputEncoding = $OutputEncoding } catch {}; Select-String -Path "c:\Users\chung.nv\OneDrive - Sacom Crypto Asset Exchange Joint Stock Company\chungnv\thiep cuoi\everlasting-moments\src\**\*.css" -Pattern "gold-shimmer" -Recurse
+PS>TerminatingError(Select-String): "A parameter cannot be found that matches parameter name 'Recurse'."
+**********************
+Windows PowerShell transcript start
+Start time: 20261120171603
+Username: SCEX\chung.nv
+RunAs User: SCEX\chung.nv
+Configuration Name: 
+Machine: CLH-E00130-2L (Microsoft Windows NT 10.0.26300.0)
+Host Application: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -Command $env:TEMP = $env:_TEMP; $env:TMP = $env:_TMP; $env:LOCALAPPDATA = $env:_LOCALAPPDATA; try { $OutputEncoding = [System.Text.UTF8Encoding]::new($false); [Console]::OutputEncoding = $OutputEncoding } catch {}; Select-String -Path "c:\Users\chung.nv\OneDrive - Sacom Crypto Asset Exchange Joint Stock Company\chungnv\thiep cuoi\everlasting-moments\src\**\*.css" -Pattern "gold-shimmer" -Recurse
+Process ID: 75712
+PSVersion: 5.1.26100.9818
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9818
+BuildVersion: 10.0.26100.9818
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+PS>CommandInvocation(Out-String): "Out-String"
+>> ParameterBinding(Out-String): name="InputObject"; value="A parameter cannot be found that matches parameter name 'Recurse'."
+Select-String : A parameter cannot be found that matches parameter name 'Recurse'.
+At line:1 char:383
++ ... oi\everlasting-moments\src\**\*.css" -Pattern "gold-shimmer" -Recurse
++                                                                  ~~~~~~~~
+    + CategoryInfo          : InvalidArgument: (:) [Select-String], ParameterBindingException
+    + FullyQualifiedErrorId : NamedParameterNotFound,Microsoft.PowerShell.Commands.SelectStringCommand
+Select-String : A parameter cannot be found that matches parameter name 'Recurse'.
+At line:1 char:383
++ ... oi\everlasting-moments\src\**\*.css" -Pattern "gold-shimmer" -Recurse
++                                                                  ~~~~~~~~
+    + CategoryInfo          : InvalidArgument: (:) [Select-String], ParameterBindingException
+    + FullyQualifiedErrorId : NamedParameterNotFound,Microsoft.PowerShell.Commands.SelectStringCommand
+Select-String : A parameter cannot be found that matches parameter name 'Recurse'.
+At line:1 char:383
++ ... oi\everlasting-moments\src\**\*.css" -Pattern "gold-shimmer" -Recurse
++                                                                  ~~~~~~~~
+    + CategoryInfo          : InvalidArgument: (:) [Select-String], ParameterBindingException
+    + FullyQualifiedErrorId : NamedParameterNotFound,Microsoft.PowerShell.Commands.SelectStringCommand
+
+PS>$global:?
+False
+**********************
+Windows PowerShell transcript end
+End time: 20261120171603
+**********************
