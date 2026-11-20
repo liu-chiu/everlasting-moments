@@ -37,7 +37,7 @@ describe("wedding rules", () => {
 
   it("builds a personal guest link", () => {
     expect(buildGuestLink("https://x.dev/", "chị Phương", "bride")).toBe(
-      "https://x.dev/?to=ch%E1%BB%8B+Ph%C6%B0%C6%A1ng&side=bride",
+      "https://x.dev/?to=chị+Phương&side=bride",
     );
   });
 

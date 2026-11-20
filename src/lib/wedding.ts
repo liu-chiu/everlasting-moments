@@ -302,7 +302,15 @@ export function buildGuestLink(base: string, name: string, side?: Side) {
   const clean = normalizeGuestName(name);
   if (clean) url.searchParams.set("to", clean);
   if (side) url.searchParams.set("side", side);
-  return url.toString();
+  // Keep UTF-8 characters readable when guests copy and share the link.
+  // Reserved ASCII characters stay escaped, so the query remains unambiguous.
+  return url.toString().replace(/(?:%[89a-f][0-9a-f])+/gi, (encoded) => {
+    try {
+      return decodeURIComponent(encoded);
+    } catch {
+      return encoded;
+    }
+  });
 }
 
 /** Monday-first grid of a month; null = padding cell. */
