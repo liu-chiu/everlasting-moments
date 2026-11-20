@@ -69,7 +69,7 @@ export const EVENTS: WeddingEvent[] = [
     index: "02",
     label: "Tiệc nhà trai",
     venue: "Tư gia",
-    venueLine2: "nhà trai",
+    venueLine2: "nhà Trai",
     time: "16:30",
     start: "2026-12-12T16:30:00+07:00",
     end: "2026-12-12T20:00:00+07:00",
