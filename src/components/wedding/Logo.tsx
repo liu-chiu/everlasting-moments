@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { COUPLE_SHORT_LABEL } from "@/lib/wedding";
 
 const LOGO_URL = "/images/logo-con-dau.png";
 
@@ -14,7 +15,7 @@ export function Logo({ className, ring = true, eager }: { className?: string; ri
     >
       <img
         src={LOGO_URL}
-        alt="Logo Lan & Chung"
+        alt={`Logo ${COUPLE_SHORT_LABEL}`}
         width={512}
         height={512}
         loading={eager ? "eager" : "lazy"}

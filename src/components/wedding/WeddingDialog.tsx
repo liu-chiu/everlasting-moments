@@ -2,8 +2,9 @@ import type { ReactNode } from "react";
 import * as D from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { COUPLE_SHORT_LABEL, WEDDING_DATE_LABEL } from "@/lib/wedding";
 
-/** Paper-styled popup with the "Lan & Chung · 12.12.2026" header used across the invitation. */
+/** Paper-styled popup with the couple and wedding date header used across the invitation. */
 export function WeddingDialog({
   open,
   onOpenChange,
@@ -32,7 +33,7 @@ export function WeddingDialog({
         >
           <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-border sm:hidden" />
           <div className="flex items-center justify-between gap-4">
-            <span className="eyebrow">Lan & Chung · 12.12.2026</span>
+            <span className="eyebrow">{COUPLE_SHORT_LABEL} · {WEDDING_DATE_LABEL}</span>
             <D.Close
               aria-label={closeLabel}
               className="grid size-9 shrink-0 place-items-center rounded-full border border-gold/40 text-gold-deep transition hover:bg-gold/10"

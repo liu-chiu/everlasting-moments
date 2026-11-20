@@ -1,5 +1,5 @@
 import { ChevronDown } from "lucide-react";
-import { COUPLE, WEDDING_WEEKDAY } from "@/lib/wedding";
+import { COUPLE, COUPLE_SHORT_LABEL, WEDDING_WEEKDAY } from "@/lib/wedding";
 import { Petals } from "./Petals";
 import { StarField } from "./StarField";
 import { Logo } from "./Logo";
@@ -17,7 +17,7 @@ export function Hero({ guest, started }: { guest: string; started: boolean }) {
           <div className="relative h-full w-full overflow-hidden lg:h-[82vh] lg:max-h-[820px] lg:w-auto lg:aspect-[2/3] lg:rounded-t-full lg:shadow-glow lg:ring-1 lg:ring-gold/40">
             <img
               src="/images/hero.webp"
-              alt="Lan và Chung trong trang phục cưới"
+              alt={`${COUPLE_SHORT_LABEL} trong trang phục cưới`}
               width={1066}
               height={1600}
               fetchPriority="high"
@@ -34,7 +34,7 @@ export function Hero({ guest, started }: { guest: string; started: boolean }) {
                 <path id="ring" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0" />
               </defs>
               <text fill="currentColor" fontSize="13" letterSpacing="3.2" className="font-sans uppercase">
-                <textPath href="#ring">Save the date · 12.12.2026 · Lan & Chung ·</textPath>
+                <textPath href="#ring">Save the date · 12.12.2026 · {COUPLE_SHORT_LABEL} ·</textPath>
               </text>
             </svg>
             <Logo className="absolute inset-[18%] rounded-full shadow-gold" ring={false} eager />

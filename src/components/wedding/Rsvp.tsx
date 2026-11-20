@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Bus, Check, Loader2, Send, X } from "lucide-react";
 import {
   confirmationFor,
+  COUPLE_SHORT_LABEL,
   defaultTransportFor,
   EVENT_OPTIONS,
   RSVP_DEADLINE_LABEL,
@@ -227,7 +228,7 @@ export function Rsvp({ guest, side, onWish }: { guest: string; side?: Side | und
           </div>}
 
           <label className="mt-5 block">
-            <span className="field-label">Lời chúc dành cho Lan & Chung</span>
+            <span className="field-label">Lời chúc dành cho {COUPLE_SHORT_LABEL}</span>
             <textarea name="wish" maxLength={500} rows={3} className="field resize-none" placeholder="Gửi một lời chúc thật dễ thương nhé…" />
           </label>
           {fields.notes && <label className="mt-5 block">

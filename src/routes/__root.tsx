@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { COUPLE_DISPLAY_NAMES, COUPLE_SHORT_LABEL } from "@/lib/wedding";
 import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
@@ -82,11 +83,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
-      { title: "Lan & Chung · Thiệp cưới" },
-      { name: "description", content: "Thiệp cưới online của Ngọc Lan và Văn Chung — 12.12.2026." },
-      { name: "author", content: "Lan & Chung" },
-      { property: "og:title", content: "Lan & Chung · Thiệp cưới" },
-      { property: "og:description", content: "Thiệp cưới online của Ngọc Lan và Văn Chung — 12.12.2026." },
+      { title: `${COUPLE_SHORT_LABEL} · Thiệp cưới` },
+      { name: "description", content: `Thiệp cưới online của ${COUPLE_DISPLAY_NAMES} — 12.12.2026.` },
+      { name: "author", content: COUPLE_SHORT_LABEL },
+      { property: "og:title", content: `${COUPLE_SHORT_LABEL} · Thiệp cưới` },
+      { property: "og:description", content: `Thiệp cưới online của ${COUPLE_DISPLAY_NAMES} — 12.12.2026.` },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

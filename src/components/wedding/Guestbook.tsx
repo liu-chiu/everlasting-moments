@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { MessagesSquare, Quote } from "lucide-react";
+import { COUPLE_SHORT_LABEL } from "@/lib/wedding";
 import type { Wish } from "@/lib/wedding-api";
 import { SectionHeading } from "./SectionHeading";
 import { WeddingDialog } from "./WeddingDialog";
@@ -15,7 +16,7 @@ export function Guestbook({ wishes, loading }: { wishes: Wish[]; loading: boolea
 
   return (
     <section id="wishes" className="relative overflow-hidden bg-background px-5 py-20 sm:px-6 sm:py-28 lg:py-32">
-      <SectionHeading eyebrow="Guestbook" sub={`${wishes.length ? wishes.length + " lời yêu thương" : "Những lời yêu thương"} gửi đến Lan & Chung.`}>
+      <SectionHeading eyebrow="Guestbook" sub={`${wishes.length ? wishes.length + " lời yêu thương" : "Những lời yêu thương"} gửi đến ${COUPLE_SHORT_LABEL}.`}>
         Lời chúc <em>từ khách mời</em>
       </SectionHeading>
 

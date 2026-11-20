@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { COUPLE_SHORT_LABEL } from "@/lib/wedding";
 import { Reveal } from "./Reveal";
 
 /** Full-bleed sunset photo band with a gentle parallax. */
@@ -28,7 +29,7 @@ export function QuoteBand() {
       <img
         ref={img}
         src="/images/gallery/5.webp"
-        alt="Lan và Chung bên hoàng hôn vịnh Hạ Long"
+        alt={`${COUPLE_SHORT_LABEL} bên hoàng hôn vịnh Hạ Long`}
         loading="lazy"
         decoding="async"
         className="absolute inset-0 -z-10 h-full w-full object-cover will-change-transform"

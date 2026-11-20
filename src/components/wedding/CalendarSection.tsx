@@ -1,6 +1,6 @@
 import { Apple, CalendarPlus, Download } from "lucide-react";
 import { toast } from "sonner";
-import { buildIcs, eventsForSide, googleCalendarUrl, monthGrid, outlookCalendarUrl, type Side, type WeddingEvent } from "@/lib/wedding";
+import { buildIcs, COUPLE_SHORT_LABEL, eventsForSide, googleCalendarUrl, monthGrid, outlookCalendarUrl, type Side, type WeddingEvent } from "@/lib/wedding";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
 import { cn } from "@/lib/utils";
@@ -12,7 +12,7 @@ export function CalendarSection({ side }: { side?: Side | undefined }) {
   const events = eventsForSide(side);
   return (
     <section id="calendar" className="relative bg-background px-5 py-20 sm:px-6 sm:py-28 lg:py-32">
-      <SectionHeading eyebrow="Save the date" sub="Chọn lịch bạn đang dùng để không bỏ lỡ ngày vui của Lan & Chung.">
+      <SectionHeading eyebrow="Save the date" sub={`Chọn lịch bạn đang dùng để không bỏ lỡ ngày vui của ${COUPLE_SHORT_LABEL}.`}>
         December <em>2026</em>
       </SectionHeading>
       <div className="mx-auto mt-14 grid max-w-5xl items-center gap-10 lg:grid-cols-[minmax(0,26rem)_minmax(0,1fr)] lg:gap-16">

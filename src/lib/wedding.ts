@@ -24,6 +24,9 @@ export const COUPLE = {
   },
 };
 
+export const COUPLE_SHORT_LABEL = `${COUPLE.bride.short} & ${COUPLE.groom.short}`;
+export const COUPLE_DISPLAY_NAMES = `${COUPLE.bride.display} và ${COUPLE.groom.display}`;
+
 /** Wedding day, Vietnam time (UTC+7). Countdown targets the first party. */
 export const WEDDING_DATE = new Date("2026-12-12T10:30:00+07:00");
 export const WEDDING_DATE_LABEL = "12.12.2026";
@@ -116,7 +119,7 @@ export const GALLERY = Array.from({ length: 20 }, (_, i) => {
     thumb: `/images/gallery/${n}-sm.webp`,
     full: `/images/gallery/${n}.webp`,
     landscape: n === 7,
-    alt: `Khoảnh khắc cưới Lan và Chung ${n}`,
+    alt: `Khoảnh khắc cưới ${COUPLE_SHORT_LABEL} ${n}`,
   };
 });
 
@@ -147,7 +150,7 @@ export const TRAVEL: Record<Side, InfoCard> = {
       ["Địa điểm đón khách", "Ngõ 36 Giang Văn Minh, Phường Kim Mã, Hà Nội"],
       ["Trưởng đoàn", "Updating"],
       ["Số điện thoại trưởng đoàn", "Updating", "phone"],
-      ["Cô dâu", "Ngọc Lan"],
+      ["Cô dâu", COUPLE.bride.display],
       ["Số điện thoại cô dâu", "0325022345", "phone"],
     ],
   },
@@ -158,7 +161,7 @@ export const TRAVEL: Record<Side, InfoCard> = {
       ["Địa điểm đón khách", "11 A Cát Linh, Ô Chợ Dừa, Hà Nội"],
       ["Trưởng đoàn", "Updating"],
       ["Số điện thoại trưởng đoàn", "Updating", "phone"],
-      ["Chú rể", "Văn Chung"],
+      ["Chú rể", COUPLE.groom.display],
       ["Số điện thoại chú rể", "0376147556", "phone"],
     ],
   },
@@ -168,9 +171,9 @@ export const SELF_TRAVEL_CARDS: InfoCard[] = [
   {
     title: "Liên hệ cô dâu & chú rể",
     items: [
-      ["Cô dâu", "Ngọc Lan"],
+      ["Cô dâu", COUPLE.bride.display],
       ["Số điện thoại cô dâu", "0325022345", "phone"],
-      ["Chú rể", "Văn Chung"],
+      ["Chú rể", COUPLE.groom.display],
       ["Số điện thoại chú rể", "0376147556", "phone"],
     ],
   },
@@ -196,11 +199,11 @@ export const RSVP_TEXT = {
   sending: "Đang gửi xác nhận…",
   success: "Đã gửi xác nhận thành công. Cảm ơn bạn!",
   error: "Chưa gửi được xác nhận. Vui lòng đóng cửa sổ này và thử gửi lại.",
-  formSending: "Cảm ơn bạn, tụi mình đang gửi phản hồi đến Lan & Chung nhé…",
-  formError: "Tụi mình chưa nhận được xác nhận gửi thành công. Bạn thử lại sau hoặc nhắn trực tiếp cho Lan & Chung nhé.",
+  formSending: `Cảm ơn bạn, tụi mình đang gửi phản hồi đến ${COUPLE_SHORT_LABEL} nhé…`,
+  formError: `Tụi mình chưa nhận được xác nhận gửi thành công. Bạn thử lại sau hoặc nhắn trực tiếp cho ${COUPLE_SHORT_LABEL} nhé.`,
   declineTitle: "Cảm ơn bạn đã phản hồi",
   declineBody:
-    "Lan & Chung rất tiếc vì chưa thể đón bạn trong ngày vui. Cảm ơn bạn đã gửi lời chúc và luôn yêu thương, đồng hành cùng chúng mình. Hẹn gặp bạn trong dịp gần nhất nhé!",
+    `${COUPLE_SHORT_LABEL} rất tiếc vì chưa thể đón bạn trong ngày vui. Cảm ơn bạn đã gửi lời chúc và luôn yêu thương, đồng hành cùng chúng mình. Hẹn gặp bạn trong dịp gần nhất nhé!`,
   busTitle: "Cảm ơn bạn sẽ đến chung vui",
   selfTitle: "Hẹn gặp bạn trong ngày vui",
   selfBody: "Cảm ơn bạn đã xác nhận tham dự. Chúc bạn di chuyển an toàn và hẹn gặp bạn tại buổi tiệc nhé!",
@@ -269,9 +272,9 @@ function toGCalStamp(iso: string) {
 export function googleCalendarUrl(e: WeddingEvent) {
   const params = new URLSearchParams({
     action: "TEMPLATE",
-    text: `Đám cưới Lan & Chung · ${e.label}`,
+    text: `Đám cưới ${COUPLE_SHORT_LABEL} · ${e.label}`,
     dates: `${toGCalStamp(e.start)}/${toGCalStamp(e.end)}`,
-    details: "Lan & Chung trân trọng kính mời bạn đến chung vui.",
+    details: `${COUPLE_SHORT_LABEL} trân trọng kính mời bạn đến chung vui.`,
     location: `${e.placeTitle}, ${e.address}`,
   });
   return `https://calendar.google.com/calendar/render?${params.toString()}`;
@@ -282,10 +285,10 @@ export function outlookCalendarUrl(e: WeddingEvent) {
   const params = new URLSearchParams({
     path: "/calendar/action/compose",
     rru: "addevent",
-    subject: `Đám cưới Lan & Chung · ${e.label}`,
+    subject: `Đám cưới ${COUPLE_SHORT_LABEL} · ${e.label}`,
     startdt: e.start,
     enddt: e.end,
-    body: "Lan & Chung trân trọng kính mời bạn đến chung vui.",
+    body: `${COUPLE_SHORT_LABEL} trân trọng kính mời bạn đến chung vui.`,
     location: `${e.placeTitle}, ${e.address}`,
   });
   return `https://outlook.live.com/calendar/0/deeplink/compose?${params.toString()}`;
@@ -340,13 +343,13 @@ export function buildIcs(e: WeddingEvent) {
     `DTSTAMP:${icsStamp("2026-01-01T00:00:00Z")}`,
     `DTSTART:${icsStamp(e.start)}`,
     `DTEND:${icsStamp(e.end)}`,
-    `SUMMARY:${esc(`Đám cưới Lan & Chung · ${e.label}`)}`,
+    `SUMMARY:${esc(`Đám cưới ${COUPLE_SHORT_LABEL} · ${e.label}`)}`,
     `LOCATION:${esc(`${e.placeTitle}, ${e.address}`)}`,
-    "DESCRIPTION:Lan & Chung trân trọng kính mời bạn đến chung vui.",
+    `DESCRIPTION:${COUPLE_SHORT_LABEL} trân trọng kính mời bạn đến chung vui.`,
     "BEGIN:VALARM",
     "TRIGGER:-PT3H",
     "ACTION:DISPLAY",
-    "DESCRIPTION:Đám cưới Lan & Chung",
+    `DESCRIPTION:Đám cưới ${COUPLE_SHORT_LABEL}`,
     "END:VALARM",
     "END:VEVENT",
     "END:VCALENDAR",

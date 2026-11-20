@@ -2,16 +2,16 @@ import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Copy } from "lucide-react";
 import { toast } from "sonner";
-import { buildGuestLink, normalizeGuestName, type Side } from "@/lib/wedding";
+import { buildGuestLink, COUPLE_SHORT_LABEL, normalizeGuestName, type Side } from "@/lib/wedding";
 import { Logo } from "@/components/wedding/Logo";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/tao-link")({
   head: () => ({
     meta: [
-      { title: "Tạo link mời · Lan & Chung" },
-      { name: "description", content: "Công cụ tạo đường link thiệp cưới riêng cho từng khách mời của Lan & Chung." },
-      { property: "og:title", content: "Tạo link mời · Lan & Chung" },
+      { title: `Tạo link mời · ${COUPLE_SHORT_LABEL}` },
+      { name: "description", content: `Công cụ tạo đường link thiệp cưới riêng cho từng khách mời của ${COUPLE_SHORT_LABEL}.` },
+      { property: "og:title", content: `Tạo link mời · ${COUPLE_SHORT_LABEL}` },
       { property: "og:description", content: "Tạo link thiệp cưới hiển thị tên riêng từng khách mời." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -41,7 +41,7 @@ function LinkGenerator() {
     <main className="paper-grain grid min-h-svh place-items-center px-5 py-16">
       <div className="w-full max-w-lg rounded-[2rem] bg-card p-8 shadow-card ring-1 ring-border">
         <Logo className="size-16" eager />
-        <p className="eyebrow mt-4">Dành cho Lan & Chung</p>
+        <p className="eyebrow mt-4">Dành cho {COUPLE_SHORT_LABEL}</p>
         <h1 className="mt-2 font-serif text-4xl font-medium">Tạo link gửi khách mời</h1>
         <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
           Nhập tên khách mời để tạo đường link thiệp riêng — tên sẽ hiện trên phong bì, thiệp và biểu mẫu xác nhận.

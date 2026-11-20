@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
-import { COUPLE, WEDDING_DATE_LABEL } from "@/lib/wedding";
+import { COUPLE, COUPLE_SHORT_LABEL, WEDDING_DATE_LABEL } from "@/lib/wedding";
 import { track } from "@/lib/analytics";
 import { StarField } from "./StarField";
 import { Logo } from "./Logo";
@@ -88,7 +88,7 @@ export function Intro({ guest, onDone }: { guest: string; onDone: () => void }) 
     <div
       role="dialog"
       aria-modal="true"
-      aria-label="Thiệp mời Lan & Chung"
+      aria-label={`Thiệp mời ${COUPLE_SHORT_LABEL}`}
       className={cn(
         "fixed inset-0 z-[80] overflow-y-auto overflow-x-hidden bg-night-sky text-night-foreground",
         phase === "leaving" && "intro-leave pointer-events-none",
