@@ -7,7 +7,7 @@ import { WeddingDialog } from "./WeddingDialog";
 
 const COUPLE_WISH: Wish = {
   id: "couple-thank-you",
-  name: "Vợ chồng Ngọc Lan & Văn Chung",
+  name: "  name: "Vợ chồng Lan & Chung",
   wish: "Cảm ơn gia đình, người thân và bạn bè đã hiện diện để chung vui cùng chúng tôi trong ngày trọng đại này. Kính chúc mọi người nhiều sức khỏe, hạnh phúc và bình an!",
 };
 
@@ -203,17 +203,7 @@ function WishCard({
             {isCouple ? COUPLE_WISH.name : wish.name}
           </span>
           <Heart className="size-4 shrink-0 fill-gold/20 text-gold/60" />
-        </figcaption>
-      </figure>
-    );
-  }
-
-  return (
-    <figure
-      aria-hidden={hidden}
-      className={
-        full
-          ? "relative rounded-3xl bg-muted/60 p-5 ring-1 ring-border"
+er"
           : "relative w-[18rem] shrink-0 rounded-3xl bg-card p-6 shadow-soft ring-1 ring-border sm:w-[22rem]"
       }
     >
