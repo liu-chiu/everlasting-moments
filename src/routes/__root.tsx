@@ -119,10 +119,30 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
+  // Force a fresh load on every visit: caches (memory, disk, bfcache) are
+  // cleared and the HTML is re-fetched, so guests always see the newest build.
+  useEffect(() => {
+    try {
+      if ("caches" in window) {
+        void caches.keys().then((keys) =>
+          Promise.all(keys.map((k) => caches.delete(k))),
+        );
+      }
+      if (performance.getEntriesByType("navigation").some((n) => n.type === "back_forward")) {
+        location.reload();
+      }
+    } catch {
+      // Ignore — cache clearing must never break the page.
+    }
+  }, []);
+
   return (
     <html lang="vi">
       <head>
         <HeadContent />
+        <meta httpEquiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+        <meta httpEquiv="Pragma" content="no-cache" />
+        <meta httpEquiv="Expires" content="0" />
       </head>
       <body>
         {children}
