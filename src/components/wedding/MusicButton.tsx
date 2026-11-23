@@ -43,9 +43,7 @@ export function MusicButton() {
     <div
       className={cn(
         "fixed right-4 z-50 flex items-center gap-2 transition-all duration-300 sm:right-6",
-        overHero
-          ? "top-20 sm:top-24 lg:bottom-6 lg:top-auto"
-          : "bottom-5 sm:bottom-6",
+        overHero ? "top-20 sm:top-24 lg:bottom-6 lg:top-auto" : "bottom-5 sm:bottom-6",
         (overForm || overFinale) && "invisible opacity-0",
       )}
     >
