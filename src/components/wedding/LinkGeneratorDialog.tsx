@@ -13,7 +13,7 @@ export function LinkGeneratorForm() {
   const [copied, setCopied] = useState(false);
   const guest = name.trim();
   const link = guest
-    ? buildGuestLink("https://lan-chung-invitation.lovable.app/", guest, side || undefined)
+    ? buildGuestLink("https://everlasting-moments.chung120896.workers.dev/", guest, side || undefined)
     : "";
 
   const copy = async () => {
@@ -65,7 +65,7 @@ export function LinkGeneratorForm() {
         className="mt-5 flex items-center gap-2 rounded-2xl bg-muted p-3 pl-4"
       >
         <p className="min-w-0 flex-1 break-all font-mono text-xs text-foreground">
-          {link || "https://lan-chung-invitation.lovable.app/"}
+          {link || "https://everlasting-moments.chung120896.workers.dev/"}
         </p>
         <button
           type="button"
