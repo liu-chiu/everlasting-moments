@@ -9,14 +9,12 @@ export const API_URL =
 
 export const COUPLE = {
   bride: {
-    short: "Lan",
     display: "Ngọc Lan",
     full: "Bùi Ngọc Lan",
     role: "Thứ nữ",
     phone: "0325022345",
   },
   groom: {
-    short: "Chung",
     display: "Văn Chung",
     full: "Nguyễn Văn Chung",
     role: "Út nam",
@@ -24,7 +22,8 @@ export const COUPLE = {
   },
 };
 
-export const COUPLE_SHORT_LABEL = `${COUPLE.bride.short} & ${COUPLE.groom.short}`;
+/** Full guest-facing label, shared by every section, calendar and confirmation. */
+export const COUPLE_SHORT_LABEL = `${COUPLE.bride.display} & ${COUPLE.groom.display}`;
 export const COUPLE_DISPLAY_NAMES = `${COUPLE.bride.display} và ${COUPLE.groom.display}`;
 
 /** Wedding day, Vietnam time (UTC+7). Countdown targets the first party. */
@@ -317,7 +316,7 @@ export function outlookCalendarUrl(e: WeddingEvent) {
 }
 
 export function vietQrUrl(bankCode: string, account: string, holder: string, guest: string) {
-  const info = `${guest ? guest + " - " : ""}Mung cuoi Lan Chung`;
+  const info = `${guest ? guest + " - " : ""}Mung cuoi Ngoc Lan Van Chung`;
   const params = new URLSearchParams({ addInfo: info, accountName: holder });
   return `https://img.vietqr.io/image/${bankCode}-${account}-compact2.png?${params.toString()}`;
 }
@@ -362,7 +361,7 @@ export function buildIcs(e: WeddingEvent) {
   return [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
-    "PRODID:-//Lan Chung Wedding//VI",
+    "PRODID:-//Ngoc Lan Van Chung Wedding//VI",
     "BEGIN:VEVENT",
     `UID:lanchung-${e.side}-20261212@wedding`,
     `DTSTAMP:${icsStamp("2026-01-01T00:00:00Z")}`,

@@ -60,9 +60,11 @@ function LinkGenerator() {
 
   return (
     <main className="paper-grain grid min-h-svh place-items-center px-5 py-16">
-      <div className="w-full max-w-lg rounded-[2rem] bg-card p-8 shadow-card ring-1 ring-border">
+      <div className="w-full max-w-lg rounded-[2rem] bg-card p-6 shadow-card ring-1 ring-border sm:p-8">
         <Logo className="size-16" eager />
-        <p className="eyebrow mt-4">Dành cho {COUPLE_SHORT_LABEL}</p>
+        <p className="eyebrow mt-4 break-words text-[0.6rem] leading-relaxed tracking-[0.18em] sm:text-[0.7rem] sm:tracking-[0.28em]">
+          Dành cho {COUPLE_SHORT_LABEL}
+        </p>
         <h1 className="mt-2 font-serif text-4xl font-medium">Tạo link gửi khách mời</h1>
         <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
           Nhập tên khách mời để tạo đường link thiệp riêng — tên sẽ hiện trên phong bì, thiệp và

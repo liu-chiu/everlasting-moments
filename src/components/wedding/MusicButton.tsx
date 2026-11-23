@@ -7,8 +7,10 @@ import { cn } from "@/lib/utils";
 export function MusicButton() {
   const { playing, track, toggle, next } = useMusic();
   const [overForm, setOverForm] = useState(false);
+  const [overHero, setOverHero] = useState(true);
+  const [overFinale, setOverFinale] = useState(false);
 
-  // The RSVP card is full width on phones, so the control steps aside while it is on screen.
+  // Keep the floating control clear of form fields and the footer action.
   useEffect(() => {
     const el = document.getElementById("rsvp");
     if (!el) return;
@@ -19,11 +21,32 @@ export function MusicButton() {
     return () => io.disconnect();
   }, []);
 
+  useEffect(() => {
+    const hero = document.getElementById("hero");
+    const finale = document.getElementById("finale");
+    if (!hero || !finale) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.target.id === "hero") setOverHero(entry.isIntersecting);
+          if (entry.target.id === "finale") setOverFinale(entry.isIntersecting);
+        }
+      },
+      { threshold: 0.05 },
+    );
+    io.observe(hero);
+    io.observe(finale);
+    return () => io.disconnect();
+  }, []);
+
   return (
     <div
       className={cn(
-        "fixed bottom-5 right-4 z-50 flex items-center gap-2 transition-opacity duration-300 sm:bottom-6 sm:right-6",
-        overForm && "invisible opacity-0",
+        "fixed right-4 z-50 flex items-center gap-2 transition-all duration-300 sm:right-6",
+        overHero
+          ? "top-20 sm:top-24 lg:bottom-6 lg:top-auto"
+          : "bottom-5 sm:bottom-6",
+        (overForm || overFinale) && "invisible opacity-0",
       )}
     >
       <div

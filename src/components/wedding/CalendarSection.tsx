@@ -95,7 +95,7 @@ function CalendarDownloads({ event }: { event: WeddingEvent }) {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `lan-chung-${event.side === "bride" ? "tiec-nha-gai" : "tiec-nha-trai"}.ics`;
+    link.download = `ngoc-lan-van-chung-${event.side === "bride" ? "tiec-nha-gai" : "tiec-nha-trai"}.ics`;
     document.body.appendChild(link);
     link.click();
     link.remove();

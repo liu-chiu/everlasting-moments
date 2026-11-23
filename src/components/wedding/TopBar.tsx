@@ -102,9 +102,9 @@ export function TopBar() {
                   <X className="size-5" />
                 </D.Close>
               </div>
-              <D.Title className="mt-10 font-serif text-4xl font-medium leading-tight">
-                {COUPLE.bride.short} <span className="font-script text-gold">&</span>{" "}
-                {COUPLE.groom.short}
+              <D.Title className="mt-8 text-balance font-serif text-[clamp(1.85rem,8vw,2.5rem)] font-medium leading-[1.2]">
+                {COUPLE.bride.display} <span className="font-script text-gold">&</span>{" "}
+                {COUPLE.groom.display}
               </D.Title>
               <D.Description className="mt-2 text-xs uppercase tracking-[0.28em] text-gold-soft">
                 12 · 12 · 2026
