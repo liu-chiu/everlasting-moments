@@ -112,7 +112,7 @@ export function Hero({ guest, started }: { guest: string; started: boolean }) {
           >
             Trân trọng kính mời{" "}
             <span className="font-serif text-2xl font-semibold tracking-wide text-gold sm:text-3xl">
-              {guest || "tên Khách mời"}
+              {guest || "bạn"}
             </span>{" "}
             đến chung vui và lưu giữ những khoảnh khắc đáng nhớ cùng chúng mình.
           </p>
