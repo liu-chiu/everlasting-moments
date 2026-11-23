@@ -99,8 +99,11 @@ function Lightbox({
       aria-modal="true"
       aria-label="Xem ảnh"
       className="fixed inset-0 z-[70] flex items-center justify-center bg-night/95 backdrop-blur-sm"
+      style={{ touchAction: "pan-y" }}
       onClick={onClose}
-      onPointerDown={(e) => (startX.current = e.clientX)}
+      onPointerDown={(e) => {
+        startX.current = e.clientX;
+      }}
       onPointerUp={(e) => {
         if (startX.current === null) return;
         const dx = e.clientX - startX.current;
@@ -117,6 +120,26 @@ function Lightbox({
         className="rise-in max-h-[86svh] max-w-[92vw] select-none rounded-xl object-contain shadow-card"
         draggable={false}
       />
+      {/* Tap zones: chạm mép trái/phải để đổi ảnh — tránh vuốt ngang bị Zalo/
+          browser hiểu là back gesture và thoát thiệp. */}
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          go(-1);
+        }}
+        aria-label="Ảnh trước"
+        className="absolute inset-y-0 left-0 w-[22vw] max-w-[140px] cursor-w-resize opacity-0"
+      />
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          go(1);
+        }}
+        aria-label="Ảnh sau"
+        className="absolute inset-y-0 right-0 w-[22vw] max-w-[140px] cursor-e-resize opacity-0"
+      />
       <button
         type="button"
         onClick={onClose}
@@ -132,7 +155,7 @@ function Lightbox({
           go(-1);
         }}
         aria-label="Ảnh trước"
-        className="absolute left-3 top-1/2 hidden size-12 -translate-y-1/2 place-items-center rounded-full glass-night text-night-foreground sm:grid"
+        className="pointer-events-none absolute left-3 top-1/2 hidden size-12 -translate-y-1/2 place-items-center rounded-full glass-night text-night-foreground sm:grid"
       >
         <ChevronLeft />
       </button>
@@ -143,7 +166,7 @@ function Lightbox({
           go(1);
         }}
         aria-label="Ảnh sau"
-        className="absolute right-3 top-1/2 hidden size-12 -translate-y-1/2 place-items-center rounded-full glass-night text-night-foreground sm:grid"
+        className="pointer-events-none absolute right-3 top-1/2 hidden size-12 -translate-y-1/2 place-items-center rounded-full glass-night text-night-foreground sm:grid"
       >
         <ChevronRight />
       </button>
