@@ -12,7 +12,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { COUPLE_DISPLAY_NAMES, COUPLE_SHORT_LABEL } from "@/lib/wedding";
+import { COUPLE_DISPLAY_NAMES, COUPLE_SHORT_LABEL, GTM_CONTAINER_ID } from "@/lib/wedding";
 import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
@@ -140,11 +140,23 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="vi">
       <head>
         <HeadContent />
+        {/* Google Tag Manager */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${GTM_CONTAINER_ID}');`,
+          }}
+        />
         <meta httpEquiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
         <meta httpEquiv="Pragma" content="no-cache" />
         <meta httpEquiv="Expires" content="0" />
       </head>
       <body>
+        {/* Google Tag Manager (noscript) */}
+        <noscript
+          dangerouslySetInnerHTML={{
+            __html: `<iframe src="https://www.googletagmanager.com/ns.html?id=${GTM_CONTAINER_ID}" height="0" width="0" style="display:none;visibility:hidden"></iframe>`,
+          }}
+        />
         {children}
         <Scripts />
       </body>

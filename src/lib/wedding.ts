@@ -154,6 +154,9 @@ export const GIFTS = [
 
 export const GA_MEASUREMENT_ID = "G-WWTQ09Y9DT";
 
+/** Google Tag Manager container. GA4 property (G-WWTQ09Y9DT) is managed inside this container. */
+export const GTM_CONTAINER_ID = "GTM-TDDBVZVC";
+
 /* ---- RSVP confirmation content (kept word-for-word with the original site) ---- */
 export type InfoRow = [label: string, value: string, type?: "phone"];
 export type InfoCard = { title: string; items: InfoRow[] };

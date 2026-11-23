@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { WeddingPage } from "@/components/wedding/WeddingPage";
+import { initAnalytics } from "@/lib/analytics";
 import {
   COUPLE_DISPLAY_NAMES,
   COUPLE_SHORT_LABEL,
@@ -40,5 +42,10 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const { to, side } = Route.useSearch();
-  return <WeddingPage guest={to ?? ""} side={side} />;
+  const guest = to ?? "";
+  // Identify the guest in GTM dataLayer so GA4 can segment by guest name.
+  useEffect(() => {
+    initAnalytics(guest);
+  }, [guest]);
+  return <WeddingPage guest={guest} side={side} />;
 }
