@@ -57,7 +57,7 @@ export function Hero({ guest, started }: { guest: string; started: boolean }) {
           <p className={cn("eyebrow text-gold-soft lg:text-gold", anim)} style={d(150)}>
             Save our date
           </p>
-          <h1 className="mx-auto mt-5 max-w-full pb-4 pt-7 font-signature leading-[1.35] text-glow lg:mx-0 lg:mt-8">
+          <h1 className="mx-auto mt-3 max-w-full pb-3 pt-5 font-signature leading-[1.25] text-glow lg:mx-0 lg:mt-5">
             <span
               className={cn(
                 "block whitespace-nowrap text-[clamp(3rem,14vw,4.5rem)] sm:text-[clamp(4.5rem,11vw,6rem)] lg:text-[clamp(4rem,5.8vw,6rem)] xl:text-[6.5rem]",
@@ -69,7 +69,7 @@ export function Hero({ guest, started }: { guest: string; started: boolean }) {
             </span>
             <span
               className={cn(
-                "block font-script text-[2.5rem] leading-[1.05] text-gold sm:text-5xl lg:pl-20",
+                "block font-script text-[2rem] leading-[1.05] text-gold sm:text-4xl lg:pl-20",
                 anim,
               )}
               style={d(550)}

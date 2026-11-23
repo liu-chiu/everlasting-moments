@@ -36,7 +36,7 @@ export function Families() {
               <p className="text-[0.65rem] uppercase tracking-[0.35em] text-muted-foreground">
                 {s.label} · {s.person.role}
               </p>
-              <p className="mt-3 block min-w-0 break-words px-2 pb-3 pt-8 font-signature text-[2.5rem] leading-[1.8] text-wax lg:text-5xl">
+              <p className="mt-1.5 block min-w-0 break-words px-2 pb-3 font-signature text-[3rem] leading-[1.45] text-wax lg:text-[3.5rem]">
                 {s.person.display}
               </p>
             </div>

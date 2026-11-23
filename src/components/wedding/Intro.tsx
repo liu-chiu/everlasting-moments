@@ -116,12 +116,12 @@ export function Intro({ guest, onDone }: { guest: string; onDone: () => void }) 
           >
             The Wedding Invitation
           </p>
-          <h1 className="mt-4 max-w-full px-3 pb-3 pt-5 font-signature text-[clamp(2.4rem,11vw,3.2rem)] leading-[1.4] sm:text-[4.25rem] lg:text-[4.6rem] short:text-[2.4rem]">
+          <h1 className="mt-2 max-w-full px-3 pb-3 pt-4 font-signature text-[clamp(2.9rem,12.5vw,3.8rem)] leading-[1.25] sm:text-[4.9rem] lg:text-[5.4rem] short:text-[2.7rem]">
             <span className="rise-in block whitespace-nowrap" style={v({ "--delay": "300ms" })}>
               {COUPLE.bride.display}
             </span>
             <span
-              className="rise-in block font-script text-[0.55em] leading-[1.1] text-rose"
+              className="rise-in block font-script text-[0.5em] leading-[1.05] text-rose"
               style={v({ "--delay": "550ms" })}
             >
               &
@@ -131,7 +131,7 @@ export function Intro({ guest, onDone }: { guest: string; onDone: () => void }) 
             </span>
           </h1>
           <p
-            className="intro-date rise-in mt-6 font-serif text-lg tracking-[0.45em] text-gold-soft sm:text-xl short:mt-3"
+            className="intro-date rise-in mt-5 font-serif text-lg tracking-[0.45em] text-gold-soft sm:text-xl short:mt-3"
             style={v({ "--delay": "1000ms" })}
           >
             {WEDDING_DATE_LABEL.replaceAll(".", " · ")}
