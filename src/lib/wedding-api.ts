@@ -61,3 +61,20 @@ export async function submitAndVerify(payload: Record<string, string>) {
   }
   throw new Error("not-verified");
 }
+
+/** Best-effort log of a page visit to the coupled Google Sheet ("Visits" tab).
+ * Reuses the same no-cors POST endpoint as RSVP submissions, so no new CORS
+ * proxy is needed. The Apps Script backend must route `type: "visit"` rows to
+ * the "Visits" sheet; network errors are swallowed so a visit never blocks
+ * the guest experience. */
+export async function logVisit(payload: Record<string, string>) {
+  const id = submissionId();
+  await fetch(API_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({ ...payload, type: "visit", id }),
+  }).catch(() => {
+    /* best-effort; ignore network errors */
+  });
+}

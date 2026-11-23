@@ -11,7 +11,7 @@ import {
   TRAVEL,
   type Side,
 } from "@/lib/wedding";
-import { checkHealth, submitAndVerify, type Wish } from "@/lib/wedding-api";
+import { checkHealth, logVisit, submitAndVerify, type Wish } from "@/lib/wedding-api";
 import { track } from "@/lib/analytics";
 import { celebrate } from "./celebrate";
 import { InfoCard } from "./InfoCard";
@@ -78,6 +78,18 @@ export function Rsvp({
     );
     io.observe(el);
     return () => io.disconnect();
+  }, []);
+
+  // Log this visit to the "Visits" sheet (best-effort, never blocks the UI).
+  useEffect(() => {
+    logVisit({
+      guest: name || guest,
+      side: side ?? "",
+      timestamp: new Date().toISOString(),
+      url: window.location.href,
+      referrer: document.referrer,
+      userAgent: navigator.userAgent,
+    });
   }, []);
 
   const attending = attendance === ATTEND;
