@@ -9,3 +9,8 @@ export function rsvpFieldsFor(attendance: string) {
     declinedMessage: declined,
   };
 }
+
+/** The existing Google Sheet requires a guest count from 1–20 for every RSVP. */
+export function guestCountForSubmission(attendance: string, guests: string) {
+  return attendance === "Không thể tham dự" ? "1" : guests;
+}

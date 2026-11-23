@@ -20,7 +20,7 @@ import { SectionHeading } from "./SectionHeading";
 import { WeddingDialog } from "./WeddingDialog";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { rsvpFieldsFor } from "@/lib/rsvp-fields";
+import { guestCountForSubmission, rsvpFieldsFor } from "@/lib/rsvp-fields";
 
 type Status = "idle" | "sending" | "ok" | "error";
 const ATTEND = "Sẽ tham dự";
@@ -109,7 +109,7 @@ export function Rsvp({
         type: "rsvp",
         website: "",
         name: get("name").trim(),
-        guests: get("guests"),
+        guests: guestCountForSubmission(attendance, get("guests")),
         event: attending ? event : EVENT_OPTIONS.both,
         attendance,
         transportation: finalTransport,
