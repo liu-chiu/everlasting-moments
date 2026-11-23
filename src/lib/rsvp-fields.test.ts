@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { rsvpFieldsFor } from "./rsvp-fields";
+import { guestCountForSubmission, rsvpFieldsFor } from "./rsvp-fields";
 
 describe("RSVP attendance fields", () => {
   it("hides the event when the guest cannot attend", () => {
@@ -23,5 +23,13 @@ describe("RSVP attendance fields", () => {
       declinedMessage: false,
     });
     expect(rsvpFieldsFor("")).toMatchObject({ guests: true, phone: true, declinedMessage: false });
+  });
+
+  it("sends the required guest count when the hidden decline field is empty", () => {
+    expect(guestCountForSubmission("Không thể tham dự", "")).toBe("1");
+  });
+
+  it("keeps the entered guest count when attending", () => {
+    expect(guestCountForSubmission("Sẽ tham dự", "3")).toBe("3");
   });
 });

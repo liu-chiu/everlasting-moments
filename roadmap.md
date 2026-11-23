@@ -1,5 +1,7 @@
 # Roadmap — Lan & Chung wedding invitation
 
+- [x] Save declined RSVPs to the existing Google Sheet and verify the complete mocked submission flow
+
 - [x] Raise the 3D card photo framing to reveal more of the couple
 - [x] Balance both family columns and emphasize the parents' names; verify phone, tablet and desktop
 
