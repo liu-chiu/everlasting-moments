@@ -116,17 +116,23 @@ export function Intro({ guest, onDone }: { guest: string; onDone: () => void }) 
           >
             The Wedding Invitation
           </p>
-          <h1 className="mt-4 px-4 pb-3 pt-6 font-signature text-[2.9rem] leading-[1.5] sm:text-[4.6rem] short:text-[2.6rem]">
-            <span className="rise-in block" style={v({ "--delay": "300ms" })}>
+          <h1 className="mt-4 max-w-full px-3 pb-3 pt-5 font-signature text-[clamp(2.4rem,11vw,3.2rem)] leading-[1.4] sm:text-[4.25rem] lg:text-[4.6rem] short:text-[2.4rem]">
+            <span
+              className="rise-in block whitespace-nowrap"
+              style={v({ "--delay": "300ms" })}
+            >
               {COUPLE.bride.display}
             </span>
             <span
-              className="rise-in block font-script text-[0.6em] text-rose"
+              className="rise-in block font-script text-[0.55em] leading-[1.1] text-rose"
               style={v({ "--delay": "550ms" })}
             >
               &
             </span>
-            <span className="rise-in block" style={v({ "--delay": "800ms" })}>
+            <span
+              className="rise-in block whitespace-nowrap"
+              style={v({ "--delay": "800ms" })}
+            >
               {COUPLE.groom.display}
             </span>
           </h1>

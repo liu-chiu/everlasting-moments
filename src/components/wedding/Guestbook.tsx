@@ -7,9 +7,17 @@ import { WeddingDialog } from "./WeddingDialog";
 
 const COUPLE_WISH: Wish = {
   id: "couple-thank-you",
-  name: "Vợ chồng Lan & Chung",
+  name: "Vợ chồng Ngọc Lan & Văn Chung",
   wish: "Cảm ơn gia đình, người thân và bạn bè đã hiện diện để chung vui cùng chúng tôi trong ngày trọng đại này. Kính chúc mọi người nhiều sức khỏe, hạnh phúc và bình an!",
 };
+
+function isCoupleWishName(name: string) {
+  return (
+    name.includes("Ngọc Lan & Văn Chung") ||
+    name.includes("Lan & Chung") ||
+    name.includes("Vợ chồng")
+  );
+}
 
 const SAMPLE: Wish[] = [
   COUPLE_WISH,
@@ -30,9 +38,7 @@ export function Guestbook({ wishes, loading }: { wishes: Wish[]; loading: boolea
   const list = wishes.length ? wishes : SAMPLE;
 
   // Ensure COUPLE_WISH is included if backend doesn't return it
-  const hasCoupleWish = list.some(
-    (w) => w.name.includes("Lan & Chung") || w.name.includes("Vợ chồng"),
-  );
+  const hasCoupleWish = list.some((w) => isCoupleWishName(w.name));
   const allWishes = hasCoupleWish ? list : [COUPLE_WISH, ...list];
 
   const rows =
@@ -52,7 +58,7 @@ export function Guestbook({ wishes, loading }: { wishes: Wish[]; loading: boolea
         Lời chúc <em>từ khách mời</em>
       </SectionHeading>
 
-      {/* Featured Highlight Card for Vợ chồng Lan & Chung */}
+      {/* Featured thank-you card from the couple */}
       <div className="mx-auto mt-10 max-w-2xl sm:mt-12">
         <div className="gift-card relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-night via-dusk to-night p-6 text-night-foreground shadow-card ring-2 ring-gold/40 backdrop-blur-md sm:p-8">
           <div className="pointer-events-none absolute -right-10 -top-10 size-40 rounded-full bg-gold/15 blur-3xl" />
@@ -73,7 +79,7 @@ export function Guestbook({ wishes, loading }: { wishes: Wish[]; loading: boolea
 
             <div className="mt-6 flex items-center justify-end gap-3 border-t border-gold/25 bg-gradient-to-r from-transparent via-gold/5 to-transparent pt-4">
               <div className="text-right">
-                <p className="font-signature text-2xl text-gold drop-shadow-[0_0_12px_oklch(0.79_0.13_78/40%)] sm:text-3xl">
+                <p className="text-balance font-signature text-[clamp(1.35rem,6vw,1.875rem)] leading-[1.4] text-gold drop-shadow-[0_0_12px_oklch(0.79_0.13_78/40%)]">
                   {COUPLE_WISH.name}
                 </p>
               </div>
@@ -167,7 +173,7 @@ function WishCard({
   hidden?: boolean;
   full?: boolean;
 }) {
-  const isCouple = wish.name.includes("Lan & Chung") || wish.name.includes("Vợ chồng");
+  const isCouple = isCoupleWishName(wish.name);
 
   if (isCouple) {
     return (
@@ -192,9 +198,11 @@ function WishCard({
         >
           “{wish.wish}”
         </blockquote>
-        <figcaption className="mt-4 flex items-center justify-between border-t border-gold/20 pt-4">
-          <span className="font-signature text-xl text-gold">{wish.name}</span>
-          <Heart className="size-4 text-gold/60 fill-gold/20" />
+        <figcaption className="mt-4 flex items-center justify-between gap-3 border-t border-gold/20 pt-4">
+          <span className="min-w-0 text-balance font-signature text-[clamp(1.15rem,5vw,1.5rem)] leading-[1.35] text-gold">
+            {isCouple ? COUPLE_WISH.name : wish.name}
+          </span>
+          <Heart className="size-4 shrink-0 fill-gold/20 text-gold/60" />
         </figcaption>
       </figure>
     );

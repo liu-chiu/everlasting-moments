@@ -38,8 +38,8 @@ export function Hero({ guest, started }: { guest: string; started: boolean }) {
               </defs>
               <text
                 fill="currentColor"
-                fontSize="13"
-                letterSpacing="3.2"
+                fontSize="11.5"
+                letterSpacing="2.2"
                 className="font-sans uppercase"
               >
                 <textPath href="#ring">
@@ -57,24 +57,33 @@ export function Hero({ guest, started }: { guest: string; started: boolean }) {
           <p className={cn("eyebrow text-gold-soft lg:text-gold", anim)} style={d(150)}>
             Save our date
           </p>
-          <h1 className="mt-6 pb-4 pt-8 font-signature leading-[1.5] text-glow lg:mt-10">
+          <h1 className="mx-auto mt-5 max-w-full pb-4 pt-7 font-signature leading-[1.35] text-glow lg:mx-0 lg:mt-8">
             <span
-              className={cn("block text-[4.6rem] sm:text-[7rem] xl:text-[9rem]", anim)}
+              className={cn(
+                "block whitespace-nowrap text-[clamp(3rem,14vw,4.5rem)] sm:text-[clamp(4.5rem,11vw,6rem)] lg:text-[clamp(4rem,5.8vw,6rem)] xl:text-[6.5rem]",
+                anim,
+              )}
               style={d(300)}
             >
-              {COUPLE.bride.short}
+              {COUPLE.bride.display}
             </span>
             <span
-              className={cn("block font-script text-5xl text-gold sm:text-6xl lg:pl-24", anim)}
+              className={cn(
+                "block font-script text-[2.5rem] leading-[1.05] text-gold sm:text-5xl lg:pl-20",
+                anim,
+              )}
               style={d(550)}
             >
               &
             </span>
             <span
-              className={cn("block text-[4.6rem] sm:text-[7rem] lg:pl-10 xl:text-[9rem]", anim)}
+              className={cn(
+                "block whitespace-nowrap text-[clamp(3rem,14vw,4.5rem)] sm:text-[clamp(4.5rem,11vw,6rem)] lg:pl-8 lg:text-[clamp(4rem,5.8vw,6rem)] xl:text-[6.5rem]",
+                anim,
+              )}
               style={d(800)}
             >
-              {COUPLE.groom.short}
+              {COUPLE.groom.display}
             </span>
           </h1>
           <div

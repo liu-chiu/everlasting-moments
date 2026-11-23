@@ -1,4 +1,6 @@
-# Roadmap — Lan & Chung wedding invitation
+# Roadmap — Ngọc Lan & Văn Chung wedding invitation
+
+- [ ] Use Ngọc Lan & Văn Chung everywhere and balance name scaling on phone, tablet and desktop
 
 - [x] Save declined RSVPs to the existing Google Sheet and verify the complete mocked submission flow
 

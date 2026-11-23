@@ -30,7 +30,9 @@ export function LinkGeneratorForm() {
   return (
     <div>
       <Logo className="size-16" eager />
-      <p className="eyebrow mt-4">Dành cho {COUPLE_SHORT_LABEL}</p>
+      <p className="eyebrow mt-4 break-words text-[0.6rem] leading-relaxed tracking-[0.18em] sm:text-[0.7rem] sm:tracking-[0.28em]">
+        Dành cho {COUPLE_SHORT_LABEL}
+      </p>
       <h2 className="mt-2 font-serif text-3xl font-medium sm:text-4xl">Tạo link gửi khách mời</h2>
       <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
         Nhập tên khách mời để tạo đường link thiệp riêng — tên sẽ hiện trên phong bì, thiệp và biểu

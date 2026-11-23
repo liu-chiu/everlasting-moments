@@ -33,7 +33,7 @@ export function WeddingDialog({
         >
           <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-border sm:hidden" />
           <div className="flex items-center justify-between gap-4">
-            <span className="eyebrow">
+            <span className="eyebrow min-w-0 break-words text-[0.56rem] leading-relaxed tracking-[0.18em] sm:text-[0.65rem] sm:tracking-[0.26em]">
               {COUPLE_SHORT_LABEL} · {WEDDING_DATE_LABEL}
             </span>
             <D.Close

@@ -25,7 +25,7 @@ export function Finale() {
           <p className="eyebrow gold-rule justify-center text-gold-soft">Thank you</p>
         </Reveal>
 
-        <Reveal className="max-w-2xl">
+        <Reveal className="max-w-4xl">
           <h2 className="font-serif text-3xl leading-snug sm:text-5xl lg:text-6xl">
             Cảm ơn bạn
             <br />
@@ -33,10 +33,12 @@ export function Finale() {
             <br />
             trong ngày đặc biệt.
           </h2>
-          <p className="mt-8 font-signature text-5xl leading-[1.2] text-glow sm:text-6xl lg:text-7xl">
-            {COUPLE.bride.short}{" "}
-            <span className="font-script text-3xl text-gold sm:text-4xl">&</span>{" "}
-            {COUPLE.groom.short}
+          <p className="mt-7 font-signature text-[clamp(2.75rem,12vw,4rem)] leading-[1.3] text-glow sm:text-6xl lg:text-7xl">
+            <span className="block sm:inline">{COUPLE.bride.display}</span>{" "}
+            <span className="block font-script text-[0.65em] leading-[1.1] text-gold sm:inline">
+              &
+            </span>{" "}
+            <span className="block sm:inline">{COUPLE.groom.display}</span>
           </p>
           <p className="mt-3 font-serif text-base tracking-[0.5em] text-gold-soft sm:text-lg">
             {WEDDING_DATE_LABEL}

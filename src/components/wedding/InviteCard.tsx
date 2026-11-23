@@ -141,11 +141,12 @@ export function InviteCard({ guest, side }: { guest: string; side?: Side | undef
               />
               <FloralCorner className="absolute left-2 top-2 z-[3] size-20 text-gold-soft/75 sm:size-24" />
               <Logo className="absolute right-4 top-4 z-10 size-11 sm:size-12" />
-              <div className="relative z-10 px-5 pt-2 text-center">
+              <div className="relative z-10 px-3 pt-2 text-center sm:px-5">
                 <p className="eyebrow text-[0.58rem]">Wedding invitation</p>
-                <p className="mt-2 pb-1 pt-5 font-signature text-[2rem] leading-[1.6] text-foreground sm:text-[2.5rem]">
-                  {COUPLE.bride.short} <span className="font-script text-[0.62em] text-wax">&</span>{" "}
-                  {COUPLE.groom.short}
+                <p className="mt-1 whitespace-nowrap pb-1 pt-4 font-signature text-[clamp(1.3rem,5.7vw,1.8rem)] leading-[1.65] text-foreground sm:text-[1.85rem]">
+                  {COUPLE.bride.display}{" "}
+                  <span className="font-script text-[0.62em] text-wax">&</span>{" "}
+                  {COUPLE.groom.display}
                 </p>
                 <p className="mt-2 font-serif text-sm tracking-[0.22em] text-gold-deep sm:text-base">
                   {WEDDING_WEEKDAY} · {WEDDING_DATE_LABEL}
