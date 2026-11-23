@@ -18,6 +18,13 @@
   font-weight: 400;
 }
 
+@font-face {
+  font-family: "SVN Dancing Script";
+  src: url("/fonts/SVN-Dancing script.ttf") format("truetype");
+  font-display: swap;
+  font-weight: 400;
+}
+
 /*
  * Design system — "Hạ Long twilight": a starry night that melts into a golden
  * sunset over the bay, printed on warm cream paper with a wax seal.
@@ -26,7 +33,7 @@
   --font-sans: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-serif: "Cormorant Garamond", "Times New Roman", serif;
   --font-script: "Great Vibes", "Brittany Signature", cursive;
-  --font-signature: "Brittany Signature", "Great Vibes", cursive;
+  --font-signature: "SVN Dancing Script", "Brittany Signature", "Great Vibes", cursive;
   --font-charm: "Charm", "Great Vibes", cursive;
   --font-alex: "Alex Brush", "Great Vibes", cursive;
 

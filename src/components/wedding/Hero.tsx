@@ -108,8 +108,11 @@ export function Hero({ guest, started }: { guest: string; started: boolean }) {
             <span className="font-charm text-2xl font-bold tracking-wide text-gold-soft">
               {COUPLE.groom.display}
             </span>{" "}
-            trân trọng kính mời {guest || "bạn"} đến chung vui và lưu giữ những khoảnh khắc đáng nhớ
-            cùng chúng mình.
+            trân trọng kính mời{" "}
+            <span className="font-serif text-2xl font-semibold tracking-wide text-gold sm:text-3xl">
+              {guest || "bạn"}
+            </span>{" "}
+            đến chung vui và lưu giữ những khoảnh khắc đáng nhớ cùng chúng mình.
           </p>
         </div>
       </div>
