@@ -20,7 +20,7 @@ export function Finale() {
         />
         <div className="hero-veil absolute inset-0 -z-10 bg-night/40" />
         <StarField className="-z-10 h-1/2" density={0.5} />
-        
+
         <Reveal className="pt-2">
           <p className="eyebrow gold-rule justify-center text-gold-soft">Thank you</p>
         </Reveal>

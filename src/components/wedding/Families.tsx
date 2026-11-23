@@ -20,11 +20,15 @@ export function Families() {
               <p className="eyebrow">{s.fam.title}</p>
               <div className="mt-5 grid gap-2 font-serif text-2xl font-medium italic leading-relaxed text-ocean-deep sm:text-[1.75rem] md:min-h-24 md:text-2xl lg:text-[1.75rem]">
                 <p>
-                  <span className="mr-1 text-lg font-normal not-italic text-muted-foreground">Ông</span>{" "}
+                  <span className="mr-1 text-lg font-normal not-italic text-muted-foreground">
+                    Ông
+                  </span>{" "}
                   {s.fam.father}
                 </p>
                 <p>
-                  <span className="mr-1 text-lg font-normal not-italic text-muted-foreground">Bà</span>{" "}
+                  <span className="mr-1 text-lg font-normal not-italic text-muted-foreground">
+                    Bà
+                  </span>{" "}
                   {s.fam.mother}
                 </p>
               </div>

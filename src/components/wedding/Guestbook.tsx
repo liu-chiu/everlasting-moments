@@ -28,9 +28,11 @@ const SAMPLE: Wish[] = [
 export function Guestbook({ wishes, loading }: { wishes: Wish[]; loading: boolean }) {
   const [showAll, setShowAll] = useState(false);
   const list = wishes.length ? wishes : SAMPLE;
-  
+
   // Ensure COUPLE_WISH is included if backend doesn't return it
-  const hasCoupleWish = list.some((w) => w.name.includes("Lan & Chung") || w.name.includes("Vợ chồng"));
+  const hasCoupleWish = list.some(
+    (w) => w.name.includes("Lan & Chung") || w.name.includes("Vợ chồng"),
+  );
   const allWishes = hasCoupleWish ? list : [COUPLE_WISH, ...list];
 
   const rows =
@@ -56,7 +58,7 @@ export function Guestbook({ wishes, loading }: { wishes: Wish[]; loading: boolea
           <div className="pointer-events-none absolute -right-10 -top-10 size-40 rounded-full bg-gold/15 blur-3xl" />
           <div className="pointer-events-none absolute -left-10 -bottom-10 size-40 rounded-full bg-wax/15 blur-3xl" />
           <div className="pointer-events-none absolute inset-0 rounded-[2rem] bg-[radial-gradient(ellipse_at_top,oklch(0.79_0.13_78/10%),transparent_60%)]" />
-          
+
           <div className="relative z-10">
             <div className="flex items-center justify-between gap-3">
               <span className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-gradient-to-r from-gold/25 via-gold/10 to-gold/25 px-3.5 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-gold shadow-[0_0_18px_oklch(0.79_0.13_78/25%)]">

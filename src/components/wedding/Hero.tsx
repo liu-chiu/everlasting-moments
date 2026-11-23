@@ -101,10 +101,15 @@ export function Hero({ guest, started }: { guest: string; started: boolean }) {
             )}
             style={d(1250)}
           >
-            <strong className="font-medium text-night-foreground">{COUPLE.bride.full}</strong> và{" "}
-            <strong className="font-medium text-night-foreground">{COUPLE.groom.full}</strong> trân
-            trọng kính mời {guest || "bạn"} đến chung vui và lưu giữ những khoảnh khắc đáng nhớ cùng
-            chúng mình.
+            <span className="font-charm text-2xl font-bold tracking-wide text-gold-soft">
+              {COUPLE.bride.display}
+            </span>{" "}
+            và{" "}
+            <span className="font-charm text-2xl font-bold tracking-wide text-gold-soft">
+              {COUPLE.groom.display}
+            </span>{" "}
+            trân trọng kính mời {guest || "bạn"} đến chung vui và lưu giữ những khoảnh khắc đáng nhớ
+            cùng chúng mình.
           </p>
         </div>
       </div>

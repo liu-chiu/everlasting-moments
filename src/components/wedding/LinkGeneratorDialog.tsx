@@ -12,7 +12,9 @@ export function LinkGeneratorForm() {
   const [side, setSide] = useState<"" | "bride" | "groom">("");
   const [copied, setCopied] = useState(false);
   const guest = name.trim();
-  const link = guest ? buildGuestLink("https://lan-chung-invitation.lovable.app/", guest, side || undefined) : "";
+  const link = guest
+    ? buildGuestLink("https://lan-chung-invitation.lovable.app/", guest, side || undefined)
+    : "";
 
   const copy = async () => {
     if (!link) return;
@@ -56,7 +58,10 @@ export function LinkGeneratorForm() {
           <option value="groom">Tiệc nhà trai (Sóc Sơn)</option>
         </select>
       </label>
-      <div aria-live="polite" className="mt-5 flex items-center gap-2 rounded-2xl bg-muted p-3 pl-4">
+      <div
+        aria-live="polite"
+        className="mt-5 flex items-center gap-2 rounded-2xl bg-muted p-3 pl-4"
+      >
         <p className="min-w-0 flex-1 break-all font-mono text-xs text-foreground">
           {link || "https://lan-chung-invitation.lovable.app/"}
         </p>

@@ -183,7 +183,7 @@ export function Intro({ guest, onDone }: { guest: string; onDone: () => void }) 
                   data-open={phase !== "closed"}
                 >
                   <div className="absolute inset-0 rounded-xl bg-paper-deep shadow-card ring-1 ring-gold/50" />
-                  <div className="envelope-letter absolute inset-x-4 bottom-3 top-3 z-10 flex flex-col items-center justify-center overflow-hidden rounded-lg bg-card px-4 text-foreground">
+                  <div className="envelope-letter pointer-events-none absolute inset-x-4 bottom-3 top-3 z-10 flex flex-col items-center justify-center overflow-hidden rounded-lg bg-card px-4 text-foreground">
                     <OrnamentalFrame
                       className="inset-1.5"
                       cornerClassName="size-10 opacity-40 sm:size-12"
@@ -197,7 +197,7 @@ export function Intro({ guest, onDone }: { guest: string; onDone: () => void }) 
                     </p>
                     <FloralFlourish className="relative z-10 mt-1.5 w-24 text-gold-deep/45" />
                   </div>
-                  <div className="envelope-pocket absolute inset-0 z-20 rounded-xl bg-paper shadow-[inset_0_-12px_30px_-20px_var(--gold-deep)]">
+                  <div className="envelope-pocket pointer-events-none absolute inset-0 z-20 rounded-xl bg-paper shadow-[inset_0_-12px_30px_-20px_var(--gold-deep)]">
                     <OrnamentalFrame
                       corners="bottom"
                       className="inset-[6px]"
@@ -212,7 +212,7 @@ export function Intro({ guest, onDone }: { guest: string; onDone: () => void }) 
                       </p>
                     </div>
                   </div>
-                  <div className="envelope-flap absolute inset-x-0 top-0 h-full rounded-t-xl bg-gradient-to-b from-paper-deep to-paper">
+                  <div className="envelope-flap pointer-events-none absolute inset-x-0 top-0 h-full rounded-t-xl bg-gradient-to-b from-paper-deep to-paper">
                     <FloralFlourish className="absolute left-1/2 top-4 w-32 -translate-x-1/2 text-gold-deep/45 sm:w-40" />
                   </div>
                   <div className="envelope-sheen pointer-events-none absolute inset-0 z-[35] overflow-hidden rounded-xl" />
