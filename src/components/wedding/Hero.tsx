@@ -47,7 +47,7 @@ export function Hero({ guest, started }: { guest: string; started: boolean }) {
                 </textPath>
               </text>
             </svg>
-            <Logo className="absolute inset-[18%] rounded-full shadow-gold" ring={false} eager />
+            <Logo className="absolute inset-[18%]" ring={false} eager />
           </div>
         </div>
 

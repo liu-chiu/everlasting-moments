@@ -45,7 +45,7 @@ export function Families() {
         <Reveal zoom className="order-first mx-auto md:order-2">
           <div className="relative">
             <span className="absolute -inset-3 animate-spin-slow rounded-full border border-dashed border-gold/50" />
-            <Logo className="size-28 shadow-gold sm:size-32" />
+            <Logo className="size-28 sm:size-32" />
           </div>
         </Reveal>
       </div>
