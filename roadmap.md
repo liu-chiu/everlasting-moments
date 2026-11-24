@@ -1,5 +1,10 @@
 # Roadmap — Ngọc Lan & Văn Chung wedding invitation
 
+- [ ] Restore the exact gallery position after closing and support pinch, double-tap and button zoom
+- [ ] Prevent the mirrored front face from bleeding through the 3D card back on iPhone
+- [ ] Save both gift QR codes as PNG images and verify the downloads
+- [ ] Verify gallery, card and gifts on phone, tablet and desktop; run tests and save changes
+
 - [ ] Use Ngọc Lan & Văn Chung everywhere and balance name scaling on phone, tablet and desktop
 
 - [x] Save declined RSVPs to the existing Google Sheet and verify the complete mocked submission flow

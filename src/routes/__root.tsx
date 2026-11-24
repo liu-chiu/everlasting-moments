@@ -128,7 +128,11 @@ function RootShell({ children }: { children: ReactNode }) {
           Promise.all(keys.map((k) => caches.delete(k))),
         );
       }
-      if (performance.getEntriesByType("navigation").some((n) => n.type === "back_forward")) {
+      if (
+        performance
+          .getEntriesByType("navigation")
+          .some((n) => (n as PerformanceNavigationTiming).type === "back_forward")
+      ) {
         location.reload();
       }
     } catch {

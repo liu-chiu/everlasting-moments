@@ -9,7 +9,7 @@ const querySchema = z
   })
   .strict();
 
-/** Downloads one of the two fixed wedding QR codes; it is not a general-purpose proxy. */
+/** Serves one of the two fixed wedding QR codes; it is not a general-purpose proxy. */
 export const Route = createFileRoute("/api/public/gift-qr")({
   server: {
     handlers: {
@@ -26,12 +26,9 @@ export const Route = createFileRoute("/api/public/gift-qr")({
           });
           if (!upstream.ok || !upstream.body)
             return new Response("Chưa tải được mã QR", { status: 502 });
-          const contentType = upstream.headers.get("content-type") ?? "image/png";
-          const extension = contentType.includes("svg") ? "svg" : "png";
           return new Response(upstream.body, {
             headers: {
-              "Content-Type": contentType,
-              "Content-Disposition": `attachment; filename="ma-qr-mung-cuoi-${gift.side === "bride" ? "co-dau" : "chu-re"}.${extension}"`,
+              "Content-Type": upstream.headers.get("content-type") ?? "image/svg+xml",
               "Cache-Control": "public, max-age=300",
               "X-Content-Type-Options": "nosniff",
             },
