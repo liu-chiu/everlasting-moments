@@ -1,6 +1,8 @@
-import { useState, type CSSProperties } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import { Copy, Download } from "lucide-react";
 import { toast } from "sonner";
+import { deliverFile } from "@/lib/download-file";
+import { qrResponseToPng } from "@/lib/qr-image";
 import { GIFTS, vietQrUrl } from "@/lib/wedding";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
@@ -27,8 +29,35 @@ export function Gifts({ guest }: { guest: string }) {
 
 function GiftBox({ gift, guest }: { gift: (typeof GIFTS)[number]; guest: string }) {
   const [open, setOpen] = useState(false);
+  const [png, setPng] = useState<Blob | null>(null);
+  const [preparing, setPreparing] = useState(false);
+  const [downloadError, setDownloadError] = useState(false);
+  const [attempt, setAttempt] = useState(0);
   const qr = vietQrUrl(gift.bankCode, gift.account, gift.holder, guest);
   const downloadUrl = `/api/public/gift-qr?${new URLSearchParams({ side: gift.side, ...(guest ? { to: guest } : {}) })}`;
+  const filename = `ma-qr-mung-cuoi-${gift.side === "bride" ? "co-dau" : "chu-re"}.png`;
+
+  useEffect(() => {
+    if (!open || png) return;
+    let cancelled = false;
+    setPreparing(true);
+    setDownloadError(false);
+    const prepare = async () => {
+      try {
+        const response = await fetch(downloadUrl);
+        const image = await qrResponseToPng(response);
+        if (!cancelled) setPng(image);
+      } catch {
+        if (!cancelled) setDownloadError(true);
+      } finally {
+        if (!cancelled) setPreparing(false);
+      }
+    };
+    void prepare();
+    return () => {
+      cancelled = true;
+    };
+  }, [attempt, downloadUrl, open, png]);
 
   const copy = async () => {
     try {
@@ -37,6 +66,14 @@ function GiftBox({ gift, guest }: { gift: (typeof GIFTS)[number]; guest: string 
     } catch {
       toast.error("Không thể sao chép");
     }
+  };
+
+  const savePng = () => {
+    if (png) {
+      void deliverFile(png, filename);
+      return;
+    }
+    if (downloadError) setAttempt((value) => value + 1);
   };
 
   return (
@@ -110,13 +147,16 @@ function GiftBox({ gift, guest }: { gift: (typeof GIFTS)[number]; guest: string 
             className="mx-auto mt-4 aspect-square w-full max-w-[15rem] rounded-2xl bg-muted object-contain"
           />
           <div className="mt-4 grid grid-cols-2 gap-2 text-xs">
-            <a
-              href={downloadUrl}
-              download
-              className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-full bg-night px-3 py-2 text-night-foreground"
+            <button
+              type="button"
+              onClick={savePng}
+              disabled={!png && !downloadError}
+              aria-label={`Lưu ảnh PNG mã QR cho ${gift.holder}`}
+              className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-full bg-night px-3 py-2 text-night-foreground disabled:cursor-wait disabled:opacity-50"
             >
-              <Download className="size-3.5" /> Lưu mã QR
-            </a>
+              <Download className="size-3.5" />
+              {preparing ? "Đang tạo PNG…" : downloadError && !png ? "Thử lại" : "Lưu ảnh PNG"}
+            </button>
             <button
               type="button"
               onClick={() => setOpen(false)}

@@ -1,5 +1,12 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type PointerEvent as ReactPointerEvent,
+} from "react";
+import { ChevronLeft, ChevronRight, Minus, Plus, RotateCcw, X } from "lucide-react";
+import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import { GALLERY } from "@/lib/wedding";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
@@ -7,7 +14,37 @@ import { SectionHeading } from "./SectionHeading";
 export function Gallery() {
   const [open, setOpen] = useState<number | null>(null);
   const [showAll, setShowAll] = useState(false);
+  const triggerRefs = useRef(new Map<number, HTMLButtonElement>());
+  const scrollPosition = useRef(0);
+  const openedFrom = useRef<number | null>(null);
+  const restoreAfterClose = useRef(false);
   const items = showAll ? GALLERY : GALLERY.slice(0, 12);
+
+  const openPhoto = (index: number) => {
+    scrollPosition.current = window.scrollY;
+    openedFrom.current = index;
+    setOpen(index);
+  };
+
+  const closePhoto = useCallback(() => {
+    restoreAfterClose.current = true;
+    setOpen(null);
+  }, []);
+
+  useEffect(() => {
+    if (open !== null || !restoreAfterClose.current) return;
+    restoreAfterClose.current = false;
+    // Run after the lightbox cleanup has released the page's scroll lock.
+    const frame = requestAnimationFrame(() => {
+      const originalIndex = openedFrom.current;
+      window.scrollTo({ top: scrollPosition.current, left: 0, behavior: "instant" });
+      if (originalIndex !== null) {
+        triggerRefs.current.get(originalIndex)?.focus({ preventScroll: true });
+      }
+      openedFrom.current = null;
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [open]);
 
   return (
     <section id="gallery" className="paper-grain relative px-4 py-24 sm:px-6 sm:py-32">
@@ -19,8 +56,12 @@ export function Gallery() {
         {items.map((g, i) => (
           <Reveal key={g.id} delay={(i % 4) * 90} className="mb-3 break-inside-avoid sm:mb-4">
             <button
+              ref={(node) => {
+                if (node) triggerRefs.current.set(i, node);
+                else triggerRefs.current.delete(i);
+              }}
               type="button"
-              onClick={() => setOpen(i)}
+              onClick={() => openPhoto(i)}
               className="group relative block w-full overflow-hidden rounded-2xl bg-muted shadow-soft"
               aria-label={`Xem ảnh ${g.id}`}
             >
@@ -51,7 +92,7 @@ export function Gallery() {
         </div>
       )}
 
-      {open !== null && <Lightbox index={open} onClose={() => setOpen(null)} onIndex={setOpen} />}
+      {open !== null && <Lightbox index={open} onClose={closePhoto} onIndex={setOpen} />}
     </section>
   );
 }
@@ -66,11 +107,19 @@ function Lightbox({
   onIndex: (i: number) => void;
 }) {
   const total = GALLERY.length;
+  const [scale, setScale] = useState(1);
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const gestureStart = useRef<{ x: number; y: number; id: number } | null>(null);
   const go = useCallback(
     (d: number) => onIndex((index + d + total) % total),
     [index, onIndex, total],
   );
-  const startX = useRef<number | null>(null);
+
+  useEffect(() => {
+    document.documentElement.classList.add("is-locked");
+    closeRef.current?.focus({ preventScroll: true });
+    return () => document.documentElement.classList.remove("is-locked");
+  }, []);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -79,17 +128,30 @@ function Lightbox({
       if (e.key === "ArrowLeft") go(-1);
     };
     document.addEventListener("keydown", onKey);
-    document.documentElement.classList.add("is-locked");
+    return () => document.removeEventListener("keydown", onKey);
+  }, [go, onClose]);
+
+  useEffect(() => {
+    setScale(1);
     // Warm up neighbours for instant swipes.
     [1, -1].forEach((d) => {
       const n = GALLERY[(index + d + total) % total];
       if (n) new Image().src = n.full;
     });
-    return () => {
-      document.removeEventListener("keydown", onKey);
-      document.documentElement.classList.remove("is-locked");
-    };
-  }, [go, index, onClose, total]);
+  }, [index, total]);
+
+  const onPointerDown = (e: ReactPointerEvent<HTMLDivElement>) => {
+    if (scale > 1.01 || (e.target as HTMLElement).closest("button")) return;
+    gestureStart.current = { x: e.clientX, y: e.clientY, id: e.pointerId };
+  };
+  const onPointerUp = (e: ReactPointerEvent<HTMLDivElement>) => {
+    const start = gestureStart.current;
+    gestureStart.current = null;
+    if (!start || start.id !== e.pointerId || scale > 1.01) return;
+    const dx = e.clientX - start.x;
+    const dy = e.clientY - start.y;
+    if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.25) go(dx < 0 ? 1 : -1);
+  };
 
   const g = GALLERY[index];
   if (!g) return null;
@@ -97,82 +159,108 @@ function Lightbox({
     <div
       role="dialog"
       aria-modal="true"
-      aria-label="Xem ảnh"
-      className="fixed inset-0 z-[70] flex items-center justify-center bg-night/95 backdrop-blur-sm"
-      style={{ touchAction: "pan-y" }}
-      onClick={onClose}
-      onPointerDown={(e) => {
-        startX.current = e.clientX;
-      }}
-      onPointerUp={(e) => {
-        if (startX.current === null) return;
-        const dx = e.clientX - startX.current;
-        startX.current = null;
-        if (Math.abs(dx) > 50) go(dx < 0 ? 1 : -1);
+      aria-label={`Xem ảnh ${index + 1} trên ${total}`}
+      className="fixed inset-0 z-[70] overflow-hidden bg-night/95 backdrop-blur-sm"
+      onPointerDown={onPointerDown}
+      onPointerUp={onPointerUp}
+      onPointerCancel={() => {
+        gestureStart.current = null;
       }}
     >
-      <img
+      <TransformWrapper
         key={g.id}
-        src={g.full}
-        alt={g.alt}
-        decoding="async"
-        onClick={(e) => e.stopPropagation()}
-        className="rise-in max-h-[86svh] max-w-[92vw] select-none rounded-xl object-contain shadow-card"
-        draggable={false}
-      />
-      {/* Tap zones: chạm mép trái/phải để đổi ảnh — tránh vuốt ngang bị Zalo/
-          browser hiểu là back gesture và thoát thiệp. */}
+        initialScale={1}
+        minScale={1}
+        maxScale={5}
+        centerOnInit
+        centerZoomedOut
+        limitToBounds
+        wheel={{ step: 0.12 }}
+        pinch={{ step: 5 }}
+        doubleClick={{ mode: "toggle", step: 2 }}
+        panning={{ disabled: scale <= 1.01, velocityDisabled: true }}
+        onTransform={(ref) => setScale(ref.state.scale)}
+      >
+        {({ zoomIn, zoomOut, resetTransform }) => (
+          <>
+            <TransformComponent
+              wrapperClass="!absolute !inset-0 !h-full !w-full"
+              contentClass="!flex !h-full !w-full !items-center !justify-center"
+              wrapperStyle={{ touchAction: "none" }}
+            >
+              <img
+                src={g.full}
+                alt={g.alt}
+                decoding="async"
+                className="max-h-[76svh] max-w-[92vw] select-none rounded-xl object-contain shadow-card"
+                draggable={false}
+              />
+            </TransformComponent>
+
+            <div className="absolute bottom-[max(1rem,env(safe-area-inset-bottom))] left-1/2 z-20 flex -translate-x-1/2 items-center overflow-hidden rounded-full border border-gold/40 glass-night text-night-foreground shadow-card">
+              <button
+                type="button"
+                onClick={() => zoomOut()}
+                disabled={scale <= 1.01}
+                aria-label="Thu nhỏ ảnh"
+                className="grid size-11 place-items-center transition hover:bg-gold/10 disabled:opacity-35"
+              >
+                <Minus className="size-5" />
+              </button>
+              <button
+                type="button"
+                onClick={() => resetTransform()}
+                aria-label="Đặt lại tỉ lệ ảnh"
+                className="flex h-11 w-20 items-center justify-center gap-1 text-xs font-medium tabular-nums transition hover:bg-gold/10"
+              >
+                <RotateCcw className="size-3.5" />
+                {Math.round(scale * 100)}%
+              </button>
+              <button
+                type="button"
+                onClick={() => zoomIn()}
+                disabled={scale >= 4.95}
+                aria-label="Phóng to ảnh"
+                className="grid size-11 place-items-center transition hover:bg-gold/10 disabled:opacity-35"
+              >
+                <Plus className="size-5" />
+              </button>
+            </div>
+          </>
+        )}
+      </TransformWrapper>
+
+      <p className="pointer-events-none absolute bottom-[calc(env(safe-area-inset-bottom)+5rem)] left-1/2 w-max max-w-[calc(100vw-2rem)] -translate-x-1/2 rounded-full glass-night px-4 py-2 text-center text-[0.65rem] leading-relaxed text-night-foreground/80 shadow-soft sm:text-xs">
+        Chạm hai lần, cuộn hoặc chụm hai ngón để thu phóng
+      </p>
+      <p className="pointer-events-none absolute left-4 top-[max(1rem,env(safe-area-inset-top))] rounded-full glass-night px-4 py-2 font-serif text-sm tracking-[0.2em] text-gold-soft sm:left-6">
+        {index + 1} / {total}
+      </p>
       <button
-        type="button"
-        onClick={(e) => {
-          e.stopPropagation();
-          go(-1);
-        }}
-        aria-label="Ảnh trước"
-        className="absolute inset-y-0 left-0 w-[22vw] max-w-[140px] cursor-w-resize opacity-0"
-      />
-      <button
-        type="button"
-        onClick={(e) => {
-          e.stopPropagation();
-          go(1);
-        }}
-        aria-label="Ảnh sau"
-        className="absolute inset-y-0 right-0 w-[22vw] max-w-[140px] cursor-e-resize opacity-0"
-      />
-      <button
+        ref={closeRef}
         type="button"
         onClick={onClose}
-        aria-label="Đóng"
-        className="absolute right-4 top-4 grid size-11 place-items-center rounded-full glass-night text-night-foreground"
+        aria-label="Đóng ảnh và quay lại gallery"
+        className="absolute right-4 top-[max(1rem,env(safe-area-inset-top))] z-30 grid size-11 place-items-center rounded-full glass-night text-night-foreground shadow-soft transition hover:scale-105 sm:right-6"
       >
         <X className="size-5" />
       </button>
       <button
         type="button"
-        onClick={(e) => {
-          e.stopPropagation();
-          go(-1);
-        }}
+        onClick={() => go(-1)}
         aria-label="Ảnh trước"
-        className="pointer-events-none absolute left-3 top-1/2 hidden size-12 -translate-y-1/2 place-items-center rounded-full glass-night text-night-foreground sm:grid"
+        className="absolute left-3 top-1/2 z-20 grid size-11 -translate-y-1/2 place-items-center rounded-full glass-night text-night-foreground shadow-soft transition hover:scale-105 sm:left-6 sm:size-12"
       >
         <ChevronLeft />
       </button>
       <button
         type="button"
-        onClick={(e) => {
-          e.stopPropagation();
-          go(1);
-        }}
+        onClick={() => go(1)}
         aria-label="Ảnh sau"
-        className="pointer-events-none absolute right-3 top-1/2 hidden size-12 -translate-y-1/2 place-items-center rounded-full glass-night text-night-foreground sm:grid"
+        className="absolute right-3 top-1/2 z-20 grid size-11 -translate-y-1/2 place-items-center rounded-full glass-night text-night-foreground shadow-soft transition hover:scale-105 sm:right-6 sm:size-12"
       >
         <ChevronRight />
       </button>
-      <p className="absolute bottom-5 left-1/2 -translate-x-1/2 font-serif text-lg tracking-[0.3em] text-gold-soft">
-        {index + 1} / {total}
-      </p>
     </div>
   );
 }

@@ -115,6 +115,8 @@ export function InviteCard({ guest, side }: { guest: string; side?: Side | undef
             className="card-3d relative aspect-[3/4.3] w-[min(78vw,380px)] cursor-grab touch-pan-y select-none active:cursor-grabbing"
             style={{
               transform: `rotateX(${rot.x}deg) rotateY(${rot.y}deg) scale(${zoom})`,
+              transformStyle: "preserve-3d",
+              WebkitTransformStyle: "preserve-3d",
               transition: dragging ? "none" : undefined,
             }}
             onPointerDown={onDown}
@@ -124,7 +126,16 @@ export function InviteCard({ guest, side }: { guest: string; side?: Side | undef
             ref={cardRef}
           >
             {/* Front */}
-            <div className="card-face absolute inset-0 overflow-hidden rounded-2xl bg-card shadow-card ring-1 ring-gold/40">
+            <div
+              aria-hidden={!front}
+              className="card-face absolute inset-0 overflow-hidden rounded-2xl bg-card shadow-card ring-1 ring-gold/40"
+              style={{
+                visibility: front ? "visible" : "hidden",
+                transform: "translateZ(0.01px)",
+                backfaceVisibility: "hidden",
+                WebkitBackfaceVisibility: "hidden",
+              }}
+            >
               <img
                 src="/images/gallery/13-sm.webp"
                 alt=""
@@ -158,7 +169,16 @@ export function InviteCard({ guest, side }: { guest: string; side?: Side | undef
               <div className="card-holo absolute inset-0" style={holo} />
             </div>
             {/* Back */}
-            <div className="card-face card-back card-back-surface absolute inset-0 flex flex-col items-center justify-between overflow-hidden rounded-2xl px-4 pt-6 pb-5 text-center text-foreground shadow-card ring-1 ring-gold/50 sm:px-7 sm:pt-9 sm:pb-7">
+            <div
+              aria-hidden={front}
+              className="card-face card-back card-back-surface absolute inset-0 flex flex-col items-center justify-between overflow-hidden rounded-2xl px-4 pt-6 pb-5 text-center text-foreground shadow-card ring-1 ring-gold/50 sm:px-7 sm:pt-9 sm:pb-7"
+              style={{
+                visibility: front ? "hidden" : "visible",
+                transform: "rotateY(180deg) translateZ(0.01px)",
+                backfaceVisibility: "hidden",
+                WebkitBackfaceVisibility: "hidden",
+              }}
+            >
               <OrnamentalFrame
                 tone="light"
                 className="inset-3"
