@@ -13,17 +13,34 @@ import { SectionHeading } from "./SectionHeading";
 
 export function Gallery() {
   const [open, setOpen] = useState<number | null>(null);
-  const [showAll, setShowAll] = useState(false);
-  const triggerRefs = useRef(new Map<number, HTMLButtonElement>());
-  const scrollPosition = useRef(0);
+  const [index, setIndex] = useState(0);
+  const [virtualIndex, setVirtualIndex] = useState(20);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const slideRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const openedFrom = useRef<number | null>(null);
   const restoreAfterClose = useRef(false);
-  const items = showAll ? GALLERY : GALLERY.slice(0, 12);
+  const scrollFrame = useRef<number | null>(null);
+  const total = GALLERY.length;
+  const VIRTUAL_TOTAL = total * 3;
 
-  const openPhoto = (index: number) => {
-    scrollPosition.current = window.scrollY;
-    openedFrom.current = index;
-    setOpen(index);
+  const go = useCallback(
+    (d: number) => {
+      const next = (virtualIndex + d + VIRTUAL_TOTAL) % VIRTUAL_TOTAL;
+      setVirtualIndex(next);
+      setIndex(next % total);
+    },
+    [virtualIndex, total, VIRTUAL_TOTAL],
+  );
+
+  // Start with the middle set centred.
+  useEffect(() => {
+    setVirtualIndex(20);
+    setIndex(0);
+  }, []);
+
+  const openPhoto = (i: number) => {
+    openedFrom.current = i;
+    setOpen(i);
   };
 
   const closePhoto = useCallback(() => {
@@ -34,63 +51,106 @@ export function Gallery() {
   useEffect(() => {
     if (open !== null || !restoreAfterClose.current) return;
     restoreAfterClose.current = false;
-    // Run after the lightbox cleanup has released the page's scroll lock.
     const frame = requestAnimationFrame(() => {
-      const originalIndex = openedFrom.current;
-      window.scrollTo({ top: scrollPosition.current, left: 0, behavior: "instant" });
-      if (originalIndex !== null) {
-        triggerRefs.current.get(originalIndex)?.focus({ preventScroll: true });
-      }
+      slideRefs.current[openedFrom.current ?? 0]?.focus({ preventScroll: true });
       openedFrom.current = null;
     });
     return () => cancelAnimationFrame(frame);
   }, [open]);
 
   return (
-    <section id="gallery" className="paper-grain relative px-4 py-24 sm:px-6 sm:py-32">
-      <SectionHeading eyebrow="Selected moments">
-        Wedding <em>Gallery</em>
-      </SectionHeading>
-
-      <div className="mx-auto mt-14 max-w-6xl columns-2 gap-3 sm:gap-4 md:columns-3 lg:columns-4">
-        {items.map((g, i) => (
-          <Reveal key={g.id} delay={(i % 4) * 90} className="mb-3 break-inside-avoid sm:mb-4">
-            <button
-              ref={(node) => {
-                if (node) triggerRefs.current.set(i, node);
-                else triggerRefs.current.delete(i);
-              }}
-              type="button"
-              onClick={() => openPhoto(i)}
-              className="group relative block w-full overflow-hidden rounded-2xl bg-muted shadow-soft"
-              aria-label={`Xem ảnh ${g.id}`}
-            >
-              <img
-                src={g.thumb}
-                alt={g.alt}
-                loading="lazy"
-                decoding="async"
-                width={g.landscape ? 640 : 426}
-                height={g.landscape ? 426 : 640}
-                className="h-auto w-full transition duration-700 group-hover:scale-105"
-              />
-              <span className="absolute inset-0 bg-gradient-to-t from-night/50 via-transparent to-transparent opacity-0 transition group-hover:opacity-100" />
-            </button>
-          </Reveal>
-        ))}
+    <section id="gallery" className="paper-grain relative overflow-hidden py-24 sm:py-32">
+      <div className="px-4 sm:px-6">
+        <SectionHeading eyebrow="Selected moments">
+          Wedding <em>Gallery</em>
+        </SectionHeading>
       </div>
 
-      {!showAll && (
-        <div className="mt-10 text-center">
-          <button
-            type="button"
-            onClick={() => setShowAll(true)}
-            className="rounded-full bg-night px-8 py-3.5 text-xs uppercase tracking-[0.3em] text-night-foreground shadow-gold transition hover:scale-[1.03]"
+      <Reveal className="mt-10 sm:mt-14">
+        <div
+          role="region"
+          aria-roledescription="carousel"
+          aria-label="Album ảnh cưới"
+          className="gallery-slider"
+        >
+          <div
+            ref={trackRef}
+            className="gallery-track"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === "ArrowRight") {
+                e.preventDefault();
+                go(1);
+              }
+              if (e.key === "ArrowLeft") {
+                e.preventDefault();
+                go(-1);
+              }
+            }}
+            aria-label="Danh sách ảnh cưới, dùng phím trái phải để chuyển ảnh"
           >
-            Xem thêm {GALLERY.length - 12} khoảnh khắc
-          </button>
+            {Array.from({ length: VIRTUAL_TOTAL }).map((_, vi) => {
+              const g = GALLERY[vi % total];
+              const distance = vi - virtualIndex;
+              const aspect = g.landscape ? "4 / 3" : "3 / 4";
+              return (
+                <button
+                  key={`slide-${vi}`}
+                  ref={(node) => {
+                    slideRefs.current[vi] = node;
+                  }}
+                  type="button"
+                  aria-roledescription="slide"
+                  aria-label={`Xem ảnh ${(vi % total) + 1} trên ${total}`}
+                  aria-current={vi === virtualIndex ? "true" : undefined}
+                  onClick={() => openPhoto(vi % total)}
+                  className="photo"
+                  data-state={distance === 0 ? "active" : Math.abs(distance) === 1 ? "near" : "far"}
+                  style={{
+                    ["--slide-scale" as string]: distance === 0 ? 1 : 0.86,
+                    ["--slide-rotate" as string]: `${Math.max(-9, Math.min(9, distance * -4))}deg`,
+                    ["--slide-z" as string]: distance === 0 ? "0px" : "-90px",
+                    ["--slide-opacity" as string]: Math.abs(distance) > 2 ? 0.35 : 1,
+                    ["--slide-aspect" as string]: aspect,
+                  }}
+                >
+                  <img
+                    src={g.thumb}
+                    alt={g.alt}
+                    loading={Math.abs(distance) <= 1 ? "eager" : "lazy"}
+                    decoding="async"
+                    width={g.landscape ? 640 : 426}
+                    height={g.landscape ? 426 : 640}
+                    draggable={false}
+                  />
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="gallery-controls">
+            <button
+              type="button"
+              onClick={() => go(-1)}
+              aria-label="Ảnh trước trong album"
+              className="gallery-arrow"
+            >
+              <ChevronLeft className="size-5" aria-hidden="true" />
+            </button>
+            <span aria-live="polite" className="gallery-counter">
+              {index + 1} / {total}
+            </span>
+            <button
+              type="button"
+              onClick={() => go(1)}
+              aria-label="Ảnh tiếp theo trong album"
+              className="gallery-arrow"
+            >
+              <ChevronRight className="size-5" aria-hidden="true" />
+            </button>
+          </div>
         </div>
-      )}
+      </Reveal>
 
       {open !== null && <Lightbox index={open} onClose={closePhoto} onIndex={setOpen} />}
     </section>

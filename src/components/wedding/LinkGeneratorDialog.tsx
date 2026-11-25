@@ -13,7 +13,11 @@ export function LinkGeneratorForm() {
   const [copied, setCopied] = useState(false);
   const guest = name.trim();
   const link = guest
-    ? buildGuestLink("https://everlasting-moments.chung120896.workers.dev/", guest, side || undefined)
+    ? buildGuestLink(
+        "https://everlasting-moments.chung120896.workers.dev/",
+        guest,
+        side || undefined,
+      )
     : "";
 
   const copy = async () => {

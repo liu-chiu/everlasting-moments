@@ -124,9 +124,7 @@ function RootShell({ children }: { children: ReactNode }) {
   useEffect(() => {
     try {
       if ("caches" in window) {
-        void caches.keys().then((keys) =>
-          Promise.all(keys.map((k) => caches.delete(k))),
-        );
+        void caches.keys().then((keys) => Promise.all(keys.map((k) => caches.delete(k))));
       }
       if (
         performance

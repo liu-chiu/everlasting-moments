@@ -117,7 +117,7 @@ export const GALLERY = Array.from({ length: 20 }, (_, i) => {
     id: n,
     thumb: `/images/gallery/${n}-sm.webp`,
     full: `/images/gallery/${n}.webp`,
-    landscape: n === 7,
+    landscape: false,
     alt: `Khoảnh khắc cưới ${COUPLE_SHORT_LABEL} ${n}`,
   };
 });

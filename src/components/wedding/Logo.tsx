@@ -15,9 +15,7 @@ export function Logo({
   eager?: boolean;
 }) {
   return (
-    <span
-      className={cn("relative inline-block shrink-0", className)}
-    >
+    <span className={cn("relative inline-block shrink-0", className)}>
       <img
         src={LOGO_URL}
         alt={`Logo ${COUPLE_SHORT_LABEL}`}

@@ -188,7 +188,9 @@ export function InviteCard({ guest, side }: { guest: string; side?: Side | undef
               <div className="relative z-10 space-y-3 sm:space-y-5">
                 {events.map((e) => (
                   <div key={e.side}>
-                    <p className="font-serif text-2xl font-medium text-gold-deep sm:text-4xl">{e.time}</p>
+                    <p className="font-serif text-2xl font-medium text-gold-deep sm:text-4xl">
+                      {e.time}
+                    </p>
                     <p className="text-[0.6rem] font-medium uppercase tracking-[0.26em] text-wax sm:text-[0.7rem] sm:tracking-[0.34em]">
                       {e.label}
                     </p>
