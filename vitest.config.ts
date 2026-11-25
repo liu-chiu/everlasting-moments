@@ -2,6 +2,11 @@ import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
 import path from "node:path";
 
+// jsdom's Blob lacks arrayBuffer()/text(); patch it via Node's Blob before tests run.
+import { installJsdomBlobFix } from "./src/test/jsdom-blob-fix";
+
+installJsdomBlobFix();
+
 export default defineConfig({
   plugins: [react()],
   test: {

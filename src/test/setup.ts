@@ -1,5 +1,9 @@
 import "@testing-library/jest-dom/vitest";
 
+import { installJsdomBlobFix } from "./jsdom-blob-fix";
+
+installJsdomBlobFix();
+
 Object.defineProperty(window, "scrollTo", {
   writable: true,
   value: () => {},

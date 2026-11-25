@@ -13,7 +13,7 @@ describe("QR image downloads", () => {
     const response = new Response(png, { headers: { "Content-Type": "image/png" } });
     const result = await qrResponseToPng(response);
     expect(result.type).toBe("image/png");
-    expect(new Uint8Array(await new Response(result).arrayBuffer())).toEqual(png);
+    expect(new Uint8Array(await result.arrayBuffer())).toEqual(png);
   });
 
   it("rejects unsupported or invalid source images", async () => {
