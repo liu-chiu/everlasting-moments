@@ -37,7 +37,8 @@ export function QuoteBand() {
       />
       <div className="hero-veil absolute inset-0 -z-10" />
       <Reveal className="max-w-3xl">
-        <p className="eyebrow text-gold-soft">Hạ Long · hoàng hôn</p>
+        {/* Ẩn phần eyebrow “Hạ Long · hoàng hôn” — giữ lại khi cần */}
+        {/* <p className="eyebrow text-gold-soft">Hạ Long · hoàng hôn</p> */}
         <blockquote className="mt-6 font-serif text-3xl italic leading-snug sm:text-5xl">
           “Từ tình bạn, chúng mình trở thành người thương — và từ hôm nay, là{" "}
           <span className="font-script not-italic text-gold-soft">gia đình</span>.”
