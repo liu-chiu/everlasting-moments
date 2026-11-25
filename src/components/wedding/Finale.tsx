@@ -25,7 +25,7 @@ export function Finale() {
           <p className="eyebrow gold-rule justify-center text-gold-soft">Thank you</p>
         </Reveal>
 
-        <Reveal className="max-w-4xl">
+        <Reveal className="mt-14 max-w-4xl sm:mt-24">
           <h2 className="font-serif text-3xl leading-snug sm:text-5xl lg:text-6xl">
             Cảm ơn bạn
             <br />
@@ -33,7 +33,10 @@ export function Finale() {
             <br />
             trong ngày đặc biệt.
           </h2>
-          <p className="mt-7 font-signature text-[clamp(2.75rem,12vw,4rem)] leading-[1.3] text-glow sm:text-6xl lg:text-7xl">
+        </Reveal>
+
+        <Reveal className="mt-auto">
+          <p className="font-signature text-[clamp(2.75rem,12vw,4rem)] leading-[1.3] text-glow sm:text-6xl lg:text-7xl">
             <span className="block sm:inline">{COUPLE.bride.display}</span>{" "}
             <span className="block font-script text-[0.65em] leading-[1.1] text-gold sm:inline">
               &
