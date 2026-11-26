@@ -723,6 +723,33 @@
   }
 
   /* Gift box — luxury */
+  .gift-switcher {
+    background: oklch(0.95 0.015 80 / 85%);
+    border: 1px solid oklch(0.75 0.09 82 / 35%);
+    box-shadow: inset 0 1px 3px oklch(0.2 0.04 50 / 8%);
+  }
+  .gift-switcher__btn {
+    color: var(--muted-foreground);
+    border: 1px solid transparent;
+  }
+  .gift-switcher__btn:hover:not(.gift-switcher__btn--active) {
+    color: var(--foreground);
+    border-color: oklch(0.75 0.09 82 / 30%);
+  }
+  .gift-switcher__btn--active {
+    background: var(--night);
+    color: var(--night-foreground);
+    border-color: oklch(0.8 0.12 86 / 45%);
+    box-shadow: 0 8px 20px -10px oklch(0.18 0.05 260 / 65%);
+  }
+  .gift-wobble {
+    transform-origin: 50% 94%;
+    animation: gift-wobble 2.8s ease-in-out infinite;
+    will-change: transform;
+  }
+  .group:hover .gift-wobble {
+    animation-play-state: paused;
+  }
   .gift-box-body {
     background:
       linear-gradient(
@@ -912,6 +939,28 @@
     50% {
       opacity: 1;
       transform: scale(1.15) rotate(20deg);
+    }
+  }
+  @keyframes gift-wobble {
+    0%,
+    58%,
+    100% {
+      transform: rotate(0deg) translateY(0);
+    }
+    65% {
+      transform: rotate(-5.5deg) translateY(-3px);
+    }
+    73% {
+      transform: rotate(5deg) translateY(-2px);
+    }
+    81% {
+      transform: rotate(-3.5deg) translateY(-1px);
+    }
+    89% {
+      transform: rotate(2.5deg) translateY(0);
+    }
+    95% {
+      transform: rotate(-1deg) translateY(0);
     }
   }
   @keyframes lid-vanish {
