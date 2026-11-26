@@ -5,9 +5,19 @@ import {
   useState,
   type PointerEvent as ReactPointerEvent,
 } from "react";
-import { ChevronLeft, ChevronRight, Minus, Plus, RotateCcw, X } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Minus,
+  Pause,
+  Play,
+  Plus,
+  RotateCcw,
+  X,
+} from "lucide-react";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import { GALLERY } from "@/lib/wedding";
+import { GALLERY_AUTOPLAY_MS, shouldAutoAdvance } from "@/lib/gallery-autoplay";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
 
@@ -28,7 +38,14 @@ export function Gallery() {
   const [activeSlot, setActiveSlot] = useState(0);
   const [dragOffset, setDragOffset] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+  const [playing, setPlaying] = useState(true);
+  const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
+  const [pageHidden, setPageHidden] = useState(false);
+  const [inView, setInView] = useState(true);
   const trackRef = useRef<HTMLDivElement>(null);
+  const sliderRef = useRef<HTMLDivElement | null>(null);
+  const progressBarRef = useRef<HTMLSpanElement | null>(null);
   const activeSlideRef = useRef<HTMLButtonElement | null>(null);
   const restoreAfterClose = useRef(false);
   const suppressClick = useRef(false);
@@ -78,6 +95,74 @@ export function Gallery() {
     const width = trackRef.current?.clientWidth ?? 900;
     return Math.max(130, Math.min(250, width * 0.32));
   };
+
+  // Guests who ask for less movement start with the album on hold.
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (mq.matches) setPlaying(false);
+    const onChange = (event: MediaQueryListEvent) => setPlaying(!event.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  useEffect(() => {
+    const onVisibility = () => setPageHidden(document.visibilityState === "hidden");
+    onVisibility();
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => document.removeEventListener("visibilitychange", onVisibility);
+  }, []);
+
+  useEffect(() => {
+    const node = sliderRef.current;
+    if (!node || typeof IntersectionObserver === "undefined") return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry) setInView(entry.isIntersecting);
+      },
+      { threshold: 0.35 },
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  const autoplayRunning = shouldAutoAdvance({
+    enabled: playing,
+    lightboxOpen: open !== null,
+    dragging: isDragging,
+    hovered,
+    focused,
+    pageHidden,
+    inView,
+  });
+
+  // One timer per photo: the gold bar fills as the seconds run out, then the
+  // album slides on. Writing the bar straight to the DOM keeps the loop free of
+  // re-renders, and a pause simply stops the loop with the bar left where it is.
+  useEffect(() => {
+    const bar = progressBarRef.current;
+    if (!autoplayRunning) {
+      if (!playing) bar?.style.setProperty("--auto-progress", "0");
+      return;
+    }
+    bar?.style.setProperty("--auto-progress", "0");
+    let frame = 0;
+    let elapsed = 0;
+    let last = performance.now();
+    const tick = (now: number) => {
+      elapsed += now - last;
+      last = now;
+      const ratio = Math.min(1, elapsed / GALLERY_AUTOPLAY_MS);
+      bar?.style.setProperty("--auto-progress", String(ratio));
+      if (ratio >= 1) {
+        go(1);
+        return;
+      }
+      frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [autoplayRunning, activeSlot, go, playing]);
 
   const onTrackPointerDown = (e: ReactPointerEvent<HTMLDivElement>) => {
     if (e.button !== 0 && e.pointerType === "mouse") return;
@@ -148,10 +233,21 @@ export function Gallery() {
 
       <Reveal className="mt-10 sm:mt-14">
         <div
+          ref={sliderRef}
           role="region"
           aria-roledescription="carousel"
           aria-label="Album ảnh cưới"
           className="gallery-slider"
+          onPointerEnter={(e) => {
+            if (e.pointerType === "mouse") setHovered(true);
+          }}
+          onPointerLeave={(e) => {
+            if (e.pointerType === "mouse") setHovered(false);
+          }}
+          onFocus={() => setFocused(true)}
+          onBlur={(e) => {
+            if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setFocused(false);
+          }}
         >
           <div
             ref={trackRef}
@@ -252,6 +348,10 @@ export function Gallery() {
             })}
           </div>
 
+          <div className="gallery-progress" aria-hidden="true">
+            <span ref={progressBarRef} className="gallery-progress__fill" />
+          </div>
+
           <div className="gallery-controls">
             <button
               type="button"
@@ -272,7 +372,29 @@ export function Gallery() {
             >
               <ChevronRight className="size-5" aria-hidden="true" />
             </button>
+            <button
+              type="button"
+              onClick={() => setPlaying((prev) => !prev)}
+              aria-pressed={playing}
+              aria-label={playing ? "Tạm dừng tự chuyển ảnh" : "Bật tự chuyển ảnh"}
+              title={playing ? "Tạm dừng tự chuyển ảnh" : "Bật tự chuyển ảnh"}
+              className="gallery-arrow gallery-toggle"
+              data-playing={playing ? "true" : "false"}
+            >
+              {playing ? (
+                <Pause className="size-4" aria-hidden="true" />
+              ) : (
+                <Play className="size-4" aria-hidden="true" />
+              )}
+            </button>
           </div>
+
+          {playing && (
+            <p className="gallery-hint">
+              Ảnh tự chuyển sau {GALLERY_AUTOPLAY_MS / 1000} giây — rê chuột, bấm phím hoặc
+              kéo ảnh là album sẽ chờ bạn.
+            </p>
+          )}
         </div>
       </Reveal>
 
