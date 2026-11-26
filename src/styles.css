@@ -596,25 +596,6 @@
     transform: scaleX(var(--auto-progress, 0));
     background: linear-gradient(90deg, var(--gold-deep), var(--gold) 55%, var(--gold-soft));
   }
-  .gallery-toggle {
-    width: 42px;
-    height: 42px;
-    margin-left: 0.4rem;
-    color: var(--gold-deep);
-  }
-  .gallery-toggle[data-playing="true"] {
-    border-color: oklch(0.79 0.13 78 / 55%);
-    box-shadow: var(--shadow-gold);
-  }
-  .gallery-hint {
-    margin: 0.95rem auto 0;
-    max-width: 34rem;
-    text-align: center;
-    font-size: 0.68rem;
-    line-height: 1.7;
-    letter-spacing: 0.03em;
-    color: var(--muted-foreground);
-  }
   /* ======================
      Reduced motion
      ====================== */
@@ -645,14 +626,6 @@
     }
     .gallery-progress {
       margin-top: 1.35rem;
-    }
-    .gallery-toggle {
-      width: 38px;
-      height: 38px;
-    }
-    .gallery-hint {
-      font-size: 0.62rem;
-      padding: 0 1.25rem;
     }
   }
 

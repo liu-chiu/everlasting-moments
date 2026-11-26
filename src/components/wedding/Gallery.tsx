@@ -9,8 +9,6 @@ import {
   ChevronLeft,
   ChevronRight,
   Minus,
-  Pause,
-  Play,
   Plus,
   RotateCcw,
   X,
@@ -372,29 +370,7 @@ export function Gallery() {
             >
               <ChevronRight className="size-5" aria-hidden="true" />
             </button>
-            <button
-              type="button"
-              onClick={() => setPlaying((prev) => !prev)}
-              aria-pressed={playing}
-              aria-label={playing ? "Tạm dừng tự chuyển ảnh" : "Bật tự chuyển ảnh"}
-              title={playing ? "Tạm dừng tự chuyển ảnh" : "Bật tự chuyển ảnh"}
-              className="gallery-arrow gallery-toggle"
-              data-playing={playing ? "true" : "false"}
-            >
-              {playing ? (
-                <Pause className="size-4" aria-hidden="true" />
-              ) : (
-                <Play className="size-4" aria-hidden="true" />
-              )}
-            </button>
           </div>
-
-          {playing && (
-            <p className="gallery-hint">
-              Ảnh tự chuyển sau {GALLERY_AUTOPLAY_MS / 1000} giây — rê chuột, bấm phím hoặc
-              kéo ảnh là album sẽ chờ bạn.
-            </p>
-          )}
         </div>
       </Reveal>
 
