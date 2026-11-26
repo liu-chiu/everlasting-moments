@@ -7,7 +7,7 @@ import { GIFTS, vietQrUrl, type Side } from "@/lib/wedding";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
 
-export function Gifts({ guest, side }: { guest: string; side?: Side }) {
+export function Gifts({ guest, side }: { guest: string; side?: Side | undefined }) {
   const [selectedSide, setSelectedSide] = useState<"bride" | "groom">(
     side === "groom" ? "groom" : "bride",
   );
