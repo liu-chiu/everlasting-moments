@@ -36,7 +36,7 @@ export function Intro({ guest, onDone }: { guest: string; onDone: () => void }) 
   const [seconds, setSeconds] = useState(AUTO_OPEN_SECONDS);
   const tiltRef = useRef<HTMLDivElement>(null);
   const sealRef = useRef<HTMLButtonElement>(null);
-  const { play } = useMusic();
+  const { next } = useMusic();
   const phaseRef = useRef(phase);
   phaseRef.current = phase;
 
@@ -63,8 +63,8 @@ export function Intro({ guest, onDone }: { guest: string; onDone: () => void }) 
       setPhase("leaving");
       document.documentElement.classList.remove("is-locked");
       onDone();
-      // Phát nhạc sau khi thiệp đã mở xong.
-      play();
+      // Phát một bài ngẫu nhiên sau khi thiệp đã mở xong.
+      next();
     }, 1900);
     window.setTimeout(() => setPhase("done"), 3100);
   };

@@ -86,7 +86,7 @@ export function MusicProvider({ children }: { children: ReactNode }) {
     a.addEventListener("ended", next);
     document.addEventListener("pointerdown", retry);
     document.addEventListener("keydown", retry);
-    play();
+    // Không tự phát: nhạc chỉ bắt đầu sau khi thiệp được mở.
     return () => {
       document.removeEventListener("pointerdown", retry);
       document.removeEventListener("keydown", retry);
