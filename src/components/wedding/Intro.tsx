@@ -53,7 +53,6 @@ export function Intro({ guest, onDone }: { guest: string; onDone: () => void }) 
 
   const open = (auto = false) => {
     if (phaseRef.current !== "closed") return;
-    play();
     track("envelope_open", { method: auto ? "auto" : "tap" });
     setPhase("opening");
     window.setTimeout(() => {
@@ -62,6 +61,8 @@ export function Intro({ guest, onDone }: { guest: string; onDone: () => void }) 
       setPhase("leaving");
       document.documentElement.classList.remove("is-locked");
       onDone();
+      // Phát nhạc sau khi thiệp đã mở xong.
+      play();
     }, 1900);
     window.setTimeout(() => setPhase("done"), 3100);
   };
