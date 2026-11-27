@@ -52,7 +52,7 @@ export function WeddingPage({ guest, side }: { guest: string; side?: Side | unde
         <Families />
         <Rsvp guest={guest} side={side} onWish={(w) => setWishes((list) => [w, ...list])} />
         <Guestbook wishes={wishes} loading={loadingWishes} />
-        <Gifts guest={guest} />
+        <Gifts guest={guest} side={side} />
       </main>
       <Finale />
       <MusicButton />

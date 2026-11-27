@@ -25,7 +25,7 @@ export function QuoteBand() {
   }, []);
 
   return (
-    <section className="relative isolate grid h-[80svh] min-h-[480px] place-items-center overflow-hidden px-6 text-center text-night-foreground">
+    <section className="relative isolate grid h-[80svh] min-h-[480px] place-items-center overflow-hidden px-6 text-center text-night-foreground md:h-[90svh] lg:h-[100svh] lg:min-h-[680px]">
       <img
         ref={img}
         src="/images/gallery/5.webp"

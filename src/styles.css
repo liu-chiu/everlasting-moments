@@ -389,26 +389,22 @@
   }
 
   /* -------------------------------------------------
-     6. ALBUM ẢNH (GALLERY) — Horizontal carousel with 3D perspective
+     6. ALBUM ẢNH (GALLERY) — 3D Perspective Arc Carousel
      ------------------------------------------------- */
-  /* -------------------------------------------------
-     6. ALBUM ẢNH (GALLERY) — Circular 3D ring carousel
-     ------------------------------------------------- */
-  .gallery {
-    background: var(--cream);
-  }
   .gallery-slider {
-    margin-top: 3rem;
+    margin-top: 1.5rem;
+    --gallery-step: clamp(150px, 22vw, 255px);
   }
   .gallery-track {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: clamp(320px, 55vw, 520px);
-    perspective: 1600px;
-    perspective-origin: center;
+    min-height: clamp(360px, 50vw, 520px);
+    perspective: 1450px;
+    perspective-origin: 50% 48%;
     cursor: grab;
+    touch-action: pan-y;
     user-select: none;
     -webkit-user-select: none;
     overflow: visible;
@@ -416,40 +412,87 @@
   .gallery-track.is-grabbing {
     cursor: grabbing;
   }
-  /* ======================
-     Photo card styles — use CSS custom properties for 3D positioning
-     ====================== */
+  @keyframes galleryShimmer {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+  @keyframes lightboxEnter {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes lightboxPhotoEnter {
+    from {
+      opacity: 0;
+      transform: scale(0.965);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  .lightbox-enter {
+    animation: lightboxEnter 0.24s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .lightbox-photo-enter {
+    animation: lightboxPhotoEnter 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
   .photo {
     position: absolute;
     top: 50%;
     left: 50%;
     transform-origin: center center;
-    border-radius: 10px;
+    border-radius: 14px;
     overflow: hidden;
     background: var(--paper);
-    box-shadow: var(--shadow-soft);
+    box-shadow: var(--shadow-card);
+    border: 1px solid oklch(0.79 0.13 78 / 22%);
+    transform: translate3d(
+        calc(-50% + var(--eff, 0) * var(--gallery-step)),
+        calc(-50% + var(--slide-y, 0px)),
+        calc(var(--abs-eff, 0) * -115px)
+      )
+      rotateY(var(--slide-roty, 0deg)) rotateZ(var(--slide-rotz, 0deg)) scale(var(--slide-scale, 1));
+    opacity: var(--slide-opacity, 1);
     transition:
-      transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
-      opacity 0.4s ease,
-      filter 0.3s ease,
-      z-index 0s 0.5s;
+      transform 0.68s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+      filter 0.55s ease,
+      box-shadow 0.55s ease,
+      border-color 0.55s ease;
     will-change: transform, opacity, filter;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
     cursor: pointer;
-    /* Base size - responsive */
-    width: clamp(200px, 35vw, 360px);
+    width: clamp(220px, 28vw, 340px);
     aspect-ratio: var(--slide-aspect, 4 / 3);
+  }
+  .gallery-track[data-dragging="true"] .photo {
+    transition: none;
   }
   .photo img {
     width: 100%;
     height: 100%;
     display: block;
     object-fit: cover;
-    background: linear-gradient(135deg, #efe6dc 25%, #e6d9ca 50%, #efe6dc 75%);
+    background: linear-gradient(
+      110deg,
+      var(--paper-deep) 25%,
+      var(--paper) 50%,
+      var(--paper-deep) 75%
+    );
     background-size: 200% 100%;
     animation: galleryShimmer 1.6s linear infinite;
     transition:
-      transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
-      filter 0.4s ease;
+      transform 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+      filter 0.5s ease;
   }
   .photo img[data-loaded="true"] {
     animation: none;
@@ -457,32 +500,28 @@
   }
   /* Active (centered) photo */
   .photo[data-state="active"] {
-    z-index: 10;
-    transform: translate(-50%, -50%) scale(var(--slide-scale, 1)) rotate(var(--slide-rotate, 0deg))
-      translateZ(var(--slide-z, 0px));
-    opacity: var(--slide-opacity, 1);
     filter: none;
-    box-shadow: var(--shadow-gold);
+    border-color: oklch(0.79 0.13 78 / 55%);
+    box-shadow: var(--shadow-gold), var(--shadow-card);
   }
   .photo[data-state="active"] img {
-    transform: scale(1.02);
+    transform: scale(1.015);
+  }
+  @media (hover: hover) {
+    .photo[data-state="active"]:hover img {
+      transform: scale(1.055);
+    }
+    .photo[data-state="near"]:hover {
+      filter: brightness(0.98) saturate(0.96);
+    }
   }
   /* Near (left/right neighbours) */
   .photo[data-state="near"] {
-    z-index: 5;
-    transform: translate(-50%, -50%) scale(var(--slide-scale, 0.86))
-      rotate(var(--slide-rotate, 0deg)) translateZ(var(--slide-z, -90px));
-    opacity: var(--slide-opacity, 1);
-    filter: grayscale(0.15) brightness(0.95);
+    filter: brightness(0.91) saturate(0.86);
   }
   /* Far (others) */
   .photo[data-state="far"] {
-    z-index: 1;
-    transform: translate(-50%, -50%) scale(var(--slide-scale, 0.86))
-      rotate(var(--slide-rotate, 0deg)) translateZ(var(--slide-z, -90px));
-    opacity: var(--slide-opacity, 0.35);
-    filter: grayscale(0.4) brightness(0.85);
-    pointer-events: none;
+    filter: brightness(0.82) saturate(0.72) blur(0.6px);
   }
   /* ======================
      Gallery navigation arrows
@@ -492,7 +531,7 @@
     align-items: center;
     justify-content: center;
     gap: 1.25rem;
-    margin-top: 1.5rem;
+    margin-top: 2rem;
     z-index: 20;
     position: relative;
   }
@@ -502,21 +541,23 @@
     width: 48px;
     height: 48px;
     padding: 0;
-    border: 1px solid rgba(41, 39, 35, 0.18);
+    border: 1px solid var(--border);
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.85);
-    color: var(--ink);
+    background: oklch(0.995 0.005 85 / 88%);
+    color: var(--foreground);
     font-size: 1.5rem;
     line-height: 1;
     cursor: pointer;
     transition:
       background-color 0.2s ease,
-      transform 0.2s ease,
-      box-shadow 0.2s ease;
+      transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.25s ease,
+      border-color 0.25s ease;
     box-shadow: var(--shadow-soft);
   }
   .gallery-arrow:hover {
-    background: #fff;
+    background: var(--card);
+    border-color: oklch(0.79 0.13 78 / 55%);
     transform: scale(1.08);
     box-shadow: var(--shadow-gold);
   }
@@ -529,11 +570,30 @@
   }
   .gallery-counter {
     min-width: 3.5rem;
-    color: #76695d;
+    color: var(--muted-foreground);
     font-size: 0.78rem;
     font-variant-numeric: tabular-nums;
     letter-spacing: 0.12em;
     text-align: center;
+  }
+  /* Autoplay: the gold bar fills up while the current photo is on screen. */
+  .gallery-progress {
+    position: relative;
+    width: clamp(170px, 42vw, 330px);
+    height: 3px;
+    margin: 1.75rem auto 0;
+    border-radius: 999px;
+    background: oklch(0.79 0.13 78 / 16%);
+    overflow: hidden;
+  }
+  .gallery-progress__fill {
+    position: absolute;
+    inset: 0;
+    display: block;
+    border-radius: inherit;
+    transform-origin: left center;
+    transform: scaleX(var(--auto-progress, 0));
+    background: linear-gradient(90deg, var(--gold-deep), var(--gold) 55%, var(--gold-soft));
   }
   /* ======================
      Reduced motion
@@ -548,23 +608,23 @@
     .gallery-arrow {
       transition: none;
     }
-    .gallery-counter {
+    .gallery-progress {
       display: none;
-    }
-  }
-  @media (hover: none) {
-    .photo[data-state="active"] {
-      transform: translate(-50%, -50%) scale(var(--slide-scale, 1))
-        rotate(var(--slide-rotate, 0deg)) translateZ(var(--slide-z, 0px));
     }
   }
   /* Mobile: natural aspect ratio - make photo height follow its natural ratio */
   @media (max-width: 640px) {
+    .gallery-slider {
+      --gallery-step: clamp(128px, 40vw, 175px);
+    }
     .gallery-track {
-      min-height: clamp(280px, 70vw, 480px);
+      min-height: clamp(320px, 86vw, 430px);
     }
     .photo {
-      width: clamp(180px, 85vw, 300px);
+      width: clamp(210px, 66vw, 275px);
+    }
+    .gallery-progress {
+      margin-top: 1.35rem;
     }
   }
 
@@ -662,6 +722,33 @@
   }
 
   /* Gift box — luxury */
+  .gift-switcher {
+    background: oklch(0.95 0.015 80 / 85%);
+    border: 1px solid oklch(0.75 0.09 82 / 35%);
+    box-shadow: inset 0 1px 3px oklch(0.2 0.04 50 / 8%);
+  }
+  .gift-switcher__btn {
+    color: var(--muted-foreground);
+    border: 1px solid transparent;
+  }
+  .gift-switcher__btn:hover:not(.gift-switcher__btn--active) {
+    color: var(--foreground);
+    border-color: oklch(0.75 0.09 82 / 30%);
+  }
+  .gift-switcher__btn--active {
+    background: var(--night);
+    color: var(--night-foreground);
+    border-color: oklch(0.8 0.12 86 / 45%);
+    box-shadow: 0 8px 20px -10px oklch(0.18 0.05 260 / 65%);
+  }
+  .gift-wobble {
+    transform-origin: 50% 94%;
+    animation: gift-wobble 2.8s ease-in-out infinite;
+    will-change: transform;
+  }
+  .group:hover .gift-wobble {
+    animation-play-state: paused;
+  }
   .gift-box-body {
     background:
       linear-gradient(
@@ -851,6 +938,28 @@
     50% {
       opacity: 1;
       transform: scale(1.15) rotate(20deg);
+    }
+  }
+  @keyframes gift-wobble {
+    0%,
+    58%,
+    100% {
+      transform: rotate(0deg) translateY(0);
+    }
+    65% {
+      transform: rotate(-5.5deg) translateY(-3px);
+    }
+    73% {
+      transform: rotate(5deg) translateY(-2px);
+    }
+    81% {
+      transform: rotate(-3.5deg) translateY(-1px);
+    }
+    89% {
+      transform: rotate(2.5deg) translateY(0);
+    }
+    95% {
+      transform: rotate(-1deg) translateY(0);
     }
   }
   @keyframes lid-vanish {

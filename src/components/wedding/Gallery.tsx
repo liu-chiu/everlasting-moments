@@ -8,40 +8,65 @@ import {
 import { ChevronLeft, ChevronRight, Minus, Plus, RotateCcw, X } from "lucide-react";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import { GALLERY } from "@/lib/wedding";
+import { GALLERY_AUTOPLAY_MS, shouldAutoAdvance } from "@/lib/gallery-autoplay";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
 
+const VISIBLE_OFFSETS = [-3, -2, -1, 0, 1, 2, 3] as const;
+
+function wrapIndex(slot: number, total: number) {
+  return ((slot % total) + total) % total;
+}
+
+function shortestDelta(fromIndex: number, toIndex: number, total: number) {
+  let diff = (toIndex - fromIndex + total) % total;
+  if (diff > total / 2) diff -= total;
+  return diff;
+}
+
 export function Gallery() {
   const [open, setOpen] = useState<number | null>(null);
-  const [index, setIndex] = useState(0);
-  const [virtualIndex, setVirtualIndex] = useState(20);
+  const [activeSlot, setActiveSlot] = useState(0);
+  const [dragOffset, setDragOffset] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const [playing, setPlaying] = useState(true);
+  const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
+  const [pageHidden, setPageHidden] = useState(false);
+  const [inView, setInView] = useState(true);
   const trackRef = useRef<HTMLDivElement>(null);
-  const slideRefs = useRef<(HTMLButtonElement | null)[]>([]);
-  const openedFrom = useRef<number | null>(null);
+  const sliderRef = useRef<HTMLDivElement | null>(null);
+  const progressBarRef = useRef<HTMLSpanElement | null>(null);
+  const activeSlideRef = useRef<HTMLButtonElement | null>(null);
   const restoreAfterClose = useRef(false);
-  const scrollFrame = useRef<number | null>(null);
+  const suppressClick = useRef(false);
+  const dragState = useRef<{
+    pointerId: number;
+    startX: number;
+    startY: number;
+    startTime: number;
+    locked: "x" | "y" | null;
+  } | null>(null);
+
   const total = GALLERY.length;
-  const VIRTUAL_TOTAL = total * 3;
+  const currentIndex = wrapIndex(activeSlot, total);
 
-  const go = useCallback(
-    (d: number) => {
-      const next = (virtualIndex + d + VIRTUAL_TOTAL) % VIRTUAL_TOTAL;
-      setVirtualIndex(next);
-      setIndex(next % total);
-    },
-    [virtualIndex, total, VIRTUAL_TOTAL],
-  );
-
-  // Start with the middle set centred.
-  useEffect(() => {
-    setVirtualIndex(20);
-    setIndex(0);
+  const go = useCallback((delta: number) => {
+    if (delta === 0) return;
+    setActiveSlot((prev) => prev + delta);
   }, []);
 
   const openPhoto = (i: number) => {
-    openedFrom.current = i;
     setOpen(i);
   };
+
+  const handleLightboxIndex = useCallback(
+    (nextIndex: number) => {
+      setOpen(nextIndex);
+      setActiveSlot((prev) => prev + shortestDelta(wrapIndex(prev, total), nextIndex, total));
+    },
+    [total],
+  );
 
   const closePhoto = useCallback(() => {
     restoreAfterClose.current = true;
@@ -52,11 +77,142 @@ export function Gallery() {
     if (open !== null || !restoreAfterClose.current) return;
     restoreAfterClose.current = false;
     const frame = requestAnimationFrame(() => {
-      slideRefs.current[openedFrom.current ?? 0]?.focus({ preventScroll: true });
-      openedFrom.current = null;
+      activeSlideRef.current?.focus({ preventScroll: true });
     });
     return () => cancelAnimationFrame(frame);
   }, [open]);
+
+  const getStepPx = () => {
+    const width = trackRef.current?.clientWidth ?? 900;
+    return Math.max(130, Math.min(250, width * 0.32));
+  };
+
+  // Guests who ask for less movement start with the album on hold.
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (mq.matches) setPlaying(false);
+    const onChange = (event: MediaQueryListEvent) => setPlaying(!event.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  useEffect(() => {
+    const onVisibility = () => setPageHidden(document.visibilityState === "hidden");
+    onVisibility();
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => document.removeEventListener("visibilitychange", onVisibility);
+  }, []);
+
+  useEffect(() => {
+    const node = sliderRef.current;
+    if (!node || typeof IntersectionObserver === "undefined") return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry) setInView(entry.isIntersecting);
+      },
+      { threshold: 0.35 },
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  const autoplayRunning = shouldAutoAdvance({
+    enabled: playing,
+    lightboxOpen: open !== null,
+    dragging: isDragging,
+    hovered,
+    focused,
+    pageHidden,
+    inView,
+  });
+
+  // One timer per photo: the gold bar fills as the seconds run out, then the
+  // album slides on. Writing the bar straight to the DOM keeps the loop free of
+  // re-renders, and a pause simply stops the loop with the bar left where it is.
+  useEffect(() => {
+    const bar = progressBarRef.current;
+    if (!autoplayRunning) {
+      if (!playing) bar?.style.setProperty("--auto-progress", "0");
+      return;
+    }
+    bar?.style.setProperty("--auto-progress", "0");
+    let frame = 0;
+    let elapsed = 0;
+    let last = performance.now();
+    const tick = (now: number) => {
+      elapsed += now - last;
+      last = now;
+      const ratio = Math.min(1, elapsed / GALLERY_AUTOPLAY_MS);
+      bar?.style.setProperty("--auto-progress", String(ratio));
+      if (ratio >= 1) {
+        go(1);
+        return;
+      }
+      frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [autoplayRunning, activeSlot, go, playing]);
+
+  const onTrackPointerDown = (e: ReactPointerEvent<HTMLDivElement>) => {
+    if (e.button !== 0 && e.pointerType === "mouse") return;
+    dragState.current = {
+      pointerId: e.pointerId,
+      startX: e.clientX,
+      startY: e.clientY,
+      startTime: performance.now(),
+      locked: null,
+    };
+    suppressClick.current = false;
+  };
+
+  const onTrackPointerMove = (e: ReactPointerEvent<HTMLDivElement>) => {
+    const drag = dragState.current;
+    if (!drag || drag.pointerId !== e.pointerId) return;
+    const dx = e.clientX - drag.startX;
+    const dy = e.clientY - drag.startY;
+
+    if (drag.locked === null) {
+      if (Math.hypot(dx, dy) < 7) return;
+      drag.locked = Math.abs(dx) >= Math.abs(dy) ? "x" : "y";
+      if (drag.locked === "x") {
+        e.currentTarget.setPointerCapture(e.pointerId);
+        setIsDragging(true);
+      }
+    }
+
+    if (drag.locked === "x") {
+      setDragOffset(dx);
+    }
+  };
+
+  const finishDrag = (e: ReactPointerEvent<HTMLDivElement>) => {
+    const drag = dragState.current;
+    if (!drag || drag.pointerId !== e.pointerId) return;
+    dragState.current = null;
+
+    if (drag.locked === "x") {
+      const dx = e.clientX - drag.startX;
+      const dt = Math.max(1, performance.now() - drag.startTime);
+      const velocity = dx / dt;
+      const stepPx = getStepPx();
+
+      if (Math.abs(dx) > 8) {
+        suppressClick.current = true;
+      }
+      if (Math.abs(dx) > 40 || Math.abs(velocity) > 0.35) {
+        const projected = Math.abs(dx + velocity * 140);
+        const steps = Math.max(1, Math.min(2, Math.round(projected / stepPx)));
+        go(dx < 0 ? steps : -steps);
+      }
+    }
+
+    setIsDragging(false);
+    setDragOffset(0);
+  };
+
+  const dragProgress = isDragging ? dragOffset / getStepPx() : 0;
 
   return (
     <section id="gallery" className="paper-grain relative overflow-hidden py-24 sm:py-32">
@@ -68,15 +224,31 @@ export function Gallery() {
 
       <Reveal className="mt-10 sm:mt-14">
         <div
+          ref={sliderRef}
           role="region"
           aria-roledescription="carousel"
           aria-label="Album ảnh cưới"
           className="gallery-slider"
+          onPointerEnter={(e) => {
+            if (e.pointerType === "mouse") setHovered(true);
+          }}
+          onPointerLeave={(e) => {
+            if (e.pointerType === "mouse") setHovered(false);
+          }}
+          onFocus={() => setFocused(true)}
+          onBlur={(e) => {
+            if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setFocused(false);
+          }}
         >
           <div
             ref={trackRef}
-            className="gallery-track"
+            className={`gallery-track${isDragging ? " is-grabbing" : ""}`}
+            data-dragging={isDragging ? "true" : undefined}
             tabIndex={0}
+            onPointerDown={onTrackPointerDown}
+            onPointerMove={onTrackPointerMove}
+            onPointerUp={finishDrag}
+            onPointerCancel={finishDrag}
             onKeyDown={(e) => {
               if (e.key === "ArrowRight") {
                 e.preventDefault();
@@ -89,43 +261,86 @@ export function Gallery() {
             }}
             aria-label="Danh sách ảnh cưới, dùng phím trái phải để chuyển ảnh"
           >
-            {Array.from({ length: VIRTUAL_TOTAL }).map((_, vi) => {
-              const g = GALLERY[vi % total];
-              const distance = vi - virtualIndex;
-              const aspect = g.landscape ? "4 / 3" : "3 / 4";
+            {VISIBLE_OFFSETS.map((offset) => {
+              const slot = activeSlot + offset;
+              const photoIndex = wrapIndex(slot, total);
+              const photo = GALLERY[photoIndex];
+              if (!photo) return null;
+
+              const eff = offset + dragProgress;
+              const absEff = Math.abs(eff);
+              const state = absEff < 0.45 ? "active" : absEff < 1.55 ? "near" : "far";
+              const aspect = photo.landscape ? "4 / 3" : "3 / 4";
+              const scale = Math.max(0.68, 1 - absEff * 0.13);
+              const rotY = Math.max(-34, Math.min(34, eff * -21));
+              const rotZ = Math.max(-6, Math.min(6, eff * 2.2));
+              const arcY = Math.pow(absEff, 1.55) * 14;
+              const opacity = absEff >= 2.55 ? 0 : Math.max(0, 1 - absEff * 0.34);
+              const zIndex = 10 - Math.round(absEff * 2);
+
               return (
                 <button
-                  key={`slide-${vi}`}
+                  key={slot}
                   ref={(node) => {
-                    slideRefs.current[vi] = node;
+                    if (offset === 0) activeSlideRef.current = node;
                   }}
                   type="button"
                   aria-roledescription="slide"
-                  aria-label={`Xem ảnh ${(vi % total) + 1} trên ${total}`}
-                  aria-current={vi === virtualIndex ? "true" : undefined}
-                  onClick={() => openPhoto(vi % total)}
+                  aria-label={
+                    offset === 0
+                      ? `Xem ảnh ${photoIndex + 1} trên ${total}`
+                      : `Chuyển tới ảnh ${photoIndex + 1} trên ${total}`
+                  }
+                  aria-current={offset === 0 ? "true" : undefined}
+                  tabIndex={offset === 0 ? 0 : -1}
+                  onClick={() => {
+                    if (suppressClick.current) {
+                      suppressClick.current = false;
+                      return;
+                    }
+                    if (offset === 0) {
+                      openPhoto(photoIndex);
+                    } else {
+                      go(offset);
+                    }
+                  }}
                   className="photo"
-                  data-state={distance === 0 ? "active" : Math.abs(distance) === 1 ? "near" : "far"}
+                  data-state={state}
                   style={{
-                    ["--slide-scale" as string]: distance === 0 ? 1 : 0.86,
-                    ["--slide-rotate" as string]: `${Math.max(-9, Math.min(9, distance * -4))}deg`,
-                    ["--slide-z" as string]: distance === 0 ? "0px" : "-90px",
-                    ["--slide-opacity" as string]: Math.abs(distance) > 2 ? 0.35 : 1,
+                    zIndex,
+                    pointerEvents: absEff > 2.2 ? "none" : "auto",
+                    ["--eff" as string]: eff,
+                    ["--abs-eff" as string]: absEff,
+                    ["--slide-scale" as string]: scale,
+                    ["--slide-roty" as string]: `${rotY}deg`,
+                    ["--slide-rotz" as string]: `${rotZ}deg`,
+                    ["--slide-y" as string]: `${arcY}px`,
+                    ["--slide-opacity" as string]: opacity,
                     ["--slide-aspect" as string]: aspect,
                   }}
                 >
                   <img
-                    src={g.thumb}
-                    alt={g.alt}
-                    loading={Math.abs(distance) <= 1 ? "eager" : "lazy"}
+                    ref={(img) => {
+                      if (img?.complete) img.dataset["loaded"] = "true";
+                    }}
+                    src={photo.thumb}
+                    alt={photo.alt}
+                    loading={Math.abs(offset) <= 2 ? "eager" : "lazy"}
                     decoding="async"
-                    width={g.landscape ? 640 : 426}
-                    height={g.landscape ? 426 : 640}
+                    width={photo.landscape ? 640 : 426}
+                    height={photo.landscape ? 426 : 640}
                     draggable={false}
+                    onLoad={(e) => {
+                      e.currentTarget.dataset["loaded"] = "true";
+                    }}
                   />
                 </button>
               );
             })}
+          </div>
+
+          <div className="gallery-progress" aria-hidden="true">
+            <span ref={progressBarRef} className="gallery-progress__fill" />
           </div>
 
           <div className="gallery-controls">
@@ -138,7 +353,7 @@ export function Gallery() {
               <ChevronLeft className="size-5" aria-hidden="true" />
             </button>
             <span aria-live="polite" className="gallery-counter">
-              {index + 1} / {total}
+              {currentIndex + 1} / {total}
             </span>
             <button
               type="button"
@@ -152,7 +367,9 @@ export function Gallery() {
         </div>
       </Reveal>
 
-      {open !== null && <Lightbox index={open} onClose={closePhoto} onIndex={setOpen} />}
+      {open !== null && (
+        <Lightbox index={open} onClose={closePhoto} onIndex={handleLightboxIndex} />
+      )}
     </section>
   );
 }
@@ -220,7 +437,7 @@ function Lightbox({
       role="dialog"
       aria-modal="true"
       aria-label={`Xem ảnh ${index + 1} trên ${total}`}
-      className="fixed inset-0 z-[70] overflow-hidden bg-night/95 backdrop-blur-sm"
+      className="lightbox-enter fixed inset-0 z-[70] overflow-hidden bg-night/95 backdrop-blur-sm"
       onPointerDown={onPointerDown}
       onPointerUp={onPointerUp}
       onPointerCancel={() => {
@@ -252,7 +469,7 @@ function Lightbox({
                 src={g.full}
                 alt={g.alt}
                 decoding="async"
-                className="max-h-[76svh] max-w-[92vw] select-none rounded-xl object-contain shadow-card"
+                className="lightbox-photo-enter max-h-[76svh] max-w-[92vw] select-none rounded-xl object-contain shadow-card"
                 draggable={false}
               />
             </TransformComponent>
