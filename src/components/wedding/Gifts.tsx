@@ -22,11 +22,11 @@ export function Gifts({ guest, side }: { guest: string; side?: Side | undefined 
         Gửi lời <em>chúc mừng</em>
       </SectionHeading>
       <Reveal>
-        <div className="mx-auto mt-12 max-w-md">
+        <div className="mx-auto mt-12 max-w-md md:max-w-4xl lg:max-w-5xl">
           <div
             role="tablist"
             aria-label="Chọn hộp mừng cưới"
-            className="gift-switcher grid grid-cols-2 gap-1.5 rounded-full p-1.5"
+            className="gift-switcher grid grid-cols-2 gap-1.5 rounded-full p-1.5 md:hidden"
           >
             {GIFTS.map((gift) => {
               const active = gift.side === activeGift.side;
@@ -49,13 +49,23 @@ export function Gifts({ guest, side }: { guest: string; side?: Side | undefined 
             })}
           </div>
 
-          <div
-            id={`gift-panel-${activeGift.side}`}
-            role="tabpanel"
-            aria-labelledby={`gift-tab-${activeGift.side}`}
-            className="gift-card mt-5 rounded-[2rem] bg-card px-5 py-8 shadow-card ring-1 ring-gold/30 sm:px-8 sm:py-10"
-          >
-            <GiftBox key={activeGift.side} gift={activeGift} guest={guest} />
+          <div className="mt-5 grid gap-5 md:mt-10 md:grid-cols-2 md:gap-8">
+            {GIFTS.map((gift) => {
+              const active = gift.side === activeGift.side;
+              return (
+                <div
+                  key={gift.side}
+                  id={`gift-panel-${gift.side}`}
+                  role="tabpanel"
+                  aria-labelledby={`gift-tab-${gift.side}`}
+                  className={`gift-card rounded-[2rem] bg-card px-5 py-8 shadow-card ring-1 ring-gold/30 sm:px-8 sm:py-10 ${
+                    active ? "" : "hidden md:block"
+                  }`}
+                >
+                  <GiftBox gift={gift} guest={guest} />
+                </div>
+              );
+            })}
           </div>
         </div>
       </Reveal>
