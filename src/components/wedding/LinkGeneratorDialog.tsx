@@ -14,7 +14,7 @@ export function LinkGeneratorForm() {
   const guest = name.trim();
   const link = guest
     ? buildGuestLink(
-        "https://everlasting-moments.chung120896.workers.dev/",
+        "https://lan-chung-invitation.lovable.app/",
         guest,
         side || undefined,
       )
@@ -69,7 +69,7 @@ export function LinkGeneratorForm() {
         className="mt-5 flex items-center gap-2 rounded-2xl bg-muted p-3 pl-4"
       >
         <p className="min-w-0 flex-1 break-all font-mono text-xs text-foreground">
-          {link || "https://everlasting-moments.chung120896.workers.dev/"}
+          {link || "https://lan-chung-invitation.lovable.app/"}
         </p>
         <button
           type="button"
