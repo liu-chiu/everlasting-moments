@@ -28,9 +28,12 @@ export function QuoteBand() {
     <section className="relative isolate grid h-[80svh] min-h-[480px] place-items-center overflow-hidden px-6 text-center text-night-foreground md:h-[90svh] lg:h-[100svh] lg:min-h-[680px]">
       <img
         ref={img}
-        src="/images/gallery/5.webp"
+        src="/images/gallery/5-sm.webp"
+        srcSet="/images/gallery/5-sm.webp 800w, /images/gallery/5.webp 1920w"
+        sizes="100vw"
         alt={`${COUPLE_SHORT_LABEL} bên hoàng hôn vịnh Hạ Long`}
-        loading="lazy"
+        loading="eager"
+        fetchPriority="high"
         decoding="async"
         className="absolute inset-0 -z-10 h-full w-full object-cover will-change-transform"
         style={{ transform: "scale(1.25)" }}
