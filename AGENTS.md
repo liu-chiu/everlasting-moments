@@ -35,5 +35,6 @@ use the editor.
 
 - Keep attendance-dependent RSVP field visibility in the pure `rsvpFieldsFor` helper so the decline rules have focused tests.
 - Gift QR downloads use the fixed `/api/public/gift-qr` server route to avoid third-party CORS; keep it restricted to the two configured gifts, never an arbitrary URL proxy.
+- Keep music shuffle and invitation timing rules in `music-playback`; the music provider owns one audio element and retries policy-blocked playback on guest interaction so opening and song changes stay synchronized.
 
 <!-- AGENT-MEMORY:END -->

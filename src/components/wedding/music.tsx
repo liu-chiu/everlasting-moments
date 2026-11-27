@@ -8,6 +8,7 @@ import {
   type ReactNode,
 } from "react";
 import { PLAYLIST } from "@/lib/wedding";
+import { shuffledTracks } from "@/lib/music-playback";
 
 type MusicCtx = {
   playing: boolean;
@@ -20,53 +21,79 @@ const Ctx = createContext<MusicCtx | null>(null);
 
 export function MusicProvider({ children }: { children: ReactNode }) {
   const audio = useRef<HTMLAudioElement | null>(null);
+  const currentTrack = useRef(0);
+  const queue = useRef<number[]>([]);
+  const awaitingGesture = useRef(false);
   const [playing, setPlaying] = useState(false);
   const [track, setTrack] = useState(0);
 
-  const ensure = useCallback(() => {
-    if (!audio.current) {
-      const a = new Audio();
-      a.preload = "none";
-      a.volume = 0.7;
-      a.src = PLAYLIST[0]?.src ?? "";
-      a.addEventListener("play", () => setPlaying(true));
-      a.addEventListener("pause", () => setPlaying(false));
-      a.addEventListener("ended", () => {
-        setTrack((t) => {
-          const n = (t + 1) % PLAYLIST.length;
-          a.src = PLAYLIST[n]?.src ?? "";
-          a.play().catch(() => {});
-          return n;
-        });
-      });
-      audio.current = a;
-    }
-    return audio.current;
+  const play = useCallback(() => {
+    const a = audio.current;
+    if (!a) return;
+    const requestedSource = a.src;
+    awaitingGesture.current = false;
+    a.play().catch((error: unknown) => {
+      // Ignore promises interrupted by switching songs; retry only browser policy blocks.
+      if (audio.current === a && a.src === requestedSource && error instanceof DOMException && error.name === "NotAllowedError") {
+        awaitingGesture.current = true;
+      }
+    });
   }, []);
 
-  const play = useCallback(() => {
-    ensure()
-      .play()
-      .catch(() => {});
-  }, [ensure]);
-
   const toggle = useCallback(() => {
-    const a = ensure();
-    if (a.paused) a.play().catch(() => {});
-    else a.pause();
-  }, [ensure]);
+    const a = audio.current;
+    if (!a) return;
+    if (a.paused) play();
+    else {
+      awaitingGesture.current = false;
+      a.pause();
+    }
+  }, [play]);
 
   const next = useCallback(() => {
-    const a = ensure();
-    setTrack((t) => {
-      const n = (t + 1) % PLAYLIST.length;
-      a.src = PLAYLIST[n]?.src ?? "";
-      a.play().catch(() => {});
-      return n;
-    });
-  }, [ensure]);
+    const a = audio.current;
+    if (!a) return;
+    if (queue.current.length === 0) queue.current = shuffledTracks(PLAYLIST.length, currentTrack.current);
+    const n = queue.current.shift() ?? currentTrack.current;
+    const song = PLAYLIST[n];
+    if (!song) return;
+    currentTrack.current = n;
+    setTrack(n);
+    a.src = song.src;
+    play();
+  }, [play]);
 
-  useEffect(() => () => audio.current?.pause(), []);
+  useEffect(() => {
+    const a = new Audio(PLAYLIST[0]?.src ?? "");
+    a.preload = "auto";
+    a.volume = 0.7;
+    audio.current = a;
+    currentTrack.current = 0;
+    queue.current = [];
+    const onPlay = () => setPlaying(true);
+    const onPause = () => setPlaying(false);
+    const retry = () => {
+      if (awaitingGesture.current) play();
+    };
+    a.addEventListener("play", onPlay);
+    a.addEventListener("pause", onPause);
+    a.addEventListener("ended", next);
+    document.addEventListener("pointerdown", retry);
+    document.addEventListener("keydown", retry);
+    play();
+    return () => {
+      document.removeEventListener("pointerdown", retry);
+      document.removeEventListener("keydown", retry);
+      a.removeEventListener("play", onPlay);
+      a.removeEventListener("pause", onPause);
+      a.removeEventListener("ended", next);
+      audio.current = null;
+      awaitingGesture.current = false;
+      a.pause();
+      a.removeAttribute("src");
+      a.load();
+    };
+  }, [next, play]);
 
   return <Ctx.Provider value={{ playing, track, play, toggle, next }}>{children}</Ctx.Provider>;
 }

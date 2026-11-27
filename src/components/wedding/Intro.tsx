@@ -8,12 +8,13 @@ import { useMusic } from "./music";
 import { celebrate } from "./celebrate";
 import { prefersReducedMotion } from "./canvas-utils";
 import { cn } from "@/lib/utils";
+import { INVITATION_AUTO_OPEN_MS } from "@/lib/music-playback";
 
 type Phase = "closed" | "opening" | "leaving" | "done";
 
 const ARRIVAL_DELAY = 900;
 const ARRIVAL_MS = 2600;
-const AUTO_OPEN_SECONDS = 6;
+const AUTO_OPEN_SECONDS = INVITATION_AUTO_OPEN_MS / 1000;
 
 // Comet trail sparks that ride behind the flying envelope.
 const SPARKS = [
@@ -35,7 +36,7 @@ export function Intro({ guest, onDone }: { guest: string; onDone: () => void }) 
   const [seconds, setSeconds] = useState(AUTO_OPEN_SECONDS);
   const tiltRef = useRef<HTMLDivElement>(null);
   const sealRef = useRef<HTMLButtonElement>(null);
-  const { play } = useMusic();
+  const { next } = useMusic();
   const phaseRef = useRef(phase);
   phaseRef.current = phase;
 
@@ -53,7 +54,8 @@ export function Intro({ guest, onDone }: { guest: string; onDone: () => void }) 
 
   const open = (auto = false) => {
     if (phaseRef.current !== "closed") return;
-    play();
+    phaseRef.current = "opening";
+    next();
     track("envelope_open", { method: auto ? "auto" : "tap" });
     setPhase("opening");
     window.setTimeout(() => {
@@ -66,9 +68,9 @@ export function Intro({ guest, onDone }: { guest: string; onDone: () => void }) 
     window.setTimeout(() => setPhase("done"), 3100);
   };
 
-  // Auto-open countdown once the envelope has landed (like the original invitation).
+  // Count from entering the invitation, not after the envelope arrival animation.
   useEffect(() => {
-    if (!landed || phase !== "closed") return;
+    if (phase !== "closed") return;
     if (seconds <= 0) {
       open(true);
       return;
@@ -76,7 +78,7 @@ export function Intro({ guest, onDone }: { guest: string; onDone: () => void }) 
     const t = window.setTimeout(() => setSeconds((s) => s - 1), 1000);
     return () => window.clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [landed, seconds, phase]);
+  }, [seconds, phase]);
 
   const onTilt = (e: React.PointerEvent) => {
     const el = tiltRef.current;

@@ -1,5 +1,7 @@
 # Roadmap — Ngọc Lan & Văn Chung wedding invitation
 
+- [ ] Attempt music on entry, shuffle to another song on manual or five-second automatic opening, and verify browser playback restrictions
+
 - [x] Restore the exact gallery position after closing and support pinch, double-tap and button zoom
 - [x] Prevent the mirrored front face from bleeding through the 3D card back on iPhone
 - [x] Save both gift QR codes as PNG images and verify the downloads
